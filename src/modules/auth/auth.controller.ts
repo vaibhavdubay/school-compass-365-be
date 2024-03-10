@@ -1,4 +1,12 @@
-import { Body, Controller, Param, Post, Res, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
 import { LoginDto, LoginResponse } from './dtos/login.dto';
@@ -7,6 +15,8 @@ import { AuthService } from './auth.service';
 import { Response } from 'express';
 import { ConfigService } from '@nestjs/config';
 import { Role } from '@sc-enums/role';
+import { JwtGuard } from '@sc-guards/auth';
+import { Auth } from '@sc-decorators/auth';
 
 @Controller('auth')
 @ApiTags('Auth')
@@ -30,5 +40,11 @@ export class AuthController {
       secure: true,
     });
     return response;
+  }
+
+  @Get('user-profile')
+  @Auth()
+  async getUserProfile(@User() user: User): Promise<User> {
+    return user;
   }
 }
