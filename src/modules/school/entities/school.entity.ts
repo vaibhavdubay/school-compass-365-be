@@ -23,10 +23,10 @@ export class SchoolProfile {
   @Prop({ required: true })
   pincode: string;
 
-  @Prop()
+  @Prop({ unique: true })
   schoolDISECode: string;
 
-  @Prop()
+  @Prop({ unique: true })
   schoolCode: string;
 }
 

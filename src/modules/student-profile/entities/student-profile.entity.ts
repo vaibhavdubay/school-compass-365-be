@@ -54,6 +54,9 @@ export class StudentProfile {
     default: new Date(),
   })
   updateAt: Date;
+
+  @Prop({ unique: true })
+  pen: string;
 }
 
 export const StudentProfileSchema =

@@ -35,4 +35,6 @@ export class CreateStudentProfileDto {
   @IsString()
   @IsNotEmpty()
   userName: string;
+  @IsString()
+  pen: string;
 }

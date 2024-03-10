@@ -4,7 +4,7 @@ export class CreateSchoolDto {
   @IsString()
   @IsNotEmpty()
   name: string;
-  establishedYear: number;
+  establishedYear: number = new Date().getFullYear();
   @IsString()
   @IsNotEmpty()
   address1: string;
@@ -20,4 +20,8 @@ export class CreateSchoolDto {
   @IsNotEmpty()
   @IsPostalCode('IN')
   pincode: string;
+  @IsString()
+  schoolDISECode: string;
+  @IsString()
+  schoolCode: string;
 }

@@ -41,4 +41,6 @@ export class UpdateStudentProfileDto extends PartialType(
   @IsString()
   @IsNotEmpty()
   userName: string;
+  @IsString()
+  pen: string;
 }
