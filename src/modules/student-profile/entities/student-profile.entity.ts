@@ -46,6 +46,9 @@ export class StudentProfile {
   })
   createdAt: Date;
 
+  @Prop({ required: true, type: String })
+  phoneNumber: string;
+
   @Prop({
     type: Date,
     default: new Date(),

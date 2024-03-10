@@ -1,13 +1,13 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateAdminDto } from './create-admin.dto';
-import { Role } from '@sc-enums/role';
 import {
   IsString,
   IsNotEmpty,
   IsEmail,
   IsStrongPassword,
-  IsEnum,
+  IsPhoneNumber,
 } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class UpdateAdminDto extends PartialType(CreateAdminDto) {
   @IsString()
@@ -23,6 +23,10 @@ export class UpdateAdminDto extends PartialType(CreateAdminDto) {
   @IsString()
   @IsEmail()
   email: string;
+  @IsNotEmpty()
+  @IsString()
+  @IsPhoneNumber('IN')
+  phoneNumber: string;
   @IsString()
   @IsStrongPassword({
     minLength: 8,
@@ -30,10 +34,8 @@ export class UpdateAdminDto extends PartialType(CreateAdminDto) {
     minLowercase: 1,
     minNumbers: 1,
   })
+  @ApiProperty({ example: 'Admin@12' })
   password: string;
-  @IsEnum(Role)
-  @IsNotEmpty()
-  role: Role;
   @IsString()
   @IsNotEmpty()
   userName: string;

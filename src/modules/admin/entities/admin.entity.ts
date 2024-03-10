@@ -37,6 +37,9 @@ export class Admin {
   })
   userName: string;
 
+  @Prop({ required: true, type: String })
+  phoneNumber: string;
+
   @Prop({
     type: Date,
     default: new Date(),
@@ -53,7 +56,7 @@ export class Admin {
 export const AdminSchema = SchemaFactory.createForClass(Admin);
 
 AdminSchema.pre('save', async function (next) {
-  // Skip hashing if password hasn't changed
+  this.role = Role.ADMIN;
   this.updateAt = new Date();
   if (this.isModified('userName') && !this.userName) {
     this.userName = this.email;

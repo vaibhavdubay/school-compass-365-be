@@ -40,6 +40,9 @@ export class TeacherProfile {
   })
   userName: string;
 
+  @Prop({ required: true, type: String })
+  phoneNumber: string;
+
   @Prop({
     type: Date,
     default: new Date(),
