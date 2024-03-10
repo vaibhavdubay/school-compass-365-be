@@ -6,6 +6,7 @@
       "@sc-enums/*": ["src/core/enums/*.enum"],
       "@sc-guards/*": ["src/core/guards/*.guard"],
       "@sc-constants/*": ["src/core/constants/*.constant"],
+      "@sc-data-factory": ["src/core/dataFactory"],
     },
     "module": "commonjs",
     "declaration": true,

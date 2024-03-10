@@ -6,8 +6,7 @@ import {
   IsString,
   IsStrongPassword,
 } from 'class-validator';
-
-export class CreateUserDto {
+export class CreateAdminDto {
   @IsString()
   @IsNotEmpty()
   firstName: string;

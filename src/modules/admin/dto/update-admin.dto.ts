@@ -1,5 +1,5 @@
-import { PartialType } from '@nestjs/swagger';
-import { CreateUserDto } from './create-user.dto';
+import { PartialType } from '@nestjs/mapped-types';
+import { CreateAdminDto } from './create-admin.dto';
 import { Role } from '@sc-enums/role';
 import {
   IsString,
@@ -9,7 +9,10 @@ import {
   IsEnum,
 } from 'class-validator';
 
-export class UpdateUserDto extends PartialType(CreateUserDto) {
+export class UpdateAdminDto extends PartialType(CreateAdminDto) {
+  @IsString()
+  @IsNotEmpty()
+  schoolId: string;
   @IsString()
   @IsNotEmpty()
   firstName: string;

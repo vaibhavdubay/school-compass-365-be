@@ -1,9 +1,14 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, SchemaFactory } from '@nestjs/mongoose';
+import { ApiHideProperty } from '@nestjs/swagger';
+import { DB_Model } from '@sc-enums/model';
 import { Role } from '@sc-enums/role';
 import { genSalt, hash } from 'bcrypt';
+import mongoose from 'mongoose';
 
-@Schema()
-export class User {
+export class TeacherProfile {
+  @Prop({ ref: DB_Model.SCHOOL, type: mongoose.Schema.Types.ObjectId })
+  schoolId: string;
+
   @Prop({ required: true, trim: true, type: String })
   firstName: string;
 
@@ -22,7 +27,8 @@ export class User {
   @Prop({ required: true, trim: true, type: String })
   password: string;
 
-  @Prop({ required: true, enum: Role, trim: true })
+  @ApiHideProperty()
+  @Prop({ required: true, enum: Role, trim: true, default: Role.TEACHER })
   role: Role;
 
   @Prop({
@@ -47,11 +53,13 @@ export class User {
   updateAt: Date;
 }
 
-export const UserSchema = SchemaFactory.createForClass(User);
+export const TeacherProfileSchema =
+  SchemaFactory.createForClass(TeacherProfile);
 
-UserSchema.pre('save', async function (next) {
+TeacherProfileSchema.pre('save', async function (next) {
   // Skip hashing if password hasn't changed
   this.updateAt = new Date();
+  this.role = Role.TEACHER;
   if (this.isModified('userName') && !this.userName) {
     this.userName = this.email;
   }
