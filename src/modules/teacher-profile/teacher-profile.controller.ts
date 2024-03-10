@@ -17,7 +17,7 @@ import { User } from '@sc-decorators/user';
 
 @Controller('teacher-profile')
 @ApiTags('Teacher Profile')
-@Auth(Role.SUPERADMIN, Role.ADMIN, Role.TEACHER)
+@Auth(...Object.values(Role))
 export class TeacherProfileController {
   constructor(private readonly teacherProfileService: TeacherProfileService) {}
 
@@ -28,7 +28,6 @@ export class TeacherProfileController {
   }
 
   @Get()
-  @Auth(Role.SUPERADMIN, Role.ADMIN)
   findAll() {
     return this.teacherProfileService.findAll();
   }
@@ -39,6 +38,7 @@ export class TeacherProfileController {
   }
 
   @Put(':id')
+  @Auth(Role.SUPERADMIN, Role.ADMIN, Role.TEACHER)
   update(
     @Param('id') id: string,
     @Body() updateTeacherProfileDto: UpdateTeacherProfileDto,
@@ -48,6 +48,7 @@ export class TeacherProfileController {
   }
 
   @Delete(':id')
+  @Auth(Role.SUPERADMIN, Role.ADMIN)
   remove(@Param('id') id: string, @User() user: User) {
     return this.teacherProfileService.remove(id, user);
   }

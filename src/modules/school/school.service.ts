@@ -16,6 +16,6 @@ export class SchoolService extends DataFactory<
   constructor(
     @InjectModel(DB_Model.SCHOOL) readonly schoolModel: Model<SchoolProfile>,
   ) {
-    super(schoolModel, 'schoolId');
+    super(schoolModel, { compare_key: 'schoolId' });
   }
 }

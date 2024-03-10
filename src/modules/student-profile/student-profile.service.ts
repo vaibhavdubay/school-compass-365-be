@@ -6,6 +6,7 @@ import { StudentProfile } from './entities/student-profile.entity';
 import { InjectModel } from '@nestjs/mongoose';
 import { DB_Model } from '@sc-enums/model';
 import { Model } from 'mongoose';
+import { Role } from '@sc-enums/role';
 
 @Injectable()
 export class StudentProfileService extends DataFactory<
@@ -16,6 +17,6 @@ export class StudentProfileService extends DataFactory<
   constructor(
     @InjectModel(DB_Model.STUDENT) readonly adminModel: Model<StudentProfile>,
   ) {
-    super(adminModel);
+    super(adminModel, { priviladges: [Role.ADMIN, Role.SUPERADMIN] });
   }
 }

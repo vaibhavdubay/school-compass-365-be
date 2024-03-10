@@ -4,10 +4,13 @@ import { Role } from '@sc-enums/role';
 import { Model, Schema } from 'mongoose';
 
 export class DataFactory<T, C = Partial<T>, U = Partial<T>> {
+  private config: DataFactoryConfig;
   constructor(
     private readonly model: Model<T>,
-    private comparision_key: string = '_id',
-  ) {}
+    config?: Partial<DataFactoryConfig>,
+  ) {
+    this.config = new DataFactoryConfig(config);
+  }
 
   async create(createDto: C): Promise<T> {
     const user = new this.model(createDto);
@@ -46,7 +49,17 @@ export class DataFactory<T, C = Partial<T>, U = Partial<T>> {
   }
 
   private mapAccessCheck(id: string, user: User) {
-    if (user.role == Role.SUPERADMIN) return true;
-    else return id === user[this.comparision_key];
+    if (this.config.priviladges.includes(user.role)) return true;
+    else return id === user[this.config.compare_key];
+  }
+}
+
+export class DataFactoryConfig {
+  public compare_key: string = '_id';
+  public priviladges: Role[] = [Role.SUPERADMIN];
+  constructor(config?: Partial<DataFactoryConfig>) {
+    Object.keys(config || {}).forEach((key) => {
+      if (config[key]) this[key] = config[key];
+    });
   }
 }
