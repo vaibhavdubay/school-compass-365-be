@@ -1,3 +1,6 @@
 export enum DB_Model {
-  USER = 'user',
+  SCHOOL = 'school-profile',
+  ADMIN = 'admin',
+  TEACHER = 'teacher',
+  STUDENT = 'student',
 }

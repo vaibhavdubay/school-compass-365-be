@@ -1,11 +1,12 @@
-import { Body, Controller, Post, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Param, Post, Res, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
-import { LoginDto } from '../dtos/login.dto';
+import { LoginDto, LoginResponse } from './dtos/login.dto';
 import { User } from '@sc-decorators/user';
-import { AuthService } from '../service/auth.service';
+import { AuthService } from './auth.service';
 import { Response } from 'express';
 import { ConfigService } from '@nestjs/config';
+import { Role } from '@sc-enums/role';
 
 @Controller('auth')
 @ApiTags('Auth')
@@ -15,18 +16,19 @@ export class AuthController {
     private configService: ConfigService,
   ) {}
 
-  @Post('login')
+  @Post(':role/login')
   @UseGuards(AuthGuard('local'))
   async login(
+    @Param('role') role: Role,
     @Body() _req: LoginDto,
     @User() user: User,
-    @Res() res: Response,
-  ): Promise<any> {
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<LoginResponse> {
     const response = this.authService.generateToken(user);
     res.cookie('authorization', 'Brearer ' + response.accessToken, {
       httpOnly: true,
       secure: true,
     });
-    res.status(200).send(response);
+    return response;
   }
 }

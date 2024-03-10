@@ -1,38 +1,44 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { DB_Model } from '@sc-enums/model';
 import { Role } from '@sc-enums/role';
 import { genSalt, hash } from 'bcrypt';
+import mongoose from 'mongoose';
 
 @Schema()
-export class User {
-  @Prop({ required: true, trim: true, type: String })
+export class Admin {
+  @Prop({ ref: DB_Model.SCHOOL, type: mongoose.Schema.Types.ObjectId })
+  schoolId: string = '';
+
+  @Prop({ required: true, type: String })
   firstName: string;
 
-  @Prop({ required: true, trim: true, type: String })
+  @Prop({ required: true, type: String })
   lastName: string;
 
   @Prop({
     unique: true,
     required: true,
     lowercase: true,
-    trim: true,
     type: String,
   })
   email: string;
 
-  @Prop({ required: true, trim: true, type: String })
+  @Prop({ required: true, type: String })
   password: string;
 
-  @Prop({ required: true, enum: Role, trim: true })
+  @Prop({ required: true, enum: Role })
   role: Role;
 
   @Prop({
     required: true,
     unique: true,
     lowercase: true,
-    trim: true,
     type: String,
   })
   userName: string;
+
+  @Prop({ required: true, type: String })
+  phoneNumber: string;
 
   @Prop({
     type: Date,
@@ -47,10 +53,10 @@ export class User {
   updateAt: Date;
 }
 
-export const UserSchema = SchemaFactory.createForClass(User);
+export const AdminSchema = SchemaFactory.createForClass(Admin);
 
-UserSchema.pre('save', async function (next) {
-  // Skip hashing if password hasn't changed
+AdminSchema.pre('save', async function (next) {
+  this.role = Role.ADMIN;
   this.updateAt = new Date();
   if (this.isModified('userName') && !this.userName) {
     this.userName = this.email;
