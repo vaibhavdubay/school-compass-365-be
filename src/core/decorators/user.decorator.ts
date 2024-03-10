@@ -1,23 +1,16 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
-import { Role } from '@sc-enums/role';
-import { User as UserModel } from '@sc-modules/user/entities/user.entity';
+import { Admin } from '@sc-modules/admin/entities/admin.entity';
+import { StudentProfile } from '@sc-modules/student-profile/entities/student-profile.entity';
+import { TeacherProfile } from '@sc-modules/teacher-profile/entities/teacher-profile.entity';
 import { Schema } from 'mongoose';
 
 export const User = createParamDecorator(
-  (data: unknown, ctx: ExecutionContext): UserModel => {
+  (data: unknown, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest();
-    return request.user as UserModel;
+    return request.user;
   },
 );
 
-export interface User {
+export interface User extends Admin, StudentProfile, TeacherProfile {
   _id: Schema.Types.ObjectId;
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  role: Role;
-  userName: string;
-  createdAt: Date;
-  updateAt: Date;
 }

@@ -1,13 +1,12 @@
-import { Role } from '@sc-enums/role';
+import { ApiProperty } from '@nestjs/swagger';
 import {
   IsEmail,
-  IsEnum,
   IsNotEmpty,
+  IsPhoneNumber,
   IsString,
   IsStrongPassword,
 } from 'class-validator';
-
-export class CreateUserDto {
+export class CreateAdminDto {
   @IsString()
   @IsNotEmpty()
   firstName: string;
@@ -18,6 +17,10 @@ export class CreateUserDto {
   @IsString()
   @IsEmail()
   email: string;
+  @IsNotEmpty()
+  @IsString()
+  @IsPhoneNumber('IN')
+  phoneNumber: string;
   @IsString()
   @IsNotEmpty()
   @IsStrongPassword({
@@ -26,10 +29,8 @@ export class CreateUserDto {
     minLowercase: 1,
     minNumbers: 1,
   })
+  @ApiProperty({ example: 'Admin@12' })
   password: string;
-  @IsEnum(Role)
-  @IsNotEmpty()
-  role: Role;
   @IsString()
   @IsNotEmpty()
   userName: string;

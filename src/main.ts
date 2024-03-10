@@ -5,6 +5,7 @@ import helmet from 'helmet';
 import * as compression from 'compression';
 import * as cookieParser from 'cookie-parser';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -14,6 +15,7 @@ async function bootstrap() {
   });
   const configService = app.get(ConfigService);
   app.setGlobalPrefix('api');
+  app.useGlobalPipes(new ValidationPipe());
   const port = configService.get('PORT');
   const config = new DocumentBuilder()
     .setTitle('School Compass 365 Documentation')

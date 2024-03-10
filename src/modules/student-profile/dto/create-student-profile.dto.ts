@@ -1,15 +1,13 @@
-import { PartialType } from '@nestjs/swagger';
-import { CreateUserDto } from './create-user.dto';
-import { Role } from '@sc-enums/role';
+import { ApiProperty } from '@nestjs/swagger';
 import {
   IsString,
   IsNotEmpty,
   IsEmail,
+  IsPhoneNumber,
   IsStrongPassword,
-  IsEnum,
 } from 'class-validator';
 
-export class UpdateUserDto extends PartialType(CreateUserDto) {
+export class CreateStudentProfileDto {
   @IsString()
   @IsNotEmpty()
   firstName: string;
@@ -20,18 +18,23 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   @IsString()
   @IsEmail()
   email: string;
+  @IsNotEmpty()
   @IsString()
+  @IsPhoneNumber('IN')
+  phoneNumber: string;
+  @IsString()
+  @IsNotEmpty()
   @IsStrongPassword({
     minLength: 8,
     minUppercase: 1,
     minLowercase: 1,
     minNumbers: 1,
   })
+  @ApiProperty({ example: 'Admin@12' })
   password: string;
-  @IsEnum(Role)
-  @IsNotEmpty()
-  role: Role;
   @IsString()
   @IsNotEmpty()
   userName: string;
+  @IsString()
+  pen: string;
 }
