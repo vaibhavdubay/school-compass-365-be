@@ -9,6 +9,9 @@ import {
 export class CreateAdminDto {
   @IsString()
   @IsNotEmpty()
+  schoolId: string;
+  @IsString()
+  @IsNotEmpty()
   firstName: string;
   @IsNotEmpty()
   @IsString()
@@ -16,10 +19,12 @@ export class CreateAdminDto {
   @IsNotEmpty()
   @IsString()
   @IsEmail()
+  @ApiProperty({ example: 'admin@mail.com' })
   email: string;
   @IsNotEmpty()
   @IsString()
   @IsPhoneNumber('IN')
+  @ApiProperty({ example: '9876543210' })
   phoneNumber: string;
   @IsString()
   @IsNotEmpty()
@@ -33,5 +38,6 @@ export class CreateAdminDto {
   password: string;
   @IsString()
   @IsNotEmpty()
+  @ApiProperty({ example: 'admin' })
   userName: string;
 }
