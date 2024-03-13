@@ -15,6 +15,7 @@ import { CreateSchoolDto } from './dto/create-school.dto';
 import { UpdateSchoolDto } from './dto/update-school.dto';
 import { User } from '@sc-decorators/user';
 import { SchoolProfile } from './entities/school.entity';
+import { CompleteSchoolObject } from './dto/complete-school.dto';
 
 @Controller('school')
 @ApiTags('School Profile')
@@ -22,7 +23,7 @@ export class SchoolController {
   constructor(private readonly schoolService: SchoolService) {}
 
   @Post()
-  @Auth(Role.SUPERADMIN)
+  @Auth(Role.SUPER_ADMIN)
   create(@Body() createSchoolDto: CreateSchoolDto) {
     return this.schoolService.create(createSchoolDto);
   }
@@ -30,8 +31,22 @@ export class SchoolController {
   @Get()
   @Auth(...Object.values(Role))
   async findAll(@User() user: User): Promise<SchoolProfile[]> {
-    if (user.role === Role.SUPERADMIN) return this.schoolService.findAll();
+    if (user.role === Role.SUPER_ADMIN) return this.schoolService.findAll();
     return [await this.schoolService.findById(user.schoolId)];
+  }
+
+  @Get('complete')
+  @Auth(Role.SUPER_ADMIN, Role.ADMIN)
+  async getCompleteSchoolProfile(
+    @User() user: User,
+  ): Promise<CompleteSchoolObject> {
+    return (await this.schoolService.getCompleteSchoolDetails(user))[0];
+  }
+
+  @Get('complete-academic-year')
+  @Auth(Role.SUPER_ADMIN, Role.ADMIN)
+  async completeAcademicYear(@User() user: User) {
+    return await this.schoolService.completeAcademicYear(user.schoolId);
   }
 
   @Get(':id')
@@ -41,7 +56,7 @@ export class SchoolController {
   }
 
   @Put(':id')
-  @Auth(Role.ADMIN, Role.SUPERADMIN)
+  @Auth(Role.ADMIN, Role.SUPER_ADMIN)
   update(
     @Param('id') id: string,
     @Body() updateSchoolDto: UpdateSchoolDto,
@@ -51,7 +66,7 @@ export class SchoolController {
   }
 
   @Delete(':id')
-  @Auth(Role.SUPERADMIN, Role.ADMIN)
+  @Auth(Role.SUPER_ADMIN, Role.ADMIN)
   remove(@Param('id') id: string, @User() user: User) {
     return this.schoolService.remove(id, user);
   }

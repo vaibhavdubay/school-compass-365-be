@@ -1,10 +1,11 @@
-import { Prop, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiHideProperty } from '@nestjs/swagger';
 import { DB_Model } from '@sc-enums/model';
 import { Role } from '@sc-enums/role';
-import { genSalt, hash } from 'bcrypt';
 import mongoose from 'mongoose';
+import { ProfileUpdateHelper } from 'src/core/helpers/profile-update.helper';
 
+@Schema()
 export class TeacherProfile {
   @Prop({ ref: DB_Model.SCHOOL, type: mongoose.Schema.Types.ObjectId })
   schoolId: string;
@@ -54,22 +55,20 @@ export class TeacherProfile {
     default: new Date(),
   })
   updateAt: Date;
+  @Prop({
+    type: [String],
+    required: true,
+  })
+  subjects: string[];
+  @Prop({
+    type: Number,
+    required: true,
+  })
+  years_of_experience: number;
 }
 
 export const TeacherProfileSchema =
   SchemaFactory.createForClass(TeacherProfile);
 
-TeacherProfileSchema.pre('save', async function (next) {
-  // Skip hashing if password hasn't changed
-  this.updateAt = new Date();
-  this.role = Role.TEACHER;
-  if (this.isModified('userName') && !this.userName) {
-    this.userName = this.email;
-  }
-  if (this.isModified('password') && this.password) {
-    const salt = await genSalt(10);
-    const hashedPassword = await hash(this.password, salt);
-    this.password = hashedPassword;
-  }
-  next();
-});
+TeacherProfileSchema.pre('save', ProfileUpdateHelper(Role.TEACHER));
+TeacherProfileSchema.pre('findOneAndUpdate', ProfileUpdateHelper(Role.TEACHER));

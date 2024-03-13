@@ -1,8 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { DB_Model } from '@sc-enums/model';
 import { Role } from '@sc-enums/role';
-import { genSalt, hash } from 'bcrypt';
 import mongoose from 'mongoose';
+import { ProfileUpdateHelper } from 'src/core/helpers/profile-update.helper';
 
 @Schema()
 export class Admin {
@@ -55,16 +55,5 @@ export class Admin {
 
 export const AdminSchema = SchemaFactory.createForClass(Admin);
 
-AdminSchema.pre('save', async function (next) {
-  this.role = Role.ADMIN;
-  this.updateAt = new Date();
-  if (this.isModified('userName') && !this.userName) {
-    this.userName = this.email;
-  }
-  if (this.isModified('password') && this.password) {
-    const salt = await genSalt(10);
-    const hashedPassword = await hash(this.password, salt);
-    this.password = hashedPassword;
-  }
-  next();
-});
+AdminSchema.pre('save', ProfileUpdateHelper(Role.ADMIN));
+AdminSchema.pre('findOneAndUpdate', ProfileUpdateHelper(Role.ADMIN));

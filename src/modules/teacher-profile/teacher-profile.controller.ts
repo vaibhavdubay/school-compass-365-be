@@ -22,14 +22,20 @@ export class TeacherProfileController {
   constructor(private readonly teacherProfileService: TeacherProfileService) {}
 
   @Post()
-  @Auth(Role.SUPERADMIN, Role.ADMIN)
-  create(@Body() createTeacherProfileDto: CreateTeacherProfileDto) {
-    return this.teacherProfileService.create(createTeacherProfileDto);
+  @Auth(Role.SUPER_ADMIN, Role.ADMIN)
+  create(
+    @Body() createTeacherProfileDto: CreateTeacherProfileDto,
+    @User() user: User,
+  ) {
+    return this.teacherProfileService.create(
+      createTeacherProfileDto,
+      user.schoolId,
+    );
   }
 
   @Get()
-  findAll() {
-    return this.teacherProfileService.findAll();
+  findAll(@User() user: User) {
+    return this.teacherProfileService.findAll({ schoolId: user.schoolId });
   }
 
   @Get(':id')
@@ -38,7 +44,7 @@ export class TeacherProfileController {
   }
 
   @Put(':id')
-  @Auth(Role.SUPERADMIN, Role.ADMIN, Role.TEACHER)
+  @Auth(Role.SUPER_ADMIN, Role.ADMIN, Role.TEACHER)
   update(
     @Param('id') id: string,
     @Body() updateTeacherProfileDto: UpdateTeacherProfileDto,
@@ -48,7 +54,7 @@ export class TeacherProfileController {
   }
 
   @Delete(':id')
-  @Auth(Role.SUPERADMIN, Role.ADMIN)
+  @Auth(Role.SUPER_ADMIN, Role.ADMIN)
   remove(@Param('id') id: string, @User() user: User) {
     return this.teacherProfileService.remove(id, user);
   }

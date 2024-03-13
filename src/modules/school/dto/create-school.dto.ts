@@ -1,7 +1,9 @@
-import { IsString, IsPostalCode, IsNotEmpty } from 'class-validator';
+import { IsString, IsPostalCode, IsNotEmpty, IsBoolean } from 'class-validator';
 
 export class CreateSchoolDto {
-  @IsString()
+  @IsBoolean()
+  @IsNotEmpty()
+  autoUpdateStudentClass: boolean;
   @IsNotEmpty()
   name: string;
   establishedYear: number = new Date().getFullYear();

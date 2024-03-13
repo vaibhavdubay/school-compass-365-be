@@ -5,7 +5,7 @@ import { TeacherProfile } from '@sc-modules/teacher-profile/entities/teacher-pro
 import { Schema } from 'mongoose';
 
 export const User = createParamDecorator(
-  (data: unknown, ctx: ExecutionContext) => {
+  (_: unknown, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest();
     return request.user;
   },

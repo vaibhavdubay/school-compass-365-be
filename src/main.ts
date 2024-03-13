@@ -6,16 +6,19 @@ import * as compression from 'compression';
 import * as cookieParser from 'cookie-parser';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     bodyParser: true,
     cors: true,
     abortOnError: false,
   });
-  const configService = app.get(ConfigService);
+
   app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe());
+
+  const configService = app.get(ConfigService);
   const port = configService.get('PORT');
   const config = new DocumentBuilder()
     .setTitle('School Compass 365 Documentation')
@@ -24,9 +27,11 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/swagger', app, document);
+
   app.use(helmet());
   app.use(compression());
   app.use(cookieParser());
+
   await app.listen(port);
 }
 bootstrap();

@@ -1,13 +1,32 @@
-import { Prop, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiHideProperty } from '@nestjs/swagger';
+import { BLOODGROUP } from '@sc-enums/bloodGroup';
+import { GENDER } from '@sc-enums/gender';
 import { DB_Model } from '@sc-enums/model';
 import { Role } from '@sc-enums/role';
-import { genSalt, hash } from 'bcrypt';
 import mongoose from 'mongoose';
+import { Parents_Guardians } from '../dto/parent-guardians.dto';
+import { ProfileUpdateHelper } from 'src/core/helpers/profile-update.helper';
+import { ACADEMIC_STATUS } from '@sc-enums/academicStatus';
 
+@Schema()
 export class StudentProfile {
-  @Prop({ ref: DB_Model.SCHOOL, type: mongoose.Schema.Types.ObjectId })
+  @Prop({
+    ref: DB_Model.SCHOOL,
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+  })
   schoolId: string;
+
+  @Prop({
+    ref: DB_Model.CLASS,
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+  })
+  class: string;
+
+  @Prop({})
+  classSection: string = '';
 
   @Prop({ required: true, trim: true, type: String })
   firstName: string;
@@ -57,22 +76,60 @@ export class StudentProfile {
 
   @Prop({ unique: true })
   pen: string;
+
+  @Prop({ enum: ACADEMIC_STATUS, default: ACADEMIC_STATUS.ACTIVE })
+  academicStatus: ACADEMIC_STATUS;
+
+  @Prop({
+    type: Date,
+    required: false,
+  })
+  dateOfBirth: Date;
+
+  @Prop({
+    enum: GENDER,
+    required: true,
+  })
+  gender: GENDER;
+
+  @Prop({
+    enum: BLOODGROUP,
+  })
+  bloodGroup: BLOODGROUP;
+
+  @Prop({
+    type: [
+      {
+        name: {
+          type: String,
+          required: true,
+        },
+        relationship: {
+          type: String,
+          required: true,
+        },
+        contact_info: {
+          type: {
+            email: {
+              type: String,
+              required: true,
+            },
+            phone: {
+              type: String,
+              required: false,
+            },
+          },
+          required: true,
+        },
+      },
+    ],
+    required: true,
+  })
+  parents_guardians: Parents_Guardians[];
 }
 
 export const StudentProfileSchema =
   SchemaFactory.createForClass(StudentProfile);
 
-StudentProfileSchema.pre('save', async function (next) {
-  // Skip hashing if password hasn't changed
-  this.updateAt = new Date();
-  this.role = Role.STUDENT;
-  if (this.isModified('userName') && !this.userName) {
-    this.userName = this.email;
-  }
-  if (this.isModified('password') && this.password) {
-    const salt = await genSalt(10);
-    const hashedPassword = await hash(this.password, salt);
-    this.password = hashedPassword;
-  }
-  next();
-});
+StudentProfileSchema.pre('save', ProfileUpdateHelper(Role.STUDENT));
+StudentProfileSchema.pre('findOneAndUpdate', ProfileUpdateHelper(Role.STUDENT));

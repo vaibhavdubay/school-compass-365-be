@@ -1,10 +1,12 @@
 import { ForbiddenException } from '@nestjs/common';
 import { User } from '@sc-decorators/user';
+import { DB_Model } from '@sc-enums/model';
 import { Role } from '@sc-enums/role';
-import { Model, Schema } from 'mongoose';
+import { Model, PipelineStage, Schema } from 'mongoose';
 
 export class DataFactory<T, C = Partial<T>, U = Partial<T>> {
   private config: DataFactoryConfig;
+
   constructor(
     private readonly model: Model<T>,
     config?: Partial<DataFactoryConfig>,
@@ -12,24 +14,28 @@ export class DataFactory<T, C = Partial<T>, U = Partial<T>> {
     this.config = new DataFactoryConfig(config);
   }
 
-  async create(createDto: C): Promise<T> {
+  async create(createDto: C, schoolId?: string): Promise<T> {
+    if (schoolId) createDto['schoolId'] = schoolId;
     const user = new this.model(createDto);
     return (await user.save()) as T;
   }
 
-  async findAll(): Promise<T[]> {
-    return await this.model.find({});
+  async findAll(filter: Partial<T> = {}): Promise<T[]> {
+    let query = this.model.find(filter);
+    query = this.populateFields(query);
+    return await query.exec();
   }
 
   async findById(id: string | Schema.Types.ObjectId): Promise<T> {
-    return await this.model.findById(id);
-  }
-  async findByEmail(email: string): Promise<T | null> {
-    return await this.model.findOne({ email });
+    let query = this.model.findById(id);
+    query = this.populateFields(query);
+    return await query.exec();
   }
 
-  async findByUserName(userName: string): Promise<T | null> {
-    return await this.model.findOne({ userName });
+  async findOne(filter: Partial<T>): Promise<T | null | any> {
+    let query = this.model.findOne(filter);
+    query = this.populateFields(query);
+    return await query.exec();
   }
 
   update(id: string, updateDto: U, user?: User): Promise<T> {
@@ -49,14 +55,48 @@ export class DataFactory<T, C = Partial<T>, U = Partial<T>> {
   }
 
   private mapAccessCheck(id: string, user: User) {
-    if (this.config.priviladges.includes(user.role)) return true;
-    else return id === user[this.config.compare_key];
+    if (this.config.privileges.includes(user.role)) return true;
+    else return id == user[this.config.compare_key];
   }
+
+  private populateFields(query) {
+    Object.entries(this.config.populates).forEach((field) => {
+      query = query.populate(...field);
+    });
+    return query;
+  }
+
+  protected addLookUps(config: DataFactoryLookUps[] = []) {
+    const lookupUps: PipelineStage.Lookup[] = [];
+    config.forEach((lookup) => {
+      const model = lookup.model + 's';
+      lookupUps.push({
+        $lookup: {
+          from: model,
+          localField: lookup.localField || '_id',
+          foreignField: lookup.foreignKey || '_id',
+          as: lookup.alias || model,
+          pipeline: lookup.pipeLine || [],
+        },
+      });
+    });
+    return lookupUps;
+  }
+}
+
+export interface DataFactoryLookUps {
+  model: DB_Model | string;
+  foreignKey?: string;
+  alias?: string;
+  localField?: string;
+  pipeLine?: Exclude<PipelineStage, PipelineStage.Merge | PipelineStage.Out>[];
 }
 
 export class DataFactoryConfig {
   public compare_key: string = '_id';
-  public priviladges: Role[] = [Role.SUPERADMIN];
+  public privileges: Role[] = [Role.SUPER_ADMIN];
+  public populates: { [field: string]: string } = {};
+
   constructor(config?: Partial<DataFactoryConfig>) {
     Object.keys(config || {}).forEach((key) => {
       if (config[key]) this[key] = config[key];
