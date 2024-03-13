@@ -6,6 +6,10 @@ import { AuthModule } from '@sc-modules/auth/auth.module';
 import { SchoolModule } from '@sc-modules/school/school.module';
 import { StudentProfileModule } from '@sc-modules/student-profile/student-profile.module';
 import { TeacherProfileModule } from '@sc-modules/teacher-profile/teacher-profile.module';
+import { ClassModule } from './modules/class/class.module';
+import { SubjectGroupModule } from './modules/subject-group/subject-group.module';
+import { GlobalExceptionFilter } from './core/helpers/global-exception.filter';
+import { APP_FILTER } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -20,11 +24,19 @@ import { TeacherProfileModule } from '@sc-modules/teacher-profile/teacher-profil
       }),
       inject: [ConfigService],
     }),
-    AuthModule,
     AdminModule,
-    StudentProfileModule,
+    AuthModule,
+    ClassModule,
     SchoolModule,
+    StudentProfileModule,
+    SubjectGroupModule,
     TeacherProfileModule,
+  ],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: GlobalExceptionFilter,
+    },
   ],
 })
 export class AppModule {}

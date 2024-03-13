@@ -15,8 +15,11 @@ export class StudentProfileService extends DataFactory<
   UpdateStudentProfileDto
 > {
   constructor(
-    @InjectModel(DB_Model.STUDENT) readonly adminModel: Model<StudentProfile>,
+    @InjectModel(DB_Model.STUDENT) readonly studentModel: Model<StudentProfile>,
   ) {
-    super(adminModel, { priviladges: [Role.ADMIN, Role.SUPERADMIN] });
+    super(studentModel, {
+      privileges: [Role.ADMIN, Role.SUPER_ADMIN],
+      populates: { class: 'className' },
+    });
   }
 }

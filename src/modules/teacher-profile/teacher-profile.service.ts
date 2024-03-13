@@ -17,6 +17,6 @@ export class TeacherProfileService extends DataFactory<
   constructor(
     @InjectModel(DB_Model.TEACHER) readonly adminModel: Model<TeacherProfile>,
   ) {
-    super(adminModel, { priviladges: [Role.ADMIN, Role.SUPERADMIN] });
+    super(adminModel, { privileges: [Role.ADMIN, Role.SUPER_ADMIN] });
   }
 }

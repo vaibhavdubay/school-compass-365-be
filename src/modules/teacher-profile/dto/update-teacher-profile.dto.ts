@@ -7,6 +7,8 @@ import {
   IsEmail,
   IsPhoneNumber,
   IsStrongPassword,
+  IsArray,
+  IsNumber,
 } from 'class-validator';
 
 export class UpdateTeacherProfileDto extends PartialType(
@@ -36,9 +38,15 @@ export class UpdateTeacherProfileDto extends PartialType(
     minLowercase: 1,
     minNumbers: 1,
   })
-  @ApiProperty({ example: 'Admin@12' })
+  @ApiProperty({ example: 'Teacher@12' })
   password: string;
   @IsString()
   @IsNotEmpty()
   userName: string;
+  @IsArray()
+  @IsNotEmpty()
+  subjects: string[];
+  @IsNumber()
+  @IsNotEmpty()
+  years_of_experience: number;
 }

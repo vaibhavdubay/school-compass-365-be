@@ -22,14 +22,20 @@ export class StudentProfileController {
   constructor(private readonly studentProfileService: StudentProfileService) {}
 
   @Post()
-  @Auth(Role.SUPERADMIN, Role.ADMIN)
-  create(@Body() createStudentProfileDto: CreateStudentProfileDto) {
-    return this.studentProfileService.create(createStudentProfileDto);
+  @Auth(Role.SUPER_ADMIN, Role.ADMIN)
+  create(
+    @Body() createStudentProfileDto: CreateStudentProfileDto,
+    @User() user: User,
+  ) {
+    return this.studentProfileService.create(
+      createStudentProfileDto,
+      user.schoolId,
+    );
   }
 
   @Get()
-  findAll() {
-    return this.studentProfileService.findAll();
+  findAll(@User() user: User) {
+    return this.studentProfileService.findAll({ schoolId: user.schoolId });
   }
 
   @Get(':id')
@@ -38,7 +44,7 @@ export class StudentProfileController {
   }
 
   @Put(':id')
-  @Auth(Role.SUPERADMIN, Role.ADMIN, Role.STUDENT)
+  @Auth(Role.SUPER_ADMIN, Role.ADMIN, Role.STUDENT)
   update(
     @Param('id') id: string,
     @Body() updateStudentProfile: UpdateStudentProfileDto,
@@ -48,7 +54,7 @@ export class StudentProfileController {
   }
 
   @Delete(':id')
-  @Auth(Role.SUPERADMIN, Role.ADMIN)
+  @Auth(Role.SUPER_ADMIN, Role.ADMIN)
   remove(@Param('id') id: string, @User() user: User) {
     return this.studentProfileService.remove(id, user);
   }

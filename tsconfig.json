@@ -1,12 +1,24 @@
 {
   "compilerOptions": {
     "paths": {
-      "@sc-modules/*": ["src/modules/*"],
-      "@sc-decorators/*": ["src/core/decorators/*.decorator"],
-      "@sc-enums/*": ["src/core/enums/*.enum"],
-      "@sc-guards/*": ["src/core/guards/*.guard"],
-      "@sc-constants/*": ["src/core/constants/*.constant"],
-      "@sc-data-factory": ["src/core/dataFactory"],
+      "@sc-modules/*": [
+        "src/modules/*"
+      ],
+      "@sc-decorators/*": [
+        "src/core/decorators/*.decorator"
+      ],
+      "@sc-enums/*": [
+        "src/core/enums/*.enum"
+      ],
+      "@sc-guards/*": [
+        "src/core/guards/*.guard"
+      ],
+      "@sc-constants/*": [
+        "src/core/constants/*.constant"
+      ],
+      "@sc-data-factory": [
+        "src/core/dataFactory"
+      ]
     },
     "module": "commonjs",
     "declaration": true,

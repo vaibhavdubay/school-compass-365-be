@@ -19,16 +19,16 @@ export class AuthService {
     private teacherService: TeacherProfileService,
     private configService: ConfigService,
   ) {}
-  async validateUser(username: string, pass: string, role: Role): Promise<any> {
-    const user = (await this.getSearchFucntion(role).findByUserName(
-      username,
-    )) as User;
+  async validateUser(userName: string, pass: string, role: Role): Promise<any> {
+    const user = (await this.getSearchFunction(role).findOne({
+      userName,
+    })) as User;
     if (user) {
       return compareSync(pass, user.password) ? user : undefined;
     } else return false;
   }
 
-  getSearchFucntion(role: Role) {
+  getSearchFunction(role: Role) {
     switch (role) {
       case Role.ADMIN:
         return this.adminService;
@@ -36,9 +36,9 @@ export class AuthService {
         return this.teacherService;
       case Role.STUDENT:
         return this.studentService;
-      case Role.SUPERADMIN:
+      case Role.SUPER_ADMIN:
         return {
-          findByUserName: this.superAdminObject,
+          findOne: this.superAdminObject,
           findById: this.superAdminObject,
         };
       default:
@@ -52,7 +52,7 @@ export class AuthService {
         email: 'superadmin@sc-365.com',
         password: this.configService.get('SUPER_ADMIN_CRED'),
         userName: this.configService.get('SUPER_ADMIN_USER'),
-        role: Role.SUPERADMIN,
+        role: Role.SUPER_ADMIN,
       }),
     );
 
