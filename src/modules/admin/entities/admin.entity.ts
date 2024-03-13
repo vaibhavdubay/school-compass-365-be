@@ -26,7 +26,7 @@ export class Admin {
   @Prop({ required: true, type: String })
   password: string;
 
-  @Prop({ required: true, enum: Role })
+  @Prop({ required: true, enum: Role, default: Role.ADMIN })
   role: Role;
 
   @Prop({
