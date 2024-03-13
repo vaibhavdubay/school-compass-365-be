@@ -19,7 +19,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: AccessTokenPayload) {
-    const serviceInstance = this.authService.getSearchFucntion(payload.role);
+    const serviceInstance = this.authService.getSearchFunction(payload.role);
     const user = serviceInstance.findById(payload.uid);
     if (!user) {
       throw new UnauthorizedException();

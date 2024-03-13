@@ -3,4 +3,6 @@ export enum DB_Model {
   ADMIN = 'admin',
   TEACHER = 'teacher',
   STUDENT = 'student',
+  SUBJECT_GROUP = 'subject-group',
+  CLASS = 'class',
 }

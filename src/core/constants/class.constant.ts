@@ -1,0 +1,17 @@
+export const DEFAULT_CLASSES = [
+  { className: 'Nursery', order: 0 },
+  { className: 'LKG', order: 1 },
+  { className: 'UKG', order: 2 },
+  { className: 'Class 1', order: 3 },
+  { className: 'Class 2', order: 4 },
+  { className: 'Class 3', order: 5 },
+  { className: 'Class 4', order: 6 },
+  { className: 'Class 5', order: 7 },
+  { className: 'Class 6', order: 8 },
+  { className: 'Class 7', order: 9 },
+  { className: 'Class 8', order: 10 },
+  { className: 'Class 9', order: 11 },
+  { className: 'Class 10', order: 12 },
+  { className: 'Class 11', order: 13, streamsRequired: true },
+  { className: 'Class 12', order: 14, streamsRequired: true },
+];

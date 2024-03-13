@@ -1,4 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { DB_Model } from '@sc-enums/model';
+import mongoose from 'mongoose';
 
 @Schema()
 export class SchoolProfile {
@@ -28,6 +30,9 @@ export class SchoolProfile {
 
   @Prop({ unique: true })
   schoolCode: string;
+
+  @Prop({ ref: DB_Model.CLASS, type: [mongoose.Schema.Types.ObjectId] })
+  classes: string[];
 }
 
 export const SchoolProfileSchema = SchemaFactory.createForClass(SchoolProfile);

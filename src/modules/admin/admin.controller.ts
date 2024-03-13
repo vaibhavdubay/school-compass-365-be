@@ -17,18 +17,18 @@ import { User } from '@sc-decorators/user';
 
 @ApiTags('Admin')
 @Controller('admin')
-@Auth(Role.ADMIN, Role.SUPERADMIN)
+@Auth(Role.ADMIN, Role.SUPER_ADMIN)
 export class AdminController {
   constructor(private readonly adminService: AdminService) {}
 
   @Post()
-  @Auth(Role.SUPERADMIN)
+  @Auth(Role.SUPER_ADMIN)
   create(@Body() createAdminDto: CreateAdminDto) {
     return this.adminService.create(createAdminDto);
   }
 
   @Get()
-  @Auth(Role.SUPERADMIN)
+  @Auth(Role.SUPER_ADMIN)
   findAll() {
     return this.adminService.findAll();
   }

@@ -15,7 +15,6 @@ import { AuthService } from './auth.service';
 import { Response } from 'express';
 import { ConfigService } from '@nestjs/config';
 import { Role } from '@sc-enums/role';
-import { JwtGuard } from '@sc-guards/auth';
 import { Auth } from '@sc-decorators/auth';
 
 @Controller('auth')
