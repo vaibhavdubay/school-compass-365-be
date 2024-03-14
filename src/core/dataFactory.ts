@@ -50,7 +50,7 @@ export class DataFactory<T, C = Partial<T>, U = Partial<T>> {
     else throw new ForbiddenException();
   }
 
-  async exists(options: Partial<T>): Promise<boolean> {
+  async exists(options: Partial<T> | { _id: string }): Promise<boolean> {
     return !!(await this.model.exists(options).exec());
   }
 

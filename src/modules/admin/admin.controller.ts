@@ -38,6 +38,12 @@ export class AdminController {
     return this.adminService.findById(id);
   }
 
+  @Auth()
+  @Get('login/:id')
+  findOneForLogin(@Param('id') id: string) {
+    return this.adminService.exists({ _id: id });
+  }
+
   @Put(':id')
   update(
     @Param('id') id: string,

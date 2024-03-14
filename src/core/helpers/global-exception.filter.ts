@@ -21,6 +21,8 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       return this.handleValidationError(error);
     } else if (error.response?.statusCode === 400) {
       return this.handleExternalValidationError(error.response.message);
+    } else if (error.name === 'Caste') {
+      return { statusCode: 400, message: error.message };
     } else {
       return { statusCode: 0, message: '' };
     }
