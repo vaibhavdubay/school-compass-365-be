@@ -5,36 +5,49 @@ import { Role } from '@sc-enums/role';
 import { Model, PipelineStage, Schema } from 'mongoose';
 
 export class DataFactory<T, C = Partial<T>, U = Partial<T>> {
-  private config: DataFactoryConfig;
+  private config: DataFactoryConfig<T>;
 
   constructor(
     private readonly model: Model<T>,
-    config?: Partial<DataFactoryConfig>,
+    config?: Partial<DataFactoryConfig<T>>,
   ) {
     this.config = new DataFactoryConfig(config);
   }
 
-  async create(createDto: C, schoolId?: string): Promise<T> {
-    if (schoolId) createDto['schoolId'] = schoolId;
+  async create(
+    createDto: C,
+    config: { schoolId?: string; academicYear?: string } = {},
+  ): Promise<T> {
+    if (config.schoolId) createDto['schoolId'] = config.schoolId;
+    if (config.academicYear) createDto['academicYears'] = [config.academicYear];
     const user = new this.model(createDto);
     return (await user.save()) as T;
   }
 
-  async findAll(filter: Partial<T> = {}): Promise<T[]> {
+  async findAll(
+    filter: Partial<T> = {},
+    populates: { [field: string]: string } = {},
+  ): Promise<T[]> {
     let query = this.model.find(filter);
-    query = this.populateFields(query);
+    query = this.populateFields(query, populates);
     return await query.exec();
   }
 
-  async findById(id: string | Schema.Types.ObjectId): Promise<T> {
+  async findById(
+    id: string | Schema.Types.ObjectId,
+    populates: { [field: string]: string } = {},
+  ): Promise<T> {
     let query = this.model.findById(id);
-    query = this.populateFields(query);
+    query = this.populateFields(query, populates);
     return await query.exec();
   }
 
-  async findOne(filter: Partial<T>): Promise<T | null | any> {
+  async findOne(
+    filter: Partial<T>,
+    populates: { [field: string]: string } = {},
+  ): Promise<T | null | any> {
     let query = this.model.findOne(filter);
-    query = this.populateFields(query);
+    query = this.populateFields(query, populates);
     return await query.exec();
   }
 
@@ -59,14 +72,18 @@ export class DataFactory<T, C = Partial<T>, U = Partial<T>> {
     else return id == user[this.config.compare_key];
   }
 
-  private populateFields(query) {
-    Object.entries(this.config.populates).forEach((field) => {
+  private populateFields(query, populateFields = {}) {
+    Object.entries(
+      Object.keys(populateFields).length
+        ? populateFields
+        : this.config.populates,
+    ).forEach((field) => {
       query = query.populate(...field);
     });
     return query;
   }
 
-  protected addLookUps(config: DataFactoryLookUps[] = []) {
+  public addLookUps(config: DataFactoryLookUps[] = []) {
     const lookupUps: PipelineStage.Lookup[] = [];
     config.forEach((lookup) => {
       const model = lookup.model + 's';
@@ -92,12 +109,12 @@ export interface DataFactoryLookUps {
   pipeLine?: Exclude<PipelineStage, PipelineStage.Merge | PipelineStage.Out>[];
 }
 
-export class DataFactoryConfig {
+export class DataFactoryConfig<T = any> {
   public compare_key: string = '_id';
   public privileges: Role[] = [Role.SUPER_ADMIN];
-  public populates: { [field: string]: string } = {};
+  public populates: { [field in keyof T]?: string } = {};
 
-  constructor(config?: Partial<DataFactoryConfig>) {
+  constructor(config?: Partial<DataFactoryConfig<T>>) {
     Object.keys(config || {}).forEach((key) => {
       if (config[key]) this[key] = config[key];
     });

@@ -71,4 +71,7 @@ export const TeacherProfileSchema =
   SchemaFactory.createForClass(TeacherProfile);
 
 TeacherProfileSchema.pre('save', ProfileUpdateHelper(Role.TEACHER));
-TeacherProfileSchema.pre('findOneAndUpdate', ProfileUpdateHelper(Role.TEACHER));
+TeacherProfileSchema.pre(
+  'findOneAndUpdate',
+  ProfileUpdateHelper(Role.TEACHER, true),
+);

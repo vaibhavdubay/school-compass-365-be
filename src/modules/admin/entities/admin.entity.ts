@@ -56,4 +56,4 @@ export class Admin {
 export const AdminSchema = SchemaFactory.createForClass(Admin);
 
 AdminSchema.pre('save', ProfileUpdateHelper(Role.ADMIN));
-AdminSchema.pre('findOneAndUpdate', ProfileUpdateHelper(Role.ADMIN));
+AdminSchema.pre('findOneAndUpdate', ProfileUpdateHelper(Role.ADMIN, true));

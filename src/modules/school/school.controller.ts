@@ -6,6 +6,7 @@ import {
   Put,
   Param,
   Delete,
+  Sse,
 } from '@nestjs/common';
 import { SchoolService } from './school.service';
 import { ApiTags } from '@nestjs/swagger';
@@ -16,6 +17,14 @@ import { UpdateSchoolDto } from './dto/update-school.dto';
 import { User } from '@sc-decorators/user';
 import { SchoolProfile } from './entities/school.entity';
 import { CompleteSchoolObject } from './dto/complete-school.dto';
+import { Observable } from 'rxjs';
+
+export interface MessageEvent {
+  data: string | object;
+  id?: string;
+  type?: string;
+  retry?: number;
+}
 
 @Controller('school')
 @ApiTags('School Profile')
@@ -43,10 +52,10 @@ export class SchoolController {
     return (await this.schoolService.getCompleteSchoolDetails(user))[0];
   }
 
-  @Get('complete-academic-year')
+  @Sse('complete-academic-year')
   @Auth(Role.SUPER_ADMIN, Role.ADMIN)
-  async completeAcademicYear(@User() user: User) {
-    return await this.schoolService.completeAcademicYear(user.schoolId);
+  sse(@User() user: User): Observable<MessageEvent> {
+    return this.schoolService.completeAcademicYear$(user.school);
   }
 
   @Get(':id')

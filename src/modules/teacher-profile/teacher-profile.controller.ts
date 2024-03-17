@@ -27,10 +27,10 @@ export class TeacherProfileController {
     @Body() createTeacherProfileDto: CreateTeacherProfileDto,
     @User() user: User,
   ) {
-    return this.teacherProfileService.create(
-      createTeacherProfileDto,
-      user.schoolId,
-    );
+    return this.teacherProfileService.create(createTeacherProfileDto, {
+      schoolId: user.schoolId,
+      academicYear: user.school.currentAcademicYear,
+    });
   }
 
   @Get()

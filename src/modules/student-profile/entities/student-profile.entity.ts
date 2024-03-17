@@ -35,7 +35,6 @@ export class StudentProfile {
   lastName: string;
 
   @Prop({
-    unique: true,
     required: true,
     lowercase: true,
     trim: true,
@@ -126,10 +125,20 @@ export class StudentProfile {
     required: true,
   })
   parents_guardians: Parents_Guardians[];
+
+  @Prop({
+    required: true,
+    ref: DB_Model.ACADEMIC_YEAR,
+    type: [mongoose.Schema.Types.ObjectId],
+  })
+  academicYears: string[];
 }
 
 export const StudentProfileSchema =
   SchemaFactory.createForClass(StudentProfile);
 
 StudentProfileSchema.pre('save', ProfileUpdateHelper(Role.STUDENT));
-StudentProfileSchema.pre('findOneAndUpdate', ProfileUpdateHelper(Role.STUDENT));
+StudentProfileSchema.pre(
+  'findOneAndUpdate',
+  ProfileUpdateHelper(Role.STUDENT, true),
+);

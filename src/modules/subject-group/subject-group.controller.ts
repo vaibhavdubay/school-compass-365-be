@@ -26,10 +26,9 @@ export class SubjectGroupController {
     @Body() createSubjectGroupDto: CreateSubjectGroupDto,
     @User() user: User,
   ) {
-    return this.subjectGroupService.create(
-      createSubjectGroupDto,
-      user.schoolId,
-    );
+    return this.subjectGroupService.create(createSubjectGroupDto, {
+      schoolId: user.schoolId,
+    });
   }
 
   @Get()

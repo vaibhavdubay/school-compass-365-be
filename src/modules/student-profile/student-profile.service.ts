@@ -19,7 +19,7 @@ export class StudentProfileService extends DataFactory<
   ) {
     super(studentModel, {
       privileges: [Role.ADMIN, Role.SUPER_ADMIN],
-      populates: { class: 'className' },
+      populates: { class: 'className', academicYears: 'academicYear' },
     });
   }
 }

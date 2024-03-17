@@ -78,10 +78,21 @@ export const setStudentFieldsStage: PipeLineStage = {
     ),
   },
 };
+
+export const updateAcademicYear = (
+  academicYears: mongoose.Types.ObjectId,
+): PipeLineStage => ({
+  $set: {
+    academicYears: checkCondition(
+      { $concatArrays: ['$academicYears', [academicYears]] },
+      '$academicYears',
+    ),
+  },
+});
 export const nextClassProjection = {
   $project: {
     nextClass: 0,
-    // 'school-profiles': 0,
+    'school-profiles': 0,
   },
 };
 
