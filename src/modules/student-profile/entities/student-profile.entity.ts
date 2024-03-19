@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiHideProperty } from '@nestjs/swagger';
-import { BLOODGROUP } from '@sc-enums/bloodGroup';
+import { BLOOD_GROUP } from '@sc-enums/bloodGroup';
 import { GENDER } from '@sc-enums/gender';
 import { DB_Model } from '@sc-enums/model';
 import { Role } from '@sc-enums/role';
@@ -92,9 +92,9 @@ export class StudentProfile {
   gender: GENDER;
 
   @Prop({
-    enum: BLOODGROUP,
+    enum: BLOOD_GROUP,
   })
-  bloodGroup: BLOODGROUP;
+  BLOOD_GROUP: BLOOD_GROUP;
 
   @Prop({
     type: [

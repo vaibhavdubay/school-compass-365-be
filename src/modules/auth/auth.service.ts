@@ -20,9 +20,15 @@ export class AuthService {
     private configService: ConfigService,
   ) {}
   async validateUser(userName: string, pass: string, role: Role): Promise<any> {
-    const user = (await this.getSearchFunction(role).findOne({
-      userName,
-    })) as User;
+    const user = (await this.getSearchFunction(role).findOne(
+      {
+        userName,
+      },
+      {
+        schoolId:
+          'name currentAcademicYear schoolCode schoolDISECode address1 address2 city state pincode establishedYear',
+      },
+    )) as User;
     if (user) {
       return compareSync(pass, user.password) ? user : undefined;
     } else return false;

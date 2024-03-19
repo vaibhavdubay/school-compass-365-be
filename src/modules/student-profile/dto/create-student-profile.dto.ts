@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { BLOODGROUP } from '@sc-enums/bloodGroup';
+import { BLOOD_GROUP } from '@sc-enums/bloodGroup';
 import { GENDER } from '@sc-enums/gender';
 import {
   IsString,
@@ -62,8 +62,8 @@ export class CreateStudentProfileDto {
   gender: GENDER;
 
   @IsString()
-  @ApiProperty({ example: 'A+', enum: BLOODGROUP })
-  bloodGroup: BLOODGROUP;
+  @ApiProperty({ example: 'A+', enum: BLOOD_GROUP })
+  BLOOD_GROUP: BLOOD_GROUP;
 
   @IsArray()
   @IsNotEmpty()

@@ -10,7 +10,7 @@ import {
   IsArray,
   IsDateString,
 } from 'class-validator';
-import { BLOODGROUP } from '@sc-enums/bloodGroup';
+import { BLOOD_GROUP } from '@sc-enums/bloodGroup';
 import { GENDER } from '@sc-enums/gender';
 import { Parents_Guardians } from './parent-guardians.dto';
 
@@ -65,8 +65,8 @@ export class UpdateStudentProfileDto extends PartialType(
   gender: GENDER;
 
   @IsString()
-  @ApiProperty({ example: 'A+', enum: BLOODGROUP })
-  bloodGroup: BLOODGROUP;
+  @ApiProperty({ example: 'A+', enum: BLOOD_GROUP })
+  BLOOD_GROUP: BLOOD_GROUP;
 
   @IsArray()
   @IsNotEmpty()
