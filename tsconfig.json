@@ -16,6 +16,9 @@
       "@sc-constants/*": [
         "src/core/constants/*.constant"
       ],
+      "@sc-helpers/*": [
+        "src/core/helpers/*"
+      ],
       "@sc-data-factory": [
         "src/core/dataFactory"
       ]

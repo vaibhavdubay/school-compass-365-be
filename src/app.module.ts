@@ -8,10 +8,10 @@ import { StudentProfileModule } from '@sc-modules/student-profile/student-profil
 import { TeacherProfileModule } from '@sc-modules/teacher-profile/teacher-profile.module';
 import { ClassModule } from './modules/class/class.module';
 import { SubjectGroupModule } from './modules/subject-group/subject-group.module';
-import { GlobalExceptionFilter } from './core/helpers/global-exception.filter';
 import { APP_FILTER } from '@nestjs/core';
 import { AcademicYearsModule } from './modules/academic-years/academic-years.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { GlobalExceptionFilter } from '@sc-helpers/global-exception.filter';
 
 @Module({
   imports: [

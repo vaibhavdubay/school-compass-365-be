@@ -1,8 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { DB_Model } from '@sc-enums/model';
 import { Role } from '@sc-enums/role';
+import { ProfileUpdateHelper } from '@sc-helpers/profile-update.helper';
 import mongoose from 'mongoose';
-import { ProfileUpdateHelper } from 'src/core/helpers/profile-update.helper';
 
 @Schema()
 export class Admin {
