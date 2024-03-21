@@ -11,6 +11,7 @@ import { ProfileUpdateHelper } from '@sc-helpers/profile-update.helper';
 
 @Schema()
 export class StudentProfile {
+  _id: string;
   @Prop({
     ref: DB_Model.SCHOOL,
     type: mongoose.Schema.Types.ObjectId,

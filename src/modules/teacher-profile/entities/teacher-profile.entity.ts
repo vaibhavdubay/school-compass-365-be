@@ -7,6 +7,7 @@ import mongoose from 'mongoose';
 
 @Schema()
 export class TeacherProfile {
+  _id: string;
   @Prop({ ref: DB_Model.SCHOOL, type: mongoose.Schema.Types.ObjectId })
   schoolId: string;
 

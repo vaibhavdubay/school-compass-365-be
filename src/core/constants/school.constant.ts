@@ -30,7 +30,9 @@ export const completeSchoolInformationProjection = {
   },
 };
 
-export const matchStudentStage = (schoolId: string): PipeLineStage => ({
+export const matchStudentStage = (
+  schoolId: mongoose.Types.ObjectId | string,
+): PipeLineStage => ({
   $match: {
     schoolId: new mongoose.Types.ObjectId(schoolId),
     academicStatus: ACADEMIC_STATUS.ACTIVE,
@@ -80,7 +82,7 @@ export const setStudentFieldsStage: PipeLineStage = {
 };
 
 export const updateAcademicYear = (
-  academicYears: mongoose.Types.ObjectId,
+  academicYears: mongoose.Types.ObjectId | string,
 ): PipeLineStage => ({
   $set: {
     academicYears: checkCondition(

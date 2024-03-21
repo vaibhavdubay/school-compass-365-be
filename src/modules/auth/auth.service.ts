@@ -63,7 +63,10 @@ export class AuthService {
     );
 
   generateToken(user: User): LoginResponse {
-    const payload: AccessTokenPayload = { uid: user._id, role: user.role }; // Replace with relevant user data
+    const payload: AccessTokenPayload = {
+      uid: user._id.toString(),
+      role: user.role,
+    }; // Replace with relevant user data
     const accessToken = this.jwtService.sign(payload);
     return { accessToken, user };
   }

@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 
 @Schema()
 export class SchoolProfile {
+  _id: string;
   @Prop({ required: true })
   name: string;
 

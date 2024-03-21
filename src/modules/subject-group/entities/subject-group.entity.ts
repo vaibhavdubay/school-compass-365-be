@@ -2,6 +2,7 @@ import { Prop, SchemaFactory, Schema } from '@nestjs/mongoose';
 
 @Schema()
 export class SubjectGroup {
+  _id: string;
   @Prop({ required: true })
   schoolId: string;
 

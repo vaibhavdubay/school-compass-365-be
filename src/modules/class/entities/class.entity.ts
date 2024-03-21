@@ -1,13 +1,14 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { DB_Model } from '@sc-enums/model';
-import Mongoose from 'mongoose';
+import mongoose from 'mongoose';
 
 @Schema()
 export class Class {
+  _id: string;
   @Prop({ required: true })
   className: string;
 
-  @Prop({ ref: DB_Model.CLASS, type: Mongoose.Schema.Types.ObjectId })
+  @Prop({ ref: DB_Model.CLASS, type: mongoose.Schema.Types.ObjectId })
   nextClass: string;
 
   @Prop()

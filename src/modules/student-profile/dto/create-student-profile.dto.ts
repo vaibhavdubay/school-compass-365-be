@@ -9,6 +9,8 @@ import {
   IsStrongPassword,
   IsDateString,
   IsArray,
+  IsEnum,
+  IsMongoId,
 } from 'class-validator';
 import { Parents_Guardians } from './parent-guardians.dto';
 
@@ -49,19 +51,18 @@ export class CreateStudentProfileDto {
   @IsString()
   pen: string;
 
-  @IsString()
+  @IsMongoId()
   class: string;
 
   @IsDateString()
   @IsNotEmpty()
   dateOfBirth: Date;
 
-  @IsString()
-  @IsNotEmpty()
+  @IsEnum(GENDER)
   @ApiProperty({ example: 'male', enum: GENDER })
   gender: GENDER;
 
-  @IsString()
+  @IsEnum(BLOOD_GROUP)
   @ApiProperty({ example: 'A+', enum: BLOOD_GROUP })
   BLOOD_GROUP: BLOOD_GROUP;
 

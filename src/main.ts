@@ -21,8 +21,13 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   const port = configService.get('PORT');
   const config = new DocumentBuilder()
-    .setTitle('School Compass 365 Documentation')
+    .setTitle('School Compass 365 BE')
     .setVersion('1.0')
+    .setLicense(
+      'Mozilla Public License Version 2.0',
+      'https://github.com/vaibhavdubay/School-Compass-365-be/blob/main/LICENSE',
+    )
+    .setDescription('')
     .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);

@@ -1,17 +1,20 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { APP_FILTER } from '@nestjs/core';
+import { ScheduleModule } from '@nestjs/schedule';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AdminModule } from '@sc-modules/admin/admin.module';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { GlobalExceptionFilter } from '@sc-helpers/global-exception.filter';
+
 import { AuthModule } from '@sc-modules/auth/auth.module';
+import { ClassModule } from '@sc-modules/class/class.module';
+import { AdminModule } from '@sc-modules/admin/admin.module';
 import { SchoolModule } from '@sc-modules/school/school.module';
+import { ClassSubjectModule } from '@sc-modules/class-subject/class-subject.module';
+import { SubjectGroupModule } from '@sc-modules/subject-group/subject-group.module';
+import { AcademicYearsModule } from '@sc-modules/academic-years/academic-years.module';
+import { ClassScheduleModule } from '@sc-modules/class-schedule/class-schedule.module';
 import { StudentProfileModule } from '@sc-modules/student-profile/student-profile.module';
 import { TeacherProfileModule } from '@sc-modules/teacher-profile/teacher-profile.module';
-import { ClassModule } from './modules/class/class.module';
-import { SubjectGroupModule } from './modules/subject-group/subject-group.module';
-import { APP_FILTER } from '@nestjs/core';
-import { AcademicYearsModule } from './modules/academic-years/academic-years.module';
-import { ScheduleModule } from '@nestjs/schedule';
-import { GlobalExceptionFilter } from '@sc-helpers/global-exception.filter';
 
 @Module({
   imports: [
@@ -27,14 +30,17 @@ import { GlobalExceptionFilter } from '@sc-helpers/global-exception.filter';
       inject: [ConfigService],
     }),
     ScheduleModule.forRoot(),
+
     AcademicYearsModule,
-    AdminModule,
     AuthModule,
+    AdminModule,
     ClassModule,
+    ClassScheduleModule,
     SchoolModule,
     StudentProfileModule,
     SubjectGroupModule,
     TeacherProfileModule,
+    ClassSubjectModule,
   ],
   providers: [
     {

@@ -3,7 +3,6 @@ import { Admin } from '@sc-modules/admin/entities/admin.entity';
 import { SchoolProfile } from '@sc-modules/school/entities/school.entity';
 import { StudentProfile } from '@sc-modules/student-profile/entities/student-profile.entity';
 import { TeacherProfile } from '@sc-modules/teacher-profile/entities/teacher-profile.entity';
-import { Schema } from 'mongoose';
 
 export const User = createParamDecorator(
   (_: unknown, ctx: ExecutionContext) => {
@@ -17,6 +16,5 @@ export const User = createParamDecorator(
 );
 
 export type User = (Admin | StudentProfile | TeacherProfile) & {
-  _id: Schema.Types.ObjectId;
-  school: SchoolProfile & { _id: string };
+  school: SchoolProfile;
 };

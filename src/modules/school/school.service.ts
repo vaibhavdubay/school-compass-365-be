@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { DataFactory } from '@sc-data-factory';
 import { DB_Model } from '@sc-enums/model';
-import mongoose, { Model } from 'mongoose';
+import { Model } from 'mongoose';
 import { SchoolProfile } from './entities/school.entity';
 import { CreateSchoolDto } from './dto/create-school.dto';
 import { UpdateSchoolDto } from './dto/update-school.dto';
@@ -78,7 +78,7 @@ export class SchoolService extends DataFactory<
     ]);
   }
 
-  completeAcademicYear$(school: SchoolProfile & { _id: string }) {
+  completeAcademicYear$(school: SchoolProfile) {
     return new Observable<MessageEvent>((observer) => {
       const sentMessage = (
         message: string,
@@ -110,7 +110,7 @@ export class SchoolService extends DataFactory<
                 false,
                 true,
               );
-            const currentAcademicYear = data._id;
+            const currentAcademicYear = data._id.toString();
             sentMessage(
               `Found current academic year as ${data.academicYear}.`,
               false,
@@ -129,7 +129,7 @@ export class SchoolService extends DataFactory<
 
   private async updateAcademicYear(
     sentMessage: Messenger,
-    currentAcademicYear: mongoose.Types.ObjectId,
+    currentAcademicYear: string,
     schoolId: string,
   ) {
     await this.updateSchoolProfile(sentMessage, currentAcademicYear, schoolId);
@@ -142,7 +142,7 @@ export class SchoolService extends DataFactory<
 
   private async updateSchoolProfile(
     sentMessage: Messenger,
-    currentAcademicYear: mongoose.Types.ObjectId,
+    currentAcademicYear: string,
     schoolId: string,
   ) {
     sentMessage(`Updating school academic year details.`);
@@ -160,7 +160,7 @@ export class SchoolService extends DataFactory<
   }
   private async updateStudentProfiles(
     sentMessage: Messenger,
-    currentAcademicYear: mongoose.Types.ObjectId,
+    currentAcademicYear: string,
     schoolId: string,
   ): Promise<void> {
     sentMessage("Updating student profile information's.");

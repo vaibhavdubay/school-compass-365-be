@@ -1,13 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
   IsEmail,
+  IsMongoId,
   IsNotEmpty,
   IsPhoneNumber,
   IsString,
   IsStrongPassword,
 } from 'class-validator';
 export class CreateAdminDto {
-  @IsString()
+  @IsMongoId()
   @IsNotEmpty()
   schoolId: string;
   @IsString()

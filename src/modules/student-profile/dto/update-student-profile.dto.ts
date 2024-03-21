@@ -9,6 +9,8 @@ import {
   IsStrongPassword,
   IsArray,
   IsDateString,
+  IsEnum,
+  IsMongoId,
 } from 'class-validator';
 import { BLOOD_GROUP } from '@sc-enums/bloodGroup';
 import { GENDER } from '@sc-enums/gender';
@@ -52,19 +54,19 @@ export class UpdateStudentProfileDto extends PartialType(
   @IsString()
   pen: string;
 
-  @IsString()
+  @IsMongoId()
   class: string;
 
   @IsDateString()
   @IsNotEmpty()
   dateOfBirth: Date;
 
-  @IsString()
   @IsNotEmpty()
+  @IsEnum(GENDER)
   @ApiProperty({ example: 'Male', enum: GENDER })
   gender: GENDER;
 
-  @IsString()
+  @IsEnum(BLOOD_GROUP)
   @ApiProperty({ example: 'A+', enum: BLOOD_GROUP })
   BLOOD_GROUP: BLOOD_GROUP;
 

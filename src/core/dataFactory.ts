@@ -2,7 +2,7 @@ import { ForbiddenException } from '@nestjs/common';
 import { User } from '@sc-decorators/user';
 import { DB_Model } from '@sc-enums/model';
 import { Role } from '@sc-enums/role';
-import { Model, PipelineStage, Schema } from 'mongoose';
+import { Model, PipelineStage, Types } from 'mongoose';
 
 export class DataFactory<T, C = Partial<T>, U = Partial<T>> {
   private config: DataFactoryConfig<T>;
@@ -34,10 +34,10 @@ export class DataFactory<T, C = Partial<T>, U = Partial<T>> {
   }
 
   async findById(
-    id: string | Schema.Types.ObjectId,
+    id: string,
     populates: { [field: string]: string } = {},
   ): Promise<T> {
-    let query = this.model.findById(id);
+    let query = this.model.findById(new Types.ObjectId(id));
     query = this.populateFields(query, populates);
     return await query.exec();
   }
@@ -63,7 +63,7 @@ export class DataFactory<T, C = Partial<T>, U = Partial<T>> {
     else throw new ForbiddenException();
   }
 
-  async exists(options: Partial<T> | { _id: string }): Promise<boolean> {
+  async exists(options: Partial<T>): Promise<boolean> {
     return !!(await this.model.exists(options).exec());
   }
 

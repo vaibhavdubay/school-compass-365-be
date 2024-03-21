@@ -6,11 +6,12 @@ import {
   IsEmail,
   IsStrongPassword,
   IsPhoneNumber,
+  IsMongoId,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class UpdateAdminDto extends PartialType(CreateAdminDto) {
-  @IsString()
+  @IsMongoId()
   @IsNotEmpty()
   schoolId: string;
   @IsString()

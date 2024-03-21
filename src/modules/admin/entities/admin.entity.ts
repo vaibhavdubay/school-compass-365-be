@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 
 @Schema()
 export class Admin {
+  _id: string;
   @Prop({ ref: DB_Model.SCHOOL, type: mongoose.Schema.Types.ObjectId })
   schoolId: string = '';
 
