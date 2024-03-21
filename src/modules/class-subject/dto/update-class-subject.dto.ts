@@ -4,9 +4,6 @@ import { IsMongoId, IsString, IsNotEmpty } from 'class-validator';
 
 export class UpdateClassSubjectDto extends PartialType(CreateClassSubjectDto) {
   @IsMongoId()
-  schoolId: string;
-
-  @IsMongoId()
   class: string;
 
   @IsString()

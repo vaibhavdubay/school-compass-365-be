@@ -3,9 +3,6 @@ import { IsEnum, IsMongoId, IsString } from 'class-validator';
 
 export class CreateClassScheduleDto {
   @IsMongoId()
-  schoolId: string;
-
-  @IsMongoId()
   class: string;
 
   @IsString()
