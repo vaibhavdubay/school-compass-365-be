@@ -26,7 +26,4 @@ export class CreateSchoolDto {
   schoolDISECode: string;
   @IsString()
   schoolCode: string;
-  @IsString()
-  @IsNotEmpty()
-  currentAcademicYear: string;
 }

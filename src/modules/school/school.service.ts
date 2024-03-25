@@ -52,6 +52,10 @@ export class SchoolService extends DataFactory<
   }
 
   async create(createDto: CreateSchoolDto): Promise<SchoolProfile> {
+    const academicYear = await this.academicYearsModel.findOne({
+      current: true,
+    });
+    createDto['currentAcademicYear'] = academicYear._id;
     createDto['academicYears'] = [createDto['currentAcademicYear']];
     const user = new this.schoolModel(createDto);
     return await user.save();
