@@ -25,16 +25,16 @@ export class ClassScheduleController {
   @Post()
   create(
     @Body() createClassScheduleDto: CreateClassScheduleDto,
-    @User() user: User,
+    @User('schoolId') schoolId: string,
   ) {
     return this.classScheduleService.create(createClassScheduleDto, {
-      schoolId: user.schoolId,
+      schoolId,
     });
   }
 
   @Get()
-  findAll() {
-    return this.classScheduleService.findAll();
+  findAll(@User('schoolId') schoolId: string) {
+    return this.classScheduleService.findAll({ schoolId });
   }
 
   @Get(':id')

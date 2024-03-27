@@ -5,13 +5,14 @@ import { StudentProfile } from '@sc-modules/student-profile/entities/student-pro
 import { TeacherProfile } from '@sc-modules/teacher-profile/entities/teacher-profile.entity';
 
 export const User = createParamDecorator(
-  (_: unknown, ctx: ExecutionContext) => {
+  (key: keyof User, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest();
-    return {
+    const user = {
       ...request.user['_doc'],
       school: request.user.schoolId,
       schoolId: request.user.schoolId?._id,
     };
+    return key && user[key] ? user[key] : user;
   },
 );
 

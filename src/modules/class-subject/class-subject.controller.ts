@@ -6,6 +6,7 @@ import {
   Put,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { ClassSubjectService } from './class-subject.service';
 import { CreateClassSubjectDto } from './dto/create-class-subject.dto';
@@ -25,16 +26,19 @@ export class ClassSubjectController {
   @Auth(Role.SUPER_ADMIN, Role.ADMIN)
   create(
     @Body() createClassSubjectDto: CreateClassSubjectDto,
-    @User() user: User,
+    @User('schoolId') schoolId: string,
   ) {
     return this.classSubjectService.create(createClassSubjectDto, {
-      schoolId: user.schoolId,
+      schoolId,
     });
   }
 
   @Get()
-  findAll() {
-    return this.classSubjectService.findAll();
+  findAll(
+    @User('schoolId') schoolId: string,
+    @Query('filter') filter?: string,
+  ) {
+    return this.classSubjectService.findAll({ schoolId, filter });
   }
 
   @Get(':id')

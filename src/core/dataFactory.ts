@@ -25,9 +25,14 @@ export class DataFactory<T, C = Partial<T>, U = Partial<T>> {
   }
 
   async findAll(
-    filter: Partial<T> = {},
+    filter: Partial<T> & { filter?: string } = {},
     populates: { [field: string]: string } = {},
   ): Promise<T[]> {
+    const additionalFilter = filter.filter;
+    delete filter.filter;
+    console.log(filter, this.getFilterQuery(additionalFilter));
+    filter = Object.assign(filter, this.getFilterQuery(additionalFilter));
+    console.log(filter);
     let query = this.model.find(filter);
     query = this.populateFields(query, populates);
     return await query.exec();
@@ -98,6 +103,14 @@ export class DataFactory<T, C = Partial<T>, U = Partial<T>> {
       });
     });
     return lookupUps;
+  }
+
+  getFilterQuery(query: string = '{}') {
+    try {
+      return JSON.parse(query);
+    } catch (error) {
+      return {};
+    }
   }
 }
 
