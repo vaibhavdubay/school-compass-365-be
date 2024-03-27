@@ -8,7 +8,7 @@ export const User = createParamDecorator(
   (key: keyof User, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest();
     const user = {
-      ...request.user['_doc'],
+      ...(request.user['_doc'] ? request.user['_doc'] : request.user),
       school: request.user.schoolId,
       schoolId: request.user.schoolId?._id,
     };
