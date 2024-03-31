@@ -14,14 +14,14 @@ export class DataFactory<T, C = Partial<T>, U = Partial<T>> {
     this.config = new DataFactoryConfig(config);
   }
 
-  async create(
+  create(
     createDto: C,
     config: { schoolId?: string; academicYear?: string } = {},
   ): Promise<T> {
     if (config.schoolId) createDto['schoolId'] = config.schoolId;
     if (config.academicYear) createDto['academicYears'] = [config.academicYear];
-    const user = new this.model(createDto);
-    return (await user.save()) as T;
+    const data = new this.model(createDto);
+    return data.save() as Promise<T>;
   }
 
   async findAll(
@@ -30,9 +30,7 @@ export class DataFactory<T, C = Partial<T>, U = Partial<T>> {
   ): Promise<T[]> {
     const additionalFilter = filter.filter;
     delete filter.filter;
-    console.log(filter, this.getFilterQuery(additionalFilter));
     filter = Object.assign(filter, this.getFilterQuery(additionalFilter));
-    console.log(filter);
     let query = this.model.find(filter);
     query = this.populateFields(query, populates);
     return await query.exec();
@@ -47,18 +45,20 @@ export class DataFactory<T, C = Partial<T>, U = Partial<T>> {
     return await query.exec();
   }
 
-  async findOne(
+  findOne(
     filter: Partial<T>,
     populates: { [field: string]: string } = {},
   ): Promise<T | null | any> {
     let query = this.model.findOne(filter);
     query = this.populateFields(query, populates);
-    return await query.exec();
+    return query.exec();
   }
 
   update(id: string, updateDto: U, user?: User): Promise<T> {
     if (this.mapAccessCheck(id, user) || !user) {
-      return this.model.findByIdAndUpdate(id, updateDto, { new: true });
+      let query = this.model.findByIdAndUpdate(id, updateDto, { new: true });
+      query = this.populateFields(query);
+      return query.exec();
     } else throw new ForbiddenException();
   }
 

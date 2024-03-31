@@ -1,10 +1,11 @@
 import { Catch, ExceptionFilter, ArgumentsHost } from '@nestjs/common';
+import { Response } from 'express';
 
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
   catch(exception: any, host: ArgumentsHost) {
     const { statusCode, message } = this.handleException(exception);
-    const response = host.switchToHttp().getResponse();
+    const response = host.switchToHttp().getResponse<Response>();
     const status =
       statusCode || (exception.getStatus ? exception.getStatus() : 500);
 
@@ -46,6 +47,9 @@ export class GlobalExceptionFilter implements ExceptionFilter {
   }
 
   private handleExternalValidationError(messages: string[]) {
+    if (typeof messages === 'string') {
+      messages = [messages];
+    }
     const emptyFields: string[] =
       messages
         ?.filter((message) => message.split(' should not be empty').length > 1)

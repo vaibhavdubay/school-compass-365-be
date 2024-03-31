@@ -14,6 +14,6 @@ export class AdminService extends DataFactory<
   UpdateAdminDto
 > {
   constructor(@InjectModel(DB_Model.ADMIN) adminModel: Model<Admin>) {
-    super(adminModel);
+    super(adminModel, { populates: { profileImage: 'url updatedAt' } });
   }
 }

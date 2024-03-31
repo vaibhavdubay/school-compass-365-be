@@ -1,9 +1,8 @@
 import { Module } from '@nestjs/common';
-import { APP_FILTER } from '@nestjs/core';
 import { ScheduleModule } from '@nestjs/schedule';
 import { MongooseModule } from '@nestjs/mongoose';
+import { MulterModule } from '@nestjs/platform-express';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { GlobalExceptionFilter } from '@sc-helpers/global-exception.filter';
 
 import { AuthModule } from '@sc-modules/auth/auth.module';
 import { ClassModule } from '@sc-modules/class/class.module';
@@ -29,6 +28,7 @@ import { TeacherProfileModule } from '@sc-modules/teacher-profile/teacher-profil
       }),
       inject: [ConfigService],
     }),
+    MulterModule.register(),
     ScheduleModule.forRoot(),
 
     AcademicYearsModule,
@@ -41,12 +41,6 @@ import { TeacherProfileModule } from '@sc-modules/teacher-profile/teacher-profil
     SubjectGroupModule,
     TeacherProfileModule,
     ClassSubjectModule,
-  ],
-  providers: [
-    {
-      provide: APP_FILTER,
-      useClass: GlobalExceptionFilter,
-    },
   ],
 })
 export class AppModule {}

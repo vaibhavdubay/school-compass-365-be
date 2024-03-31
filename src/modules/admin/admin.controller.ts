@@ -6,6 +6,7 @@ import {
   Put,
   Param,
   Delete,
+  UploadedFile,
 } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { CreateAdminDto } from './dto/create-admin.dto';
@@ -14,12 +15,17 @@ import { ApiTags } from '@nestjs/swagger';
 import { Role } from '@sc-enums/role';
 import { Auth } from '@sc-decorators/auth';
 import { User } from '@sc-decorators/user';
+import { FileUpload } from '@sc-decorators/file-upload';
+import { ProfileImageService } from '@sc-modules/profile-image/profile-image.service';
 
 @ApiTags('Admin')
 @Controller('admin')
 @Auth(Role.ADMIN, Role.SUPER_ADMIN)
 export class AdminController {
-  constructor(private readonly adminService: AdminService) {}
+  constructor(
+    private readonly adminService: AdminService,
+    private readonly profileImageService: ProfileImageService,
+  ) {}
 
   @Post()
   @Auth(Role.SUPER_ADMIN)
@@ -45,11 +51,21 @@ export class AdminController {
   }
 
   @Put(':id')
-  update(
-    @Param('id') id: string,
+  @FileUpload(UpdateAdminDto, 'profileImage')
+  async update(
+    @UploadedFile()
+    file: Express.Multer.File,
+    @Param('id')
+    id: string,
     @Body() updateAdminDto: UpdateAdminDto,
     @User() user: User,
   ) {
+    const profilePicture = await this.profileImageService.updateProfileImage(
+      id,
+      Role.ADMIN,
+      file,
+    );
+    updateAdminDto.profileImage = profilePicture._id;
     return this.adminService.update(id, updateAdminDto, user);
   }
 

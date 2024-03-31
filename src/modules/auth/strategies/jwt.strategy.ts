@@ -23,6 +23,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     const user = serviceInstance.findById(payload.uid, {
       schoolId:
         'name currentAcademicYear schoolCode schoolDISECode address1 address2 city state pincode establishedYear',
+      profileImage: 'url updatedAt',
     });
     if (!user) {
       throw new UnauthorizedException();

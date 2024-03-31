@@ -52,6 +52,13 @@ export class Admin {
     default: new Date(),
   })
   updateAt: Date;
+
+  @Prop({
+    required: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: DB_Model.PROFILE_IMAGE,
+  })
+  profileImage: string;
 }
 
 export const AdminSchema = SchemaFactory.createForClass(Admin);
