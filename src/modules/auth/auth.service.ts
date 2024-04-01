@@ -27,6 +27,7 @@ export class AuthService {
       {
         schoolId:
           'name currentAcademicYear schoolCode schoolDISECode address1 address2 city state pincode establishedYear',
+        profileImage: 'url updatedAt',
       },
     )) as User;
     if (user) {
