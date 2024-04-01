@@ -73,4 +73,7 @@ export class UpdateStudentProfileDto extends PartialType(
   @IsArray()
   @IsNotEmpty()
   parents_guardians: Parents_Guardians[];
+
+  @ApiProperty({ type: 'string', format: 'binary' })
+  profileImage: string;
 }

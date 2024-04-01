@@ -133,6 +133,13 @@ export class StudentProfile {
     type: [mongoose.Schema.Types.ObjectId],
   })
   academicYears: string[];
+
+  @Prop({
+    required: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: DB_Model.PROFILE_IMAGE,
+  })
+  profileImage: string;
 }
 
 export const StudentProfileSchema =
