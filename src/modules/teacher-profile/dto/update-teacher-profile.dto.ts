@@ -16,9 +16,6 @@ export class UpdateTeacherProfileDto extends PartialType(
 ) {
   @IsString()
   @IsNotEmpty()
-  schoolId: string;
-  @IsString()
-  @IsNotEmpty()
   firstName: string;
   @IsNotEmpty()
   @IsString()
