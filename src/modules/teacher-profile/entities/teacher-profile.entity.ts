@@ -66,6 +66,12 @@ export class TeacherProfile {
     required: true,
   })
   years_of_experience: number;
+
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: DB_Model.PROFILE_IMAGE,
+  })
+  profileImage: string;
 }
 
 export const TeacherProfileSchema =

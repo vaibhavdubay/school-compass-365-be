@@ -49,4 +49,6 @@ export class UpdateTeacherProfileDto extends PartialType(
   @IsNumber()
   @IsNotEmpty()
   years_of_experience: number;
+  @ApiProperty({ type: 'string', format: 'binary' })
+  profileImage: string;
 }

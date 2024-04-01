@@ -135,7 +135,6 @@ export class StudentProfile {
   academicYears: string[];
 
   @Prop({
-    required: true,
     type: mongoose.Schema.Types.ObjectId,
     ref: DB_Model.PROFILE_IMAGE,
   })

@@ -6,6 +6,7 @@ import {
   Put,
   Param,
   Delete,
+  UploadedFile,
 } from '@nestjs/common';
 import { TeacherProfileService } from './teacher-profile.service';
 import { CreateTeacherProfileDto } from './dto/create-teacher-profile.dto';
@@ -14,12 +15,17 @@ import { ApiTags } from '@nestjs/swagger';
 import { Auth } from '@sc-decorators/auth';
 import { Role } from '@sc-enums/role';
 import { User } from '@sc-decorators/user';
+import { ProfileImageService } from '@sc-modules/profile-image/profile-image.service';
+import { FileUpload } from '@sc-decorators/file-upload';
 
 @Controller('teacher-profile')
 @ApiTags('Teacher Profile')
 @Auth(...Object.values(Role))
 export class TeacherProfileController {
-  constructor(private readonly teacherProfileService: TeacherProfileService) {}
+  constructor(
+    private readonly teacherProfileService: TeacherProfileService,
+    private readonly profileImageService: ProfileImageService,
+  ) {}
 
   @Post()
   @Auth(Role.SUPER_ADMIN, Role.ADMIN)
@@ -45,11 +51,20 @@ export class TeacherProfileController {
 
   @Put(':id')
   @Auth(Role.SUPER_ADMIN, Role.ADMIN, Role.TEACHER)
-  update(
+  @FileUpload(UpdateTeacherProfileDto, 'profileImage')
+  async update(
+    @UploadedFile()
+    file: Express.Multer.File,
     @Param('id') id: string,
     @Body() updateTeacherProfileDto: UpdateTeacherProfileDto,
     @User() user: User,
   ) {
+    const profilePicture = await this.profileImageService.updateProfileImage(
+      id,
+      Role.STUDENT,
+      file,
+    );
+    updateTeacherProfileDto.profileImage = profilePicture._id;
     return this.teacherProfileService.update(id, updateTeacherProfileDto, user);
   }
 
