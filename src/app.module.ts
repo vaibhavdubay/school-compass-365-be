@@ -14,6 +14,7 @@ import { AcademicYearsModule } from '@sc-modules/academic-years/academic-years.m
 import { ClassScheduleModule } from '@sc-modules/class-schedule/class-schedule.module';
 import { StudentProfileModule } from '@sc-modules/student-profile/student-profile.module';
 import { TeacherProfileModule } from '@sc-modules/teacher-profile/teacher-profile.module';
+import { StudentAttendanceModule } from './modules/student-attendance/student-attendance.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { TeacherProfileModule } from '@sc-modules/teacher-profile/teacher-profil
     SubjectGroupModule,
     TeacherProfileModule,
     ClassSubjectModule,
+    StudentAttendanceModule,
   ],
 })
 export class AppModule {}

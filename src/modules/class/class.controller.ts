@@ -16,7 +16,7 @@ import { Role } from '@sc-enums/role';
 
 @Controller('class')
 @ApiTags('Class')
-@Auth(...Object.values(Role))
+@Auth(Role.ALL)
 export class ClassController {
   constructor(private readonly classService: ClassService) {}
 

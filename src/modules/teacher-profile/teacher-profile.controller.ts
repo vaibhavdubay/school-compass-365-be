@@ -20,7 +20,7 @@ import { FileUpload } from '@sc-decorators/file-upload';
 
 @Controller('teacher-profile')
 @ApiTags('Teacher Profile')
-@Auth(...Object.values(Role))
+@Auth(Role.ALL)
 export class TeacherProfileController {
   constructor(
     private readonly teacherProfileService: TeacherProfileService,

@@ -7,11 +7,12 @@ import {
   Param,
   Delete,
   UploadedFile,
+  Query,
 } from '@nestjs/common';
 import { StudentProfileService } from './student-profile.service';
 import { CreateStudentProfileDto } from './dto/create-student-profile.dto';
 import { UpdateStudentProfileDto } from './dto/update-student-profile.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Auth } from '@sc-decorators/auth';
 import { Role } from '@sc-enums/role';
 import { User } from '@sc-decorators/user';
@@ -20,7 +21,7 @@ import { FileUpload } from '@sc-decorators/file-upload';
 
 @Controller('student-profile')
 @ApiTags('Student Profile')
-@Auth(...Object.values(Role))
+@Auth(Role.ALL)
 export class StudentProfileController {
   constructor(
     private readonly profileImageService: ProfileImageService,
@@ -40,8 +41,18 @@ export class StudentProfileController {
   }
 
   @Get()
-  findAll(@User() user: User) {
-    return this.studentProfileService.findAll({ schoolId: user.schoolId });
+  @ApiQuery({
+    name: 'filter',
+    required: false,
+    description:
+      'accepts a JSON string that can help to iterate filtration of the documents',
+    type: 'string',
+  })
+  findAll(@User() user: User, @Query('filter') filter: string = '') {
+    return this.studentProfileService.findAll({
+      schoolId: user.schoolId,
+      filter,
+    });
   }
 
   @Get(':id')

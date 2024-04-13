@@ -11,14 +11,14 @@ import {
 import { ClassSubjectService } from './class-subject.service';
 import { CreateClassSubjectDto } from './dto/create-class-subject.dto';
 import { UpdateClassSubjectDto } from './dto/update-class-subject.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { User } from '@sc-decorators/user';
 import { Auth } from '@sc-decorators/auth';
 import { Role } from '@sc-enums/role';
 
 @Controller('class-subject')
 @ApiTags('Class Subject')
-@Auth(...Object.values(Role))
+@Auth(Role.ALL)
 export class ClassSubjectController {
   constructor(private readonly classSubjectService: ClassSubjectService) {}
 
@@ -34,6 +34,13 @@ export class ClassSubjectController {
   }
 
   @Get()
+  @ApiQuery({
+    name: 'filter',
+    required: false,
+    description:
+      'accepts a JSON string that can help to iterate filtration of the documents',
+    type: 'string',
+  })
   findAll(
     @User('schoolId') schoolId: string,
     @Query('filter') filter?: string,

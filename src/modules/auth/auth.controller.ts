@@ -24,7 +24,7 @@ export class AuthController {
   }
 
   @Get('user-profile')
-  @Auth(...Object.values(Role))
+  @Auth(Role.ALL)
   async getUserProfile(@User() user: User): Promise<User> {
     return user;
   }

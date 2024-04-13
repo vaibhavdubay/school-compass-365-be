@@ -38,7 +38,7 @@ export class SchoolController {
   }
 
   @Get()
-  @Auth(...Object.values(Role))
+  @Auth(Role.ALL)
   async findAll(@User() user: User): Promise<SchoolProfile[]> {
     if (user.role === Role.SUPER_ADMIN) return this.schoolService.findAll();
     return [await this.schoolService.findById(user.schoolId)];
@@ -59,7 +59,7 @@ export class SchoolController {
   }
 
   @Get(':id')
-  @Auth(...Object.values(Role))
+  @Auth(Role.ALL)
   findOne(@Param('id') id: string) {
     return this.schoolService.findById(id);
   }

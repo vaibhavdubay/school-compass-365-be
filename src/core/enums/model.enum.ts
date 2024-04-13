@@ -9,4 +9,5 @@ export enum DB_Model {
   ACADEMIC_YEAR = 'academic-year',
   SUBJECT_GROUP = 'subject-group',
   PROFILE_IMAGE = 'profile-image',
+  STUDENT_ATTENDANCE = 'student-attendance',
 }

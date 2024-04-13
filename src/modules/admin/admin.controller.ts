@@ -44,7 +44,7 @@ export class AdminController {
     return this.adminService.findById(id);
   }
 
-  @Auth()
+  @Auth(Role.ADMIN)
   @Get('login/:id')
   findOneForLogin(@Param('id') id: string) {
     return this.adminService.exists({ _id: id });

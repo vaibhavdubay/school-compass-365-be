@@ -16,7 +16,7 @@ import { Auth } from '@sc-decorators/auth';
 import { Role } from '@sc-enums/role';
 
 @Controller('class-schedule')
-@Auth(...Object.values(Role))
+@Auth(Role.ALL)
 @ApiTags('Class Schedule')
 export class ClassScheduleController {
   constructor(private readonly classScheduleService: ClassScheduleService) {}
