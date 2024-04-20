@@ -1,20 +1,23 @@
+import { ACADEMIC_STATUS } from '@sc-enums/academicStatus';
+import { BLOOD_GROUP } from '@sc-enums/bloodGroup';
+import { GENDER } from '@sc-enums/gender';
 import { DB_Model } from '@sc-enums/model';
 import { Role } from '@sc-enums/role';
 import { ProfileImage } from '@sc-modules/profile-image/entities/profile-image.entity';
 import { User } from '@sc-modules/users/entities/user.entity';
 import {
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  JoinColumn,
-  OneToOne,
   PrimaryGeneratedColumn,
+  Column,
+  OneToOne,
+  CreateDateColumn,
   UpdateDateColumn,
+  DeleteDateColumn,
+  JoinColumn,
+  Entity,
 } from 'typeorm';
 
-@Entity({ name: DB_Model.ADMIN })
-export class Admin {
+@Entity({ name: DB_Model.STUDENT })
+export class Student {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -30,20 +33,38 @@ export class Admin {
   })
   email: string;
 
-  @Column({ type: String })
-  password: string;
-
   @Column({ update: false, type: 'enum', enum: Role, default: Role.ADMIN })
   role: Role;
 
-  @Column({
-    unique: true,
-    type: String,
-  })
-  userName: string;
-
   @Column({ type: String })
   phoneNumber: string;
+
+  @Column({ unique: true })
+  pen: string;
+
+  @Column({
+    type: 'enum',
+    enum: ACADEMIC_STATUS,
+    default: ACADEMIC_STATUS.ACTIVE,
+  })
+  academicStatus: ACADEMIC_STATUS;
+
+  @Column({
+    type: 'datetime',
+  })
+  dateOfBirth: Date;
+
+  @Column({
+    type: 'enum',
+    enum: GENDER,
+  })
+  gender: GENDER;
+
+  @Column({
+    type: 'enum',
+    enum: BLOOD_GROUP,
+  })
+  BLOOD_GROUP: BLOOD_GROUP;
 
   @OneToOne(() => ProfileImage, (image) => image.userId)
   @JoinColumn({ name: 'profileImageId' })

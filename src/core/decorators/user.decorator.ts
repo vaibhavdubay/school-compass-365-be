@@ -3,13 +3,9 @@ import {
   ExecutionContext,
   ForbiddenException,
 } from '@nestjs/common';
-import { Admin } from '@sc-modules/admin/entities/admin.entity';
-import { SchoolProfile } from '@sc-modules/school/entities/school.entity';
-import { StudentProfile } from '@sc-modules/student-profile/entities/student-profile.entity';
-import { TeacherProfile } from '@sc-modules/teacher-profile/entities/teacher-profile.entity';
 
 export const User = createParamDecorator(
-  (key: keyof User, ctx: ExecutionContext) => {
+  (key: string, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest();
     try {
       const user = {
@@ -25,7 +21,3 @@ export const User = createParamDecorator(
     }
   },
 );
-
-export type User = (Admin | StudentProfile | TeacherProfile) & {
-  school: SchoolProfile;
-};

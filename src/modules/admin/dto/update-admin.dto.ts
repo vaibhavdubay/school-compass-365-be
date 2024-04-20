@@ -1,42 +1,4 @@
-import { PartialType } from '@nestjs/mapped-types';
+import { PartialType } from '@nestjs/swagger';
 import { CreateAdminDto } from './create-admin.dto';
-import {
-  IsString,
-  IsNotEmpty,
-  IsEmail,
-  IsStrongPassword,
-  IsPhoneNumber,
-} from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
 
-export class UpdateAdminDto extends PartialType(CreateAdminDto) {
-  @IsString()
-  @IsNotEmpty()
-  firstName: string;
-  @IsNotEmpty()
-  @IsString()
-  lastName: string;
-  @IsNotEmpty()
-  @IsString()
-  @IsEmail()
-  email: string;
-  @IsNotEmpty()
-  @IsString()
-  @IsPhoneNumber('IN')
-  phoneNumber: string;
-  @IsString()
-  @IsStrongPassword({
-    minLength: 8,
-    minUppercase: 1,
-    minLowercase: 1,
-    minNumbers: 1,
-  })
-  @ApiProperty({ example: 'Admin@12' })
-  password: string;
-  @IsString()
-  @IsNotEmpty()
-  userName: string;
-
-  @ApiProperty({ type: 'string', format: 'binary' })
-  profileImage: string;
-}
+export class UpdateAdminDto extends PartialType(CreateAdminDto) {}

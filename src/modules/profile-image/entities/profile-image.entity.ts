@@ -1,28 +1,36 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { DB_Model } from '@sc-enums/model';
 import { Role } from '@sc-enums/role';
-import mongoose from 'mongoose';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
-@Schema()
+@Entity({ name: DB_Model.PROFILE_IMAGE })
 export class ProfileImage {
-  _id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-  @Prop({ required: true })
+  @Column({})
   filename: string;
 
-  @Prop({ required: true })
+  @Column({ enum: Role, type: 'enum' })
   role: Role;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, required: true })
-  userId: mongoose.Schema.Types.ObjectId;
-
-  @Prop()
+  @Column()
   originalName: string;
 
-  @Prop({ required: true })
+  @Column({})
   url: string;
 
-  @Prop({ default: Date.now })
+  @Column({})
+  userId: string;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
   updatedAt: Date;
 }
-
-export const ProfileImageSchema = SchemaFactory.createForClass(ProfileImage);

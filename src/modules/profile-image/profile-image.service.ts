@@ -1,26 +1,23 @@
 import { Injectable } from '@nestjs/common';
-import { Model } from 'mongoose';
 import { ProfileImage } from './entities/profile-image.entity';
-import { InjectModel } from '@nestjs/mongoose';
-import { DB_Model } from '@sc-enums/model';
 import { Role } from '@sc-enums/role';
 import * as Sharp from 'sharp';
 import { existsSync, mkdirSync } from 'fs';
 import { join } from 'path';
 import { ConfigService } from '@nestjs/config';
-import { Reflector } from '@nestjs/core';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class ProfileImageService {
   constructor(
-    @InjectModel(DB_Model.PROFILE_IMAGE)
-    private readonly profileImageModel: Model<ProfileImage>,
+    @InjectRepository(ProfileImage)
+    private readonly profileImageModel: Repository<ProfileImage>,
     private readonly configService: ConfigService,
-    private reflector: Reflector,
   ) {}
 
   async updateProfileImage(
-    userId: string,
+    userId: number,
     role: Role,
     image: Express.Multer.File,
   ) {
@@ -32,24 +29,29 @@ export class ProfileImageService {
 
     this.optimizeSaveImage(image.buffer, imagePath);
 
-    const profileImage = await this.profileImageModel.findOne({ userId, role });
+    const profileImage = await this.profileImageModel.findOneBy({
+      userId,
+      role,
+    } as any);
 
     if (!profileImage) {
-      const profileImage = new this.profileImageModel({
+      const createObj = {
         userId,
         role,
         filename,
         url: imageUrl,
         originalName: image.originalname,
-      });
-      return profileImage.save();
+      };
+      const mainObj = this.profileImageModel.create();
+      Object.assign(mainObj, createObj);
+      return this.profileImageModel.save(mainObj);
     } else {
       profileImage.originalName = image.originalname;
       profileImage.filename = filename;
       profileImage.url = imageUrl;
       profileImage.updatedAt = new Date();
     }
-    return profileImage.save();
+    return this.profileImageModel.save(profileImage);
   }
 
   folderPath(folderName: string): string {

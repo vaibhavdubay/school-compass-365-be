@@ -1,20 +1,19 @@
 import { DB_Model } from '@sc-enums/model';
-import { Role } from '@sc-enums/role';
 import { ProfileImage } from '@sc-modules/profile-image/entities/profile-image.entity';
 import { User } from '@sc-modules/users/entities/user.entity';
 import {
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  JoinColumn,
-  OneToOne,
   PrimaryGeneratedColumn,
+  Column,
+  OneToOne,
+  CreateDateColumn,
   UpdateDateColumn,
+  DeleteDateColumn,
+  JoinColumn,
+  Entity,
 } from 'typeorm';
 
-@Entity({ name: DB_Model.ADMIN })
-export class Admin {
+@Entity({ name: DB_Model.TEACHER })
+export class Teacher {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -29,18 +28,6 @@ export class Admin {
     type: String,
   })
   email: string;
-
-  @Column({ type: String })
-  password: string;
-
-  @Column({ update: false, type: 'enum', enum: Role, default: Role.ADMIN })
-  role: Role;
-
-  @Column({
-    unique: true,
-    type: String,
-  })
-  userName: string;
 
   @Column({ type: String })
   phoneNumber: string;

@@ -1,7 +1,6 @@
 import { ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
-import { User } from '@sc-decorators/user';
 import { Role } from '@sc-enums/role';
 
 @Injectable()
@@ -26,9 +25,9 @@ export class JwtGuard extends AuthGuard('jwt') {
     }
 
     if (!(await super.canActivate(context))) return false;
-    const user = context.switchToHttp().getRequest().user as User;
+    const user = context.switchToHttp().getRequest().user;
     const hasRequiredRole = requiredRoles.some((role) =>
-      [user?.role, Role.ALL].includes(role),
+      [user?.role, 'true'].includes(role),
     );
 
     return hasRequiredRole;
