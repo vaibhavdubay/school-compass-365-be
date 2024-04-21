@@ -11,6 +11,9 @@ import { StudentModule } from './modules/student/student.module';
 import { AdminModule } from './modules/admin/admin.module';
 import { TeacherModule } from './modules/teacher/teacher.module';
 import { ProfileImageModule } from '@sc-modules/profile-image/profile-image.module';
+import { SchoolModule } from './modules/school/school.module';
+import { ClassModule } from './modules/class/class.module';
+import { ParentOrGuardiansModule } from './modules/parent-or-guardians/parent-or-guardians.module';
 
 @Module({
   imports: [
@@ -41,6 +44,9 @@ import { ProfileImageModule } from '@sc-modules/profile-image/profile-image.modu
     StudentModule,
     AdminModule,
     TeacherModule,
+    SchoolModule,
+    ClassModule,
+    ParentOrGuardiansModule,
   ],
 })
 export class AppModule {}

@@ -10,7 +10,7 @@ import {
 
 @Entity({ name: DB_Model.PROFILE_IMAGE })
 export class ProfileImage {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: number;
 
   @Column({})

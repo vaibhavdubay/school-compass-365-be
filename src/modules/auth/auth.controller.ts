@@ -22,4 +22,14 @@ export class AuthController {
   userProfile(@UserProfile() user: UserProfile) {
     return user;
   }
+
+  @Post('send-otp')
+  sendOTP() {
+    return this.authService.sendOTP();
+  }
+
+  @Post('reset-password')
+  resetPassword() {
+    return this.authService.resetPassword();
+  }
 }

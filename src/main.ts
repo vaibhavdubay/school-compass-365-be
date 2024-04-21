@@ -7,6 +7,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import { GlobalExceptionFilter } from '@sc-helpers/global-exception.filter';
+import { writeFileSync } from 'fs';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
@@ -27,13 +28,13 @@ async function bootstrap() {
   });
 
   const config = new DocumentBuilder()
-    .setTitle('School Compass 365 BE')
+    .setTitle('School Compass 365')
     .setVersion('1.0')
     .setLicense(
       'Mozilla Public License Version 2.0',
       'https://github.com/vaibhavdubay/School-Compass-365-be/blob/main/LICENSE',
     )
-    .setDescription('')
+    .setDescription('swagger json: <a href="/swagger.json">swagger.json</a>')
     .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
@@ -42,6 +43,11 @@ async function bootstrap() {
   app.use(compression());
 
   await app.listen(port);
+  try {
+    writeFileSync('public/swagger.json', JSON.stringify(document, null, 2));
+  } catch (error) {
+    console.error(error);
+  }
   const hostUrl = app.getUrl();
   configService.set('HOST_URL', hostUrl);
 }
