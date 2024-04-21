@@ -7,7 +7,7 @@ import {
 import { Role } from '@sc-enums/role';
 import { JwtGuard } from '@sc-guards/auth';
 
-export function Auth(...roles: Role[] | ['true']) {
+export function Auth(...roles: Role[] | ['all']) {
   if (roles.length)
     return applyDecorators(
       SetMetadata('roles', roles),

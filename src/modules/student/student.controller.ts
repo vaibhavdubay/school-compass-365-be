@@ -11,13 +11,17 @@ import { StudentService } from './student.service';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { Auth } from '@sc-decorators/auth';
+import { Role } from '@sc-enums/role';
 
 @Controller('student')
+@Auth('all')
 @ApiTags('Students')
 export class StudentController {
   constructor(private readonly studentService: StudentService) {}
 
   @Post()
+  @Auth(Role.ADMIN, Role.SUPER_ADMIN, Role.TEACHER)
   create(@Body() createStudentDto: CreateStudentDto) {
     return this.studentService.createDocument(createStudentDto);
   }
@@ -38,6 +42,7 @@ export class StudentController {
   }
 
   @Delete(':id')
+  @Auth(Role.ADMIN, Role.SUPER_ADMIN, Role.TEACHER)
   remove(@Param('id') id: string) {
     return this.studentService.softDelete({ id });
   }

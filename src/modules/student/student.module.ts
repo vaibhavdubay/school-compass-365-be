@@ -9,5 +9,6 @@ import { ProfileImageModule } from '@sc-modules/profile-image/profile-image.modu
   imports: [TypeOrmModule.forFeature([Student]), ProfileImageModule],
   controllers: [StudentController],
   providers: [StudentService],
+  exports: [StudentService],
 })
 export class StudentModule {}

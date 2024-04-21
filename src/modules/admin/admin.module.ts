@@ -9,5 +9,6 @@ import { ProfileImageModule } from '@sc-modules/profile-image/profile-image.modu
   imports: [TypeOrmModule.forFeature([Admin]), ProfileImageModule],
   controllers: [AdminController],
   providers: [AdminService],
+  exports: [AdminService],
 })
 export class AdminModule {}
