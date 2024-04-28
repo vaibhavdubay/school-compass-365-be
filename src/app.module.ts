@@ -14,6 +14,12 @@ import { ProfileImageModule } from '@sc-modules/profile-image/profile-image.modu
 import { SchoolModule } from './modules/school/school.module';
 import { ClassModule } from './modules/class/class.module';
 import { ParentOrGuardiansModule } from './modules/parent-or-guardians/parent-or-guardians.module';
+import { AcademicYearModule } from './modules/academic-year/academic-year.module';
+import { MailerModule } from '@nestjs-modules/mailer';
+import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
+import { join } from 'path';
+import { cwd } from 'process';
+import { NotifyModule } from '@sc-modules/notify/notify.module';
 
 @Module({
   imports: [
@@ -36,8 +42,34 @@ import { ParentOrGuardiansModule } from './modules/parent-or-guardians/parent-or
         synchronize: true,
       }),
     }),
+    MailerModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        transport: {
+          host: config.getOrThrow('EMAIL_HOST'),
+          port: +config.getOrThrow('EMAIL_PORT'),
+          secure: true,
+          auth: {
+            user: config.getOrThrow('EMAIL'),
+            pass: config.getOrThrow('EMAIL_PASS'),
+          },
+        },
+        defaults: {
+          from: config.getOrThrow('EMAIL_FROM'),
+        },
+        template: {
+          dir: join(cwd(), 'templates'),
+          adapter: new PugAdapter({ inlineCssEnabled: true }),
+          options: {
+            strict: true,
+          },
+        },
+      }),
+    }),
     MulterModule.register(),
     ScheduleModule.forRoot(),
+    NotifyModule,
     UsersModule,
     AuthModule,
     ProfileImageModule,
@@ -47,6 +79,7 @@ import { ParentOrGuardiansModule } from './modules/parent-or-guardians/parent-or
     SchoolModule,
     ClassModule,
     ParentOrGuardiansModule,
+    AcademicYearModule,
   ],
 })
 export class AppModule {}

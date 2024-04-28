@@ -1,4 +1,5 @@
 import {
+  DeepPartial,
   EntityManager,
   EntityTarget,
   FindOptionsWhere,
@@ -21,8 +22,8 @@ export class BaseRepository<
     };
     return this.findOneBy(filter);
   }
-  createDocument(document: C | Partial<T>) {
-    const newObject = this.create();
+  createDocument(document: C | DeepPartial<T>) {
+    const newObject = this.create(document as DeepPartial<T>);
     Object.assign(newObject, document);
     return this.save(newObject);
   }

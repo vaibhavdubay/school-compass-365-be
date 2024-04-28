@@ -7,6 +7,7 @@ import {
   IsEmail,
   IsStrongPassword,
   IsEnum,
+  Length,
 } from 'class-validator';
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {
@@ -23,6 +24,7 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   @IsNotEmpty()
   userName: string;
   @IsNotEmpty()
+  @Length(6, 8)
   @IsStrongPassword({
     minLength: 6,
     minLowercase: 1,

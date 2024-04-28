@@ -4,36 +4,26 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  JoinColumn,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity({ name: DB_Model.CLASS })
-export class Class {
+@Entity({ name: DB_Model.ADMIN })
+export class AcademicYear {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-
-  @Column()
-  className: string;
-
-  @OneToOne(() => Class, { nullable: true })
-  @JoinColumn()
-  nextClass: string;
-
-  @Column()
-  order: number;
-
-  @Column({ default: false })
-  streamsRequired: boolean;
-
+  @Column({
+    type: String,
+    unique: true,
+    default: `${new Date().getFullYear()}-${new Date().getFullYear() + 1}`,
+  })
+  academicYear: string;
+  @Column({ default: true })
+  current: boolean;
   @CreateDateColumn()
   createdAt: Date;
-
   @UpdateDateColumn()
   updatedAt: Date;
-
   @DeleteDateColumn()
   deletedAt: Date;
 }

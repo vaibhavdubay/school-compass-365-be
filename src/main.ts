@@ -41,6 +41,8 @@ async function bootstrap() {
   SwaggerModule.setup('api/swagger', app, document);
 
   app.use(compression());
+  app.setBaseViewsDir(join(__dirname, '..', 'templates'));
+  app.setViewEngine('pug');
 
   await app.listen(port);
   try {

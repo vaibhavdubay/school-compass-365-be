@@ -1,5 +1,5 @@
+import { GENDER } from '@sc-enums/gender';
 import { DB_Model } from '@sc-enums/model';
-import { Role } from '@sc-enums/role';
 import { ProfileImage } from '@sc-modules/profile-image/entities/profile-image.entity';
 import { User } from '@sc-modules/users/entities/user.entity';
 import {
@@ -18,34 +18,26 @@ export class Admin {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: String })
+  @Column({ type: String, length: 30 })
   firstName: string;
 
-  @Column({ type: String })
+  @Column({ type: String, length: 30 })
   lastName: string;
+
+  @Column({ type: 'enum', enum: GENDER })
+  gender: GENDER;
 
   @Column({
     unique: true,
     type: String,
+    length: 50,
   })
   email: string;
 
-  @Column({ type: String })
-  password: string;
-
-  @Column({ update: false, type: 'enum', enum: Role, default: Role.ADMIN })
-  role: Role;
-
-  @Column({
-    unique: true,
-    type: String,
-  })
-  userName: string;
-
-  @Column({ type: String })
+  @Column({ type: String, length: 10 })
   phoneNumber: string;
 
-  @OneToOne(() => ProfileImage, (image) => image.userId)
+  @OneToOne(() => ProfileImage, (image) => image.userId, { nullable: true })
   @JoinColumn({ name: 'profileImageId' })
   profileImage: ProfileImage;
 

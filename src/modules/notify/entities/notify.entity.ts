@@ -1,0 +1,47 @@
+import { NOTIFICATION_STATUS } from '@sc-enums/notificationStatus';
+import { User } from '@sc-modules/users/entities/user.entity';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+
+@Entity()
+export class Notify {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @ManyToMany(() => User)
+  @JoinTable({
+    name: 'user_notify',
+    joinColumn: { name: 'notification_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'user_id', referencedColumnName: 'id' },
+  })
+  user: User;
+
+  @Column()
+  title: string;
+
+  @Column()
+  content: string;
+
+  @Column()
+  type: string;
+
+  @Column({ default: NOTIFICATION_STATUS.PENDING })
+  status: NOTIFICATION_STATUS;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
+}
