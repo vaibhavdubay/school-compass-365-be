@@ -16,7 +16,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
   }
 
   handleException(error) {
-    if (error.code === 11000) {
+    if (error.code === 'ER_DUP_ENTRY') {
       return this.handleDuplicateKeyError(error);
     } else if (error.name === 'ValidationError') {
       return this.handleValidationError(error);
@@ -30,10 +30,10 @@ export class GlobalExceptionFilter implements ExceptionFilter {
   }
 
   private handleDuplicateKeyError(error) {
-    const message = `Duplicate records: ${Object.entries(error.keyValue)
-      .map((ob) => `[${ob[0]} - ${ob[1]}]`)
-      .join(', ')} already exist`;
-    return { statusCode: 400, message };
+    return {
+      statusCode: 400,
+      message: error.sqlMessage.split(' for key')?.[0],
+    };
   }
 
   private handleValidationError(error) {

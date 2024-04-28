@@ -24,7 +24,7 @@ export class ClassController {
 
   @Get()
   findAll() {
-    return this.classService.find();
+    return this.classService.find({ order: { order: 1 } });
   }
 
   @Get(':id')

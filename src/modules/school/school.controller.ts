@@ -19,7 +19,7 @@ export class SchoolController {
 
   @Post()
   create(@Body() createSchoolDto: CreateSchoolDto) {
-    return this.schoolService.createDocument(createSchoolDto);
+    return this.schoolService.createSchoolProfile(createSchoolDto);
   }
 
   @Get()

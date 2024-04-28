@@ -1,6 +1,7 @@
 import { GENDER } from '@sc-enums/gender';
 import { DB_Model } from '@sc-enums/model';
 import { ProfileImage } from '@sc-modules/profile-image/entities/profile-image.entity';
+import { School } from '@sc-modules/school/entities/school.entity';
 import { User } from '@sc-modules/users/entities/user.entity';
 import {
   Column,
@@ -17,6 +18,10 @@ import {
 export class Admin {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
+  @OneToOne(() => School, { cascade: true })
+  @JoinColumn({ name: 'schoolId' })
+  school: School;
 
   @Column({ type: String, length: 30 })
   firstName: string;

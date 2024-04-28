@@ -1,3 +1,4 @@
+import { DB_Model } from '@sc-enums/model';
 import { NOTIFICATION_STATUS } from '@sc-enums/notificationStatus';
 import { User } from '@sc-modules/users/entities/user.entity';
 import {
@@ -11,7 +12,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity()
+@Entity({ name: DB_Model.NOTIFY })
 export class Notify {
   @PrimaryGeneratedColumn('uuid')
   id: string;
