@@ -13,6 +13,7 @@ import { UpdateTeacherDto } from './dto/update-teacher.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { Auth } from '@sc-decorators/auth';
 import { Role } from '@sc-enums/role';
+import { UserProfile } from '@sc-decorators/user-profile';
 
 @Controller('teacher')
 @ApiTags('Teacher')
@@ -22,13 +23,20 @@ export class TeacherController {
 
   @Post()
   @Auth(Role.ADMIN, Role.SUPER_ADMIN)
-  create(@Body() createTeacherDto: CreateTeacherDto) {
+  create(
+    @Body() createTeacherDto: CreateTeacherDto,
+    @UserProfile() userProfile: UserProfile,
+  ) {
+    createTeacherDto['school'] = userProfile.school;
+    createTeacherDto['academicYears'] = [
+      userProfile.school.currentAcademicYear,
+    ];
     return this.teacherService.createTeacher(createTeacherDto);
   }
 
   @Get()
-  findAll() {
-    return this.teacherService.find();
+  findAll(@UserProfile() userProfile: UserProfile) {
+    return this.teacherService.find({ where: { school: userProfile.school } });
   }
 
   @Get(':id')

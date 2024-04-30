@@ -19,7 +19,7 @@ export class Admin {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @OneToOne(() => School, { cascade: true })
+  @OneToOne(() => School, { cascade: true, eager: true })
   @JoinColumn({ name: 'schoolId' })
   school: School;
 
@@ -42,11 +42,14 @@ export class Admin {
   @Column({ type: String, length: 10 })
   phoneNumber: string;
 
-  @OneToOne(() => ProfileImage, (image) => image.userId, { nullable: true })
+  @OneToOne(() => ProfileImage, (image) => image.userId, {
+    eager: true,
+    nullable: true,
+  })
   @JoinColumn({ name: 'profileImageId' })
   profileImage: ProfileImage;
 
-  @OneToOne(() => User, { cascade: true })
+  @OneToOne(() => User, { cascade: true, eager: true })
   @JoinColumn({ name: 'userId' })
   user: User;
 

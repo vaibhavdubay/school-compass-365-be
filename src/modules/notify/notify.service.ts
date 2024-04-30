@@ -1,6 +1,3 @@
-import { join } from 'path';
-import { cwd } from 'process';
-import { renderFile } from 'pug';
 import { DataSource, Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { Notify } from './entities/notify.entity';
@@ -21,20 +18,14 @@ export class NotifyService extends BaseRepository<Notify> {
   }
 
   async prepareEmail(metaData: MailOptions) {
-    const { template, to, subject, data } = metaData;
-    const pathAddress = join(cwd(), 'templates', template);
-    const html = renderFile(pathAddress, { screen: '', ...data });
-    const emailOptions = {
-      to,
-      subject,
-      html,
-    };
+    const { data, ...mailOptions } = metaData;
     await this.mailer.save({
-      body: html,
-      to,
-      subject,
-      template,
+      body: JSON.stringify(data || {}),
+      ...mailOptions,
     });
-    return this.mailerService.sendMail(emailOptions);
+    return this.mailerService.sendMail({
+      ...mailOptions,
+      context: data,
+    });
   }
 }

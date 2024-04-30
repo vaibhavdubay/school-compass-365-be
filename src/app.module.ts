@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ScheduleModule } from '@nestjs/schedule';
+import { join } from 'path';
 
 import { MulterModule } from '@nestjs/platform-express';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -16,9 +17,7 @@ import { ClassModule } from './modules/class/class.module';
 import { ParentOrGuardiansModule } from './modules/parent-or-guardians/parent-or-guardians.module';
 import { AcademicYearModule } from './modules/academic-year/academic-year.module';
 import { MailerModule } from '@nestjs-modules/mailer';
-import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
-import { join } from 'path';
-import { cwd } from 'process';
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { NotifyModule } from '@sc-modules/notify/notify.module';
 
 @Module({
@@ -59,8 +58,8 @@ import { NotifyModule } from '@sc-modules/notify/notify.module';
           from: config.getOrThrow('EMAIL_FROM'),
         },
         template: {
-          dir: join(cwd(), 'templates'),
-          adapter: new PugAdapter({ inlineCssEnabled: true }),
+          dir: join(__dirname, 'templates'),
+          adapter: new HandlebarsAdapter({}),
           options: {
             strict: true,
           },

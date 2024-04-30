@@ -13,6 +13,7 @@ import { UpdateStudentDto } from './dto/update-student.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { Auth } from '@sc-decorators/auth';
 import { Role } from '@sc-enums/role';
+import { UserProfile } from '@sc-decorators/user-profile';
 
 @Controller('student')
 @Auth('all')
@@ -22,13 +23,20 @@ export class StudentController {
 
   @Post()
   @Auth(Role.ADMIN, Role.SUPER_ADMIN, Role.TEACHER)
-  create(@Body() createStudentDto: CreateStudentDto) {
+  create(
+    @Body() createStudentDto: CreateStudentDto,
+    @UserProfile() userProfile: UserProfile,
+  ) {
+    createStudentDto['school'] = userProfile.school;
+    createStudentDto['academicYears'] = [
+      userProfile.school.currentAcademicYear,
+    ];
     return this.studentService.createDocument(createStudentDto);
   }
 
   @Get()
-  findAll() {
-    return this.studentService.find();
+  findAll(@UserProfile() userProfile: UserProfile) {
+    return this.studentService.find({ where: { school: userProfile.school } });
   }
 
   @Get(':id')
