@@ -9,9 +9,11 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
+import { OtpModule } from '@sc-modules/otp/otp.module';
 
 @Module({
   imports: [
+    OtpModule,
     UsersModule,
     AdminModule,
     StudentModule,

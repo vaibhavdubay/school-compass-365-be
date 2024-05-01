@@ -4,6 +4,7 @@ export enum DB_Model {
   CLASS = 'class',
   NOTIFY = 'notify',
   MAILER = 'mailer',
+  OTP = 'otp',
   PARENTS_OR_GUARDIAN = 'parents_guardian',
   PROFILE_IMAGE = 'profile_image',
   SCHOOL = 'school',

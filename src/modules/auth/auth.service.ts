@@ -4,7 +4,13 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { UsersService } from '@sc-modules/users/users.service';
-import { AccessTokenPayload, SignInDto, SignInResponse } from './dto/auth.dto';
+import {
+  AccessTokenPayload,
+  ResetPasswordDto,
+  SendOtpDto,
+  SignInDto,
+  SignInResponse,
+} from './dto/auth.dto';
 import { compareSync } from 'bcrypt';
 import { User } from '@sc-modules/users/entities/user.entity';
 import { AdminService } from '@sc-modules/admin/admin.service';
@@ -14,6 +20,7 @@ import { Role } from '@sc-enums/role';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { UserProfile } from '@sc-decorators/user-profile';
+import { OtpService } from '@sc-modules/otp/otp.service';
 
 @Injectable()
 export class AuthService {
@@ -22,6 +29,7 @@ export class AuthService {
     private readonly adminService: AdminService,
     private readonly studentService: StudentService,
     private readonly teacherService: TeacherService,
+    private readonly otpService: OtpService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
   ) {}
@@ -69,6 +77,33 @@ export class AuthService {
     return { accessToken, userProfile };
   }
 
-  resetPassword(): void {}
-  sendOTP(): void {}
+  async resetPassword(resetPasswordDto: ResetPasswordDto) {
+    const user = await this.usersService.findOneBy({
+      userName: resetPasswordDto.userName,
+    });
+    if (user) {
+      if (this.otpService.verifyOtp(user.id, resetPasswordDto.otp)) {
+        return this.usersService.updateDocument(user.id, {
+          ...user,
+          password: resetPasswordDto.password,
+          changePassword: false,
+        });
+      }
+    } else {
+      throw new NotFoundException('User not found');
+    }
+  }
+
+  async sendOTP(userName: string): Promise<SendOtpDto> {
+    const user = await this.usersService.findOneBy({ userName });
+    if (user) {
+      return this.otpService.createOtp(user.id).then((document) => ({
+        message: 'OTP sent successfully.',
+        email: user.email,
+        expires: document.expires,
+      }));
+    } else {
+      throw new NotFoundException('User not found');
+    }
+  }
 }

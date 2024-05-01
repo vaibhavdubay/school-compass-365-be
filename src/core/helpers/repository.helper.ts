@@ -28,7 +28,7 @@ export class BaseRepository<
     return this.save(newObject);
   }
 
-  updateDocument(id: string, document: U) {
+  updateDocument(id: string, document: U | DeepPartial<T>) {
     const newObject = this.create();
     Object.assign(newObject, { ...document, id });
     return this.save(newObject);
