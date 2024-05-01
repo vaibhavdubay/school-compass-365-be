@@ -8,6 +8,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import { GlobalExceptionFilter } from '@sc-helpers/global-exception.filter';
 import { writeFileSync } from 'fs';
+import { cwd } from 'process';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
@@ -24,7 +25,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new GlobalExceptionFilter());
   staticFolders.forEach((folder) => {
-    app.useStaticAssets(join(__dirname, '..', folder));
+    app.useStaticAssets(join(cwd(), folder));
   });
 
   const config = new DocumentBuilder()
@@ -41,8 +42,6 @@ async function bootstrap() {
   SwaggerModule.setup('api/swagger', app, document);
 
   app.use(compression());
-  app.setBaseViewsDir(join(__dirname, '..', 'templates'));
-  app.setViewEngine('pug');
 
   await app.listen(port);
   try {
