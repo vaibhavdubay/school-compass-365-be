@@ -1,0 +1,117 @@
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>
+        <h1>School Compass 365</h1>
+    </title>
+    <style>
+        .greet-text {
+            color: #323232;
+        }
+
+        .button-container {
+            width: 50%;
+            margin: auto;
+            padding: 0.5rem;
+        }
+
+        .active-button {
+            background-color: #eb7623ff;
+            border-radius: 26px;
+            color: white;
+            padding: 0.5rem 1.5rem;
+            cursor: pointer;
+            border: 0;
+        }
+
+        .active-button:hover {
+            background-color: rgb(172, 84, 21);
+        }
+
+        .user_cred_lines .user_cred_label {
+            font-size: 0.7rem;
+            color: #7c7c7c;
+        }
+
+        .user_cred_lines .user_cred_value {
+            font-weight: 500;
+            font: 1.15em sans-serif;
+            color: #323232;
+        }
+    </style>
+</head>
+
+<body>
+    <div style='border: 1px solid rgb(172, 164, 164); background-color:rgb(227, 223, 223) ; text-align: center'>
+        <div style='padding :9px'>
+            <h2>School Compass 365</h2>
+        </div>
+        <div
+            style='background-color:#FFFFFFFF; color:black; border-radius: 12px; box-shadow: 0px 0px 1.5px #171a1f; padding:1rem;width:80%  ; max-width:615px ;margin:auto'>
+            {{#switch role}}
+            {{#case 'admin'}}
+            <h2 style="color: #555555;">Welcome to School Compass 365!</h2>
+            <div class="greet-text">
+                Hi <strong
+                    style="letter-spacing: 1px;font-family: Tahoma, Verdana, sans-serif; color: #707070;">{{name}}!</strong>
+                A new school profile for
+                <strong style="color:#EB7623FF ;">{{schoolName}}</strong>
+                has been created for you.
+                Login to your account with the credentials listed below
+            </div>
+            {{/case}}
+            {{#case 'student'}}
+            <h2 style="color: #555555;">Welcome to <strong style="color:#EB7623FF ;">{{schoolName}}!</strong></h2>
+            <div class="greet-text">
+                Hi <strong
+                    style="letter-spacing: 1px;font-family: Tahoma, Verdana, sans-serif; color: #707070;">{{name}}!</strong>
+                Please find your login credentials below.
+            </div>
+            {{/case}}
+            {{#case 'teacher'}}
+            <h2 style="color: #555555;">Welcome to <strong style="color:#EB7623FF ;">{{schoolName}}!</strong></h2>
+            <div class="greet-text">
+                Hi <strong
+                    style="letter-spacing: 1px;font-family: Tahoma, Verdana, sans-serif; color: #707070;">{{name}}!</strong>
+                We're excited to have you join our team.
+                Please find your login credentials below.
+            </div>
+            {{/case}}
+            {{/switch}}
+
+            <div class="user_cred_lines" style="margin: 1.7rem 0 0.7rem;">
+                <div class="user_cred_label">Username</div>
+                <div class="user_cred_value">{{userName}}</div>
+            </div>
+            <div class="user_cred_lines" style="margin-bottom: 0.5rem;">
+                <div class="user_cred_label">Password</div>
+                <div class="user_cred_value">{{password}}</div>
+            </div>
+            <div class='button-container'>
+                <button type="button" class='active-button'>
+                    Log In to Your Account
+                </button>
+            </div>
+            <div style="color:#80808099; font-size: 0.7rem">
+                Note: We recommend changing your password to a strong one upon first login.
+            </div>
+            <div style="with:100% ; display:flex; justify-content: center; overflow: hidden;">
+                <img style="width: 100%; height:10rem" src="/assets/grass1.png" alt="">
+                {{!-- <img style="width: 100%; height:10rem" src="{{host}}/assets/grass.png" alt=""> --}}
+            </div>
+        </div>
+
+        <div style='display: flex; flex-column; align-items-center; padding:3px'>
+            <p>Support:
+                <a href='mailto:support@schoolcompass.co.in '>
+                    support@schoolcompass.co.in
+                </a>
+            </p>
+            <p>© 2024 School Compass 365</p>
+        </div>
+    </div>
+</body>
+
+</html>

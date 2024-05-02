@@ -60,7 +60,20 @@ import { OtpModule } from './modules/otp/otp.module';
         },
         template: {
           dir: join(__dirname, 'templates'),
-          adapter: new HandlebarsAdapter({}),
+          adapter: new HandlebarsAdapter({
+            switch: function (value, options) {
+              this.switch_value = value;
+              return options.fn(this);
+            },
+            case: function (value, options) {
+              if (value == this.switch_value) {
+                return options.fn(this);
+              }
+            },
+            default: function () {
+              return true;
+            },
+          }),
           options: {
             strict: true,
           },

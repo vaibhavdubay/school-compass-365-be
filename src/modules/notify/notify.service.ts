@@ -25,7 +25,7 @@ export class NotifyService extends BaseRepository<Notify> {
     });
     return this.mailerService.sendMail({
       ...mailOptions,
-      context: data,
+      context: { screen: 'Email', ...data },
     });
   }
 }
