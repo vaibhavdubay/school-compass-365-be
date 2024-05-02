@@ -99,7 +99,7 @@ export class SchoolService extends BaseRepository<
     await this.notifyService.prepareEmail({
       template: TEMPLATE.ACCOUNT_REGISTRATION,
       to: email,
-      subject: '',
+      subject: `Welcome, ${firstName}! Confirm Your SchoolCompass365 Account & Start Exploring`,
       data: {
         userName,
         password,
