@@ -16,16 +16,12 @@ import { Auth } from '@sc-decorators/auth';
 import { Role } from '@sc-enums/role';
 import { UserProfile } from '@sc-decorators/user-profile';
 import { FileUpload } from '@sc-decorators/file-upload';
-import { ImageService } from '@sc-modules/image/image.service';
 
 @Controller('student')
 @Auth('all')
 @ApiTags('Students')
 export class StudentController {
-  constructor(
-    private readonly studentService: StudentService,
-    private readonly imageService: ImageService,
-  ) {}
+  constructor(private readonly studentService: StudentService) {}
 
   @Post()
   @Auth(Role.ADMIN, Role.SUPER_ADMIN, Role.TEACHER)
@@ -35,23 +31,11 @@ export class StudentController {
     @Body() createStudentDto: CreateStudentDto,
     @UserProfile() userProfile: UserProfile,
   ) {
-    createStudentDto['school'] = userProfile.school;
-    createStudentDto['academicYears'] = [
-      userProfile.school.currentAcademicYear,
-    ];
-
-    if (typeof createStudentDto.parentsGuardians == 'string')
-      createStudentDto['parentsGuardians'] = JSON.parse(
-        createStudentDto.parentsGuardians,
-      );
-    if (file) {
-      const user = await this.studentService.createDocument(createStudentDto);
-      this.imageService.updateProfileImage(user, file);
-      this.studentService.save(user).then();
-      return user;
-    } else {
-      return this.studentService.createDocument(createStudentDto);
-    }
+    return this.studentService.createStudentProfile(
+      createStudentDto,
+      userProfile,
+      file,
+    );
   }
 
   @Get()
@@ -71,21 +55,7 @@ export class StudentController {
     @Body() updateStudentDto: UpdateStudentDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    if (typeof updateStudentDto.parentsGuardians == 'string')
-      updateStudentDto['parentsGuardians'] = JSON.parse(
-        updateStudentDto.parentsGuardians,
-      );
-    if (file) {
-      const user = await this.studentService.updateDocument(
-        id,
-        updateStudentDto,
-      );
-      this.imageService.updateProfileImage(user, file);
-      this.studentService.save(user).then();
-      return user;
-    } else {
-      return this.studentService.updateDocument(id, updateStudentDto);
-    }
+    return this.studentService.updateStudentProfile(id, updateStudentDto, file);
   }
 
   @Delete(':id')

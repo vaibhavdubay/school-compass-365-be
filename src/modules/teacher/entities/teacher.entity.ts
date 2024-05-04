@@ -67,6 +67,12 @@ export class Teacher {
   @JoinColumn({ name: 'userId' })
   user: User;
 
+  @Column({})
+  subjects: string[];
+
+  @Column({ type: 'number' })
+  years_of_experience: number;
+
   @CreateDateColumn()
   createdAt: Date;
 

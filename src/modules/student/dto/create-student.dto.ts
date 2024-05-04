@@ -69,8 +69,6 @@ export class CreateStudentDto {
   @IsEnum(BLOOD_GROUP)
   bloodGroup: BLOOD_GROUP;
 
-  profileImage: string;
-
   parentsGuardians: ParentOrGuardian[];
   @ApiProperty({ type: 'string', format: 'binary', required: false })
   image: string;

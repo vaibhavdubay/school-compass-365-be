@@ -2199,9 +2199,6 @@
               "O-"
             ]
           },
-          "profileImage": {
-            "type": "string"
-          },
           "parentsGuardians": {
             "type": "array",
             "items": {
@@ -2222,7 +2219,6 @@
           "dateOfBirth",
           "gender",
           "bloodGroup",
-          "profileImage",
           "parentsGuardians"
         ]
       },
@@ -2409,9 +2405,6 @@
               "O+",
               "O-"
             ]
-          },
-          "profileImage": {
-            "type": "string"
           },
           "parentsGuardians": {
             "type": "array",

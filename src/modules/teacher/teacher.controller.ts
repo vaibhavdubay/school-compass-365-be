@@ -16,16 +16,12 @@ import { Auth } from '@sc-decorators/auth';
 import { Role } from '@sc-enums/role';
 import { UserProfile } from '@sc-decorators/user-profile';
 import { FileUpload } from '@sc-decorators/file-upload';
-import { ImageService } from '@sc-modules/image/image.service';
 
 @Controller('teacher')
 @ApiTags('Teacher')
 @Auth('all')
 export class TeacherController {
-  constructor(
-    private readonly teacherService: TeacherService,
-    private readonly imageService: ImageService,
-  ) {}
+  constructor(private readonly teacherService: TeacherService) {}
 
   @Post()
   @Auth(Role.ADMIN, Role.SUPER_ADMIN)
@@ -35,18 +31,11 @@ export class TeacherController {
     @Body() createTeacherDto: CreateTeacherDto,
     @UserProfile() userProfile: UserProfile,
   ) {
-    createTeacherDto['school'] = userProfile.school;
-    createTeacherDto['academicYears'] = [
-      userProfile.school.currentAcademicYear,
-    ];
-    if (file) {
-      const user = await this.teacherService.createDocument(createTeacherDto);
-      this.imageService.updateProfileImage(user, file);
-      this.teacherService.save(user).then();
-      return user;
-    } else {
-      return this.teacherService.createTeacher(createTeacherDto);
-    }
+    return this.teacherService.createTeacher(
+      createTeacherDto,
+      userProfile,
+      file,
+    );
   }
 
   @Get()
@@ -67,17 +56,7 @@ export class TeacherController {
     @Body() updateTeacherDto: UpdateTeacherDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    if (file) {
-      const user = await this.teacherService.updateDocument(
-        id,
-        updateTeacherDto,
-      );
-      this.imageService.updateProfileImage(user, file);
-      this.teacherService.save(user).then();
-      return user;
-    } else {
-      return this.teacherService.updateDocument(id, updateTeacherDto);
-    }
+    return this.teacherService.updateTeacherProfile(id, updateTeacherDto, file);
   }
 
   @Delete(':id')
