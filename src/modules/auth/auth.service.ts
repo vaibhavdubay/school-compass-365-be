@@ -49,11 +49,11 @@ export class AuthService {
   userProfile(user: User) {
     switch (user.role) {
       case Role.ADMIN:
-        return this.adminService.findOneBy({ user: user });
+        return this.adminService.findOneBy({ user: { id: user.id } });
       case Role.STUDENT:
-        return this.studentService.findOneBy({ user: user });
+        return this.studentService.findOneBy({ user: { id: user.id } });
       case Role.TEACHER:
-        return this.teacherService.findOneBy({ user: user });
+        return this.teacherService.findOneBy({ user: { id: user.id } });
       default:
         return this.superAdminObject();
     }

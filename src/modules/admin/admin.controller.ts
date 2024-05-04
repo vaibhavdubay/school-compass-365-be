@@ -1,14 +1,5 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Body, Patch, Param, Delete } from '@nestjs/common';
 import { AdminService } from './admin.service';
-import { CreateAdminDto } from './dto/create-admin.dto';
 import { UpdateAdminDto } from './dto/update-admin.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { Auth } from '@sc-decorators/auth';
@@ -19,12 +10,6 @@ import { Role } from '@sc-enums/role';
 @ApiTags('Admin')
 export class AdminController {
   constructor(private readonly adminService: AdminService) {}
-
-  @Post()
-  @Auth(Role.SUPER_ADMIN)
-  create(@Body() createAdminDto: CreateAdminDto) {
-    return this.adminService.createDocument(createAdminDto);
-  }
 
   @Get()
   findAll() {

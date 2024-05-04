@@ -1,5 +1,5 @@
 export class UpdateSchoolDto {
-  schoolName: string;
+  name: string;
   establishedYear: number;
   address1: string;
   address2: string;

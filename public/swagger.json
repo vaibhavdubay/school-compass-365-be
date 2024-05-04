@@ -371,46 +371,6 @@
       }
     },
     "/api/admin": {
-      "post": {
-        "operationId": "AdminController_create",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateAdminDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Admin"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        },
-        "tags": [
-          "Admin"
-        ],
-        "security": [
-          {
-            "bearer": []
-          },
-          {
-            "bearer": []
-          }
-        ]
-      },
       "get": {
         "operationId": "AdminController_findAll",
         "parameters": [],
@@ -1807,10 +1767,6 @@
           "userName"
         ]
       },
-      "CreateAdminDto": {
-        "type": "object",
-        "properties": {}
-      },
       "AcademicYear": {
         "type": "object",
         "properties": {
@@ -2079,11 +2035,39 @@
       },
       "UpdateAdminDto": {
         "type": "object",
-        "properties": {}
-      },
-      "CreateStudentDto": {
-        "type": "object",
-        "properties": {}
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female",
+              "other"
+            ]
+          },
+          "email": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "profileImage": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "firstName",
+          "lastName",
+          "gender",
+          "email",
+          "phoneNumber",
+          "profileImage"
+        ]
       },
       "ParentOrGuardian": {
         "type": "object",
@@ -2134,6 +2118,91 @@
           "createdAt",
           "updatedAt",
           "deletedAt"
+        ]
+      },
+      "CreateStudentDto": {
+        "type": "object",
+        "properties": {
+          "class": {
+            "type": "string"
+          },
+          "classSection": {
+            "type": "string",
+            "default": ""
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 6,
+            "maxLength": 8
+          },
+          "userName": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "pen": {
+            "type": "string"
+          },
+          "dateOfBirth": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female",
+              "other"
+            ]
+          },
+          "bloodGroup": {
+            "type": "string",
+            "enum": [
+              "A+",
+              "A-",
+              "B+",
+              "B-",
+              "AB+",
+              "AB-",
+              "O+",
+              "O-"
+            ]
+          },
+          "profileImage": {
+            "type": "string"
+          },
+          "parentsGuardians": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ParentOrGuardian"
+            }
+          }
+        },
+        "required": [
+          "class",
+          "classSection",
+          "firstName",
+          "lastName",
+          "email",
+          "password",
+          "userName",
+          "phoneNumber",
+          "pen",
+          "dateOfBirth",
+          "gender",
+          "bloodGroup",
+          "profileImage",
+          "parentsGuardians"
         ]
       },
       "Student": {
@@ -2256,7 +2325,72 @@
       },
       "UpdateStudentDto": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "class": {
+            "type": "string"
+          },
+          "classSection": {
+            "type": "string",
+            "default": ""
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 6,
+            "maxLength": 8
+          },
+          "userName": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "pen": {
+            "type": "string"
+          },
+          "dateOfBirth": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female",
+              "other"
+            ]
+          },
+          "bloodGroup": {
+            "type": "string",
+            "enum": [
+              "A+",
+              "A-",
+              "B+",
+              "B-",
+              "AB+",
+              "AB-",
+              "O+",
+              "O-"
+            ]
+          },
+          "profileImage": {
+            "type": "string"
+          },
+          "parentsGuardians": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ParentOrGuardian"
+            }
+          }
+        }
       },
       "CreateTeacherDto": {
         "type": "object",
@@ -2491,7 +2625,7 @@
       "UpdateSchoolDto": {
         "type": "object",
         "properties": {
-          "schoolName": {
+          "name": {
             "type": "string"
           },
           "establishedYear": {
@@ -2526,7 +2660,7 @@
           }
         },
         "required": [
-          "schoolName",
+          "name",
           "establishedYear",
           "address1",
           "address2",
