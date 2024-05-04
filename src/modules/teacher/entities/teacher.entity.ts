@@ -67,10 +67,10 @@ export class Teacher {
   @JoinColumn({ name: 'userId' })
   user: User;
 
-  @Column({})
+  @Column({ type: 'simple-array' })
   subjects: string[];
 
-  @Column({ type: 'number' })
+  @Column()
   years_of_experience: number;
 
   @CreateDateColumn()

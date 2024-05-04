@@ -13,8 +13,7 @@ export const UserProfile = createParamDecorator(
     try {
       const user = {
         ...(request.user?.['_doc'] ? request.user['_doc'] : request.user),
-        school: request.user.schoolId,
-        schoolId: request.user.schoolId?._id,
+        schoolId: request.user.school?.id,
       };
       return key && user[key] ? user[key] : user;
     } catch (error) {

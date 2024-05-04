@@ -950,6 +950,35 @@
         ]
       }
     },
+    "/api/school/complete": {
+      "get": {
+        "operationId": "SchoolController_completeSchool",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/School"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "tags": [
+          "School"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
     "/api/school/{id}": {
       "get": {
         "operationId": "SchoolController_findOne",
@@ -2505,6 +2534,15 @@
           "user": {
             "$ref": "#/components/schemas/User"
           },
+          "subjects": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "years_of_experience": {
+            "type": "number"
+          },
           "createdAt": {
             "format": "date-time",
             "type": "string"
@@ -2530,6 +2568,8 @@
           "profileImage",
           "profileImageUrl",
           "user",
+          "subjects",
+          "years_of_experience",
           "createdAt",
           "updatedAt",
           "deletedAt"
