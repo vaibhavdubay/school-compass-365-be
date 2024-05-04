@@ -8,7 +8,7 @@ import { Student } from '@sc-modules/student/entities/student.entity';
 import { Teacher } from '@sc-modules/teacher/entities/teacher.entity';
 
 export const UserProfile = createParamDecorator(
-  (key: string, ctx: ExecutionContext) => {
+  (key: keyof UserProfile, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest();
     try {
       const user = {

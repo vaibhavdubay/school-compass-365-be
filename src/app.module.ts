@@ -11,7 +11,7 @@ import { UsersModule } from './modules/users/users.module';
 import { StudentModule } from './modules/student/student.module';
 import { AdminModule } from './modules/admin/admin.module';
 import { TeacherModule } from './modules/teacher/teacher.module';
-import { ProfileImageModule } from '@sc-modules/profile-image/profile-image.module';
+import { ImageModule } from '@sc-modules/image/image.module';
 import { SchoolModule } from './modules/school/school.module';
 import { ClassModule } from './modules/class/class.module';
 import { ParentOrGuardiansModule } from './modules/parent-or-guardians/parent-or-guardians.module';
@@ -85,7 +85,7 @@ import { OtpModule } from './modules/otp/otp.module';
     NotifyModule,
     UsersModule,
     AuthModule,
-    ProfileImageModule,
+    ImageModule,
     StudentModule,
     AdminModule,
     TeacherModule,

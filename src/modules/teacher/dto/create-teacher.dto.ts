@@ -40,4 +40,6 @@ export class CreateTeacherDto {
   @IsNumber()
   @IsNotEmpty()
   years_of_experience: number;
+  @ApiProperty({ type: 'string', format: 'binary', required: false })
+  image: string;
 }

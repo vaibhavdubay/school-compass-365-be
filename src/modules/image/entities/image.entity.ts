@@ -3,13 +3,14 @@ import { Role } from '@sc-enums/role';
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity({ name: DB_Model.PROFILE_IMAGE })
-export class ProfileImage {
+@Entity({ name: DB_Model.IMAGE })
+export class Image {
   @PrimaryGeneratedColumn('uuid')
   id: number;
 
@@ -20,10 +21,10 @@ export class ProfileImage {
   role: Role;
 
   @Column()
-  originalName: string;
+  mimeType: string;
 
-  @Column({})
-  url: string;
+  @Column({ type: 'longblob' })
+  buffer: Buffer;
 
   @Column({})
   userId: string;
@@ -33,4 +34,7 @@ export class ProfileImage {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
 }

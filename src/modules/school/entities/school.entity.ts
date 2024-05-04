@@ -1,6 +1,7 @@
 import { DB_Model } from '@sc-enums/model';
 import { AcademicYear } from '@sc-modules/academic-year/entities/academic-year.entity';
 import { Class } from '@sc-modules/class/entities/class.entity';
+import { Image } from '@sc-modules/image/entities/image.entity';
 import {
   Column,
   CreateDateColumn,
@@ -9,6 +10,7 @@ import {
   JoinColumn,
   JoinTable,
   ManyToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -32,6 +34,13 @@ export class School {
     inverseJoinColumn: { name: 'academic_id', referencedColumnName: 'id' },
   })
   academicYears: AcademicYear[];
+  @OneToOne(() => Image, (image) => image.userId, {
+    nullable: true,
+  })
+  @JoinColumn({ name: 'schoolLogoId' })
+  logo: Image;
+  @Column({ nullable: true })
+  logoUrl: string;
   @ManyToMany(() => AcademicYear, (academicYear) => academicYear.id)
   @JoinColumn()
   currentAcademicYear: AcademicYear;

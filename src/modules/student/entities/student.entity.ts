@@ -5,7 +5,7 @@ import { DB_Model } from '@sc-enums/model';
 import { AcademicYear } from '@sc-modules/academic-year/entities/academic-year.entity';
 import { Class } from '@sc-modules/class/entities/class.entity';
 import { ParentOrGuardian } from '@sc-modules/parent-or-guardians/entities/parent-or-guardian.entity';
-import { ProfileImage } from '@sc-modules/profile-image/entities/profile-image.entity';
+import { Image } from '@sc-modules/image/entities/image.entity';
 import { School } from '@sc-modules/school/entities/school.entity';
 import { User } from '@sc-modules/users/entities/user.entity';
 import {
@@ -81,12 +81,14 @@ export class Student {
   })
   bloodGroup: BLOOD_GROUP;
 
-  @OneToOne(() => ProfileImage, (image) => image.userId, {
-    cascade: true,
-    eager: true,
+  @OneToOne(() => Image, (image) => image.userId, {
+    nullable: true,
   })
   @JoinColumn({ name: 'profileImageId' })
-  profileImage: ProfileImage;
+  profileImage: Image;
+
+  @Column({ nullable: true })
+  profileImageUrl: string;
 
   @OneToOne(() => User, { cascade: true, eager: true })
   @JoinColumn({ name: 'userId' })

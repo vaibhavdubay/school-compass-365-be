@@ -3,10 +3,9 @@ import { TeacherService } from './teacher.service';
 import { TeacherController } from './teacher.controller';
 import { Teacher } from './entities/teacher.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ProfileImageModule } from '@sc-modules/profile-image/profile-image.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Teacher]), ProfileImageModule],
+  imports: [TypeOrmModule.forFeature([Teacher])],
   controllers: [TeacherController],
   providers: [TeacherService],
   exports: [TeacherService],

@@ -454,7 +454,7 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "$ref": "#/components/schemas/UpdateAdminDto"
               }
@@ -525,7 +525,7 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "$ref": "#/components/schemas/CreateStudentDto"
               }
@@ -642,7 +642,7 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "$ref": "#/components/schemas/UpdateStudentDto"
               }
@@ -713,7 +713,7 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "$ref": "#/components/schemas/CreateTeacherDto"
               }
@@ -830,7 +830,7 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "$ref": "#/components/schemas/UpdateTeacherDto"
               }
@@ -994,7 +994,7 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "$ref": "#/components/schemas/UpdateSchoolDto"
               }
@@ -1801,6 +1801,58 @@
           "deletedAt"
         ]
       },
+      "Image": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "filename": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "super_admin",
+              "admin",
+              "teacher",
+              "student"
+            ]
+          },
+          "mimeType": {
+            "type": "string"
+          },
+          "buffer": {
+            "type": "object"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "deletedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "filename",
+          "role",
+          "mimeType",
+          "buffer",
+          "userId",
+          "createdAt",
+          "updatedAt",
+          "deletedAt"
+        ]
+      },
       "Class": {
         "type": "object",
         "properties": {
@@ -1867,6 +1919,12 @@
               "$ref": "#/components/schemas/AcademicYear"
             }
           },
+          "logo": {
+            "$ref": "#/components/schemas/Image"
+          },
+          "logoUrl": {
+            "type": "string"
+          },
           "currentAcademicYear": {
             "$ref": "#/components/schemas/AcademicYear"
           },
@@ -1911,6 +1969,8 @@
           "address1",
           "address2",
           "academicYears",
+          "logo",
+          "logoUrl",
           "currentAcademicYear",
           "city",
           "state",
@@ -1921,53 +1981,6 @@
           "createdAt",
           "updatedAt",
           "deletedAt"
-        ]
-      },
-      "ProfileImage": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "number"
-          },
-          "filename": {
-            "type": "string"
-          },
-          "role": {
-            "type": "string",
-            "enum": [
-              "super_admin",
-              "admin",
-              "teacher",
-              "student"
-            ]
-          },
-          "originalName": {
-            "type": "string"
-          },
-          "url": {
-            "type": "string"
-          },
-          "userId": {
-            "type": "string"
-          },
-          "createdAt": {
-            "format": "date-time",
-            "type": "string"
-          },
-          "updatedAt": {
-            "format": "date-time",
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "filename",
-          "role",
-          "originalName",
-          "url",
-          "userId",
-          "createdAt",
-          "updatedAt"
         ]
       },
       "Admin": {
@@ -2000,7 +2013,10 @@
             "type": "string"
           },
           "profileImage": {
-            "$ref": "#/components/schemas/ProfileImage"
+            "$ref": "#/components/schemas/Image"
+          },
+          "profileImageUrl": {
+            "type": "string"
           },
           "user": {
             "$ref": "#/components/schemas/User"
@@ -2027,6 +2043,7 @@
           "email",
           "phoneNumber",
           "profileImage",
+          "profileImageUrl",
           "user",
           "createdAt",
           "updatedAt",
@@ -2036,6 +2053,10 @@
       "UpdateAdminDto": {
         "type": "object",
         "properties": {
+          "image": {
+            "type": "string",
+            "format": "binary"
+          },
           "firstName": {
             "type": "string"
           },
@@ -2055,9 +2076,6 @@
           },
           "phoneNumber": {
             "type": "string"
-          },
-          "profileImage": {
-            "type": "string"
           }
         },
         "required": [
@@ -2065,8 +2083,7 @@
           "lastName",
           "gender",
           "email",
-          "phoneNumber",
-          "profileImage"
+          "phoneNumber"
         ]
       },
       "ParentOrGuardian": {
@@ -2123,6 +2140,10 @@
       "CreateStudentDto": {
         "type": "object",
         "properties": {
+          "image": {
+            "type": "string",
+            "format": "binary"
+          },
           "class": {
             "type": "string"
           },
@@ -2270,7 +2291,10 @@
             "type": "string"
           },
           "profileImage": {
-            "$ref": "#/components/schemas/ProfileImage"
+            "$ref": "#/components/schemas/Image"
+          },
+          "profileImageUrl": {
+            "type": "string"
           },
           "user": {
             "$ref": "#/components/schemas/User"
@@ -2315,6 +2339,7 @@
           "gender",
           "bloodGroup",
           "profileImage",
+          "profileImageUrl",
           "user",
           "academicYears",
           "parentsGuardians",
@@ -2326,6 +2351,10 @@
       "UpdateStudentDto": {
         "type": "object",
         "properties": {
+          "image": {
+            "type": "string",
+            "format": "binary"
+          },
           "class": {
             "type": "string"
           },
@@ -2399,6 +2428,10 @@
             "type": "string",
             "example": "Teacher@12"
           },
+          "image": {
+            "type": "string",
+            "format": "binary"
+          },
           "firstName": {
             "type": "string"
           },
@@ -2471,7 +2504,10 @@
             }
           },
           "profileImage": {
-            "$ref": "#/components/schemas/ProfileImage"
+            "$ref": "#/components/schemas/Image"
+          },
+          "profileImageUrl": {
+            "type": "string"
           },
           "user": {
             "$ref": "#/components/schemas/User"
@@ -2499,6 +2535,7 @@
           "phoneNumber",
           "academicYears",
           "profileImage",
+          "profileImageUrl",
           "user",
           "createdAt",
           "updatedAt",
@@ -2511,6 +2548,10 @@
           "password": {
             "type": "string",
             "example": "Teacher@12"
+          },
+          "image": {
+            "type": "string",
+            "format": "binary"
           },
           "firstName": {
             "type": "string"
@@ -2625,11 +2666,12 @@
       "UpdateSchoolDto": {
         "type": "object",
         "properties": {
+          "image": {
+            "type": "string",
+            "format": "binary"
+          },
           "name": {
             "type": "string"
-          },
-          "establishedYear": {
-            "type": "number"
           },
           "address1": {
             "type": "string"
@@ -2657,19 +2699,25 @@
             "items": {
               "type": "string"
             }
+          },
+          "email": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
           }
         },
         "required": [
           "name",
-          "establishedYear",
           "address1",
-          "address2",
           "city",
           "state",
           "pincode",
           "schoolDISECode",
           "schoolCode",
-          "classes"
+          "classes",
+          "email",
+          "phoneNumber"
         ]
       },
       "CreateClassDto": {

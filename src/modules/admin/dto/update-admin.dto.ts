@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { GENDER } from '@sc-enums/gender';
 import {
   IsEmail,
@@ -23,5 +24,6 @@ export class UpdateAdminDto {
   @IsNotEmpty()
   @IsPhoneNumber('IN')
   phoneNumber: string;
-  profileImage: string;
+  @ApiProperty({ type: 'string', format: 'binary', required: false })
+  image: string;
 }

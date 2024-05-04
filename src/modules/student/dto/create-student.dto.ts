@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { BLOOD_GROUP } from '@sc-enums/bloodGroup';
 import { GENDER } from '@sc-enums/gender';
 import { ParentOrGuardian } from '@sc-modules/parent-or-guardians/entities/parent-or-guardian.entity';
@@ -71,4 +72,6 @@ export class CreateStudentDto {
   profileImage: string;
 
   parentsGuardians: ParentOrGuardian[];
+  @ApiProperty({ type: 'string', format: 'binary', required: false })
+  image: string;
 }
