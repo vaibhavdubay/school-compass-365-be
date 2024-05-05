@@ -8,6 +8,8 @@ import { ImageService } from '@sc-modules/image/image.service';
 import { UserProfile } from '@sc-decorators/user-profile';
 import { User } from '@sc-modules/users/entities/user.entity';
 import { Role } from '@sc-enums/role';
+import { TEMPLATE } from '@sc-enums/template';
+import { NotifyService } from '@sc-modules/notify/notify.service';
 
 @Injectable()
 export class StudentService extends BaseRepository<
@@ -18,6 +20,7 @@ export class StudentService extends BaseRepository<
   constructor(
     readonly dataSource: DataSource,
     private readonly imageService: ImageService,
+    private readonly notifyService: NotifyService,
   ) {
     super(Student, dataSource.createEntityManager());
   }
@@ -44,6 +47,18 @@ export class StudentService extends BaseRepository<
       user,
       school: _user.school,
       academicYears: [_user.school.currentAcademicYear],
+    });
+    await this.notifyService.prepareEmail({
+      template: TEMPLATE.ACCOUNT_REGISTRATION,
+      to: dto.email,
+      subject: `School Compass 365 Login Credentials`,
+      data: {
+        userName: dto.userName,
+        password: dto.password,
+        schoolName: _user.school.name,
+        role: Role.STUDENT,
+        name: `${dto.firstName} ${dto.lastName}`,
+      },
     });
     if (file) {
       const studentProfile = await this.save(student);
