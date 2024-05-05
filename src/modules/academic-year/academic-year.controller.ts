@@ -11,8 +11,11 @@ import { AcademicYearService } from './academic-year.service';
 import { CreateAcademicYearDto } from './dto/create-academic-year.dto';
 import { UpdateAcademicYearDto } from './dto/update-academic-year.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { Auth } from '@sc-decorators/auth';
+import { Role } from '@sc-enums/role';
 
 @Controller('academic-year')
+@Auth(Role.SUPER_ADMIN)
 @ApiTags('Academic Year')
 export class AcademicYearController {
   constructor(private readonly academicYearService: AcademicYearService) {}

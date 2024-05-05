@@ -11,9 +11,11 @@ import { ParentOrGuardiansService } from './parent-or-guardians.service';
 import { CreateParentOrGuardianDto } from './dto/create-parent-or-guardian.dto';
 import { UpdateParentOrGuardianDto } from './dto/update-parent-or-guardian.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { Auth } from '@sc-decorators/auth';
 
 @Controller('parent-or-guardians')
 @ApiTags('Parent & Guardians')
+@Auth('all')
 export class ParentOrGuardiansController {
   constructor(
     private readonly parentOrGuardiansService: ParentOrGuardiansService,

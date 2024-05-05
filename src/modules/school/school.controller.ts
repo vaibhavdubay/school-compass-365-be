@@ -15,9 +15,11 @@ import { ApiTags } from '@nestjs/swagger';
 import { FileUpload } from '@sc-decorators/file-upload';
 import { UserProfile } from '@sc-decorators/user-profile';
 import { ImageService } from '@sc-modules/image/image.service';
+import { Auth } from '@sc-decorators/auth';
 
 @Controller('school')
 @ApiTags('School')
+@Auth('all')
 export class SchoolController {
   constructor(
     private readonly schoolService: SchoolService,

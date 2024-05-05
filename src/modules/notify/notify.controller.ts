@@ -2,8 +2,12 @@ import { Controller, Get, Param, Delete } from '@nestjs/common';
 import { NotifyService } from './notify.service';
 import { NOTIFICATION_STATUS } from '@sc-enums/notificationStatus';
 import { UserProfile } from '@sc-decorators/user-profile';
+import { ApiTags } from '@nestjs/swagger';
+import { Auth } from '@sc-decorators/auth';
 
-@Controller('notify')
+@Controller('notification')
+@Auth('all')
+@ApiTags('Notifications')
 export class NotifyController {
   constructor(private readonly notifyService: NotifyService) {}
 

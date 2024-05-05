@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "paths": {
-    "/api/notify": {
+    "/api/notification": {
       "get": {
         "operationId": "NotifyController_findAll",
         "parameters": [],
@@ -18,11 +18,22 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
           }
-        }
+        },
+        "tags": [
+          "Notifications"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
       }
     },
-    "/api/notify/{id}": {
+    "/api/notification/{id}": {
       "get": {
         "operationId": "NotifyController_findOne",
         "parameters": [
@@ -45,8 +56,19 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
           }
-        }
+        },
+        "tags": [
+          "Notifications"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
       },
       "delete": {
         "operationId": "NotifyController_remove",
@@ -63,8 +85,19 @@
         "responses": {
           "200": {
             "description": ""
+          },
+          "401": {
+            "description": "Unauthorized"
           }
-        }
+        },
+        "tags": [
+          "Notifications"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
       }
     },
     "/api/users": {
@@ -921,10 +954,18 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         },
         "tags": [
           "School"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
         ]
       },
       "get": {
@@ -940,27 +981,6 @@
                   "items": {
                     "$ref": "#/components/schemas/School"
                   }
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "School"
-        ]
-      }
-    },
-    "/api/school/complete": {
-      "get": {
-        "operationId": "SchoolController_completeSchool",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/School"
                 }
               }
             }
@@ -1002,10 +1022,18 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         },
         "tags": [
           "School"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
         ]
       },
       "patch": {
@@ -1040,10 +1068,18 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         },
         "tags": [
           "School"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
         ]
       },
       "delete": {
@@ -1068,10 +1104,18 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         },
         "tags": [
           "School"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
         ]
       }
     },
@@ -1241,10 +1285,18 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         },
         "tags": [
           "Parent & Guardians"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
         ]
       },
       "get": {
@@ -1263,10 +1315,18 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         },
         "tags": [
           "Parent & Guardians"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
         ]
       }
     },
@@ -1293,10 +1353,18 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         },
         "tags": [
           "Parent & Guardians"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
         ]
       },
       "patch": {
@@ -1331,10 +1399,18 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         },
         "tags": [
           "Parent & Guardians"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
         ]
       },
       "delete": {
@@ -1359,10 +1435,18 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         },
         "tags": [
           "Parent & Guardians"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
         ]
       }
     },
@@ -1390,10 +1474,18 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         },
         "tags": [
           "Academic Year"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
         ]
       },
       "get": {
@@ -1412,10 +1504,18 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         },
         "tags": [
           "Academic Year"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
         ]
       }
     },
@@ -1442,10 +1542,18 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         },
         "tags": [
           "Academic Year"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
         ]
       },
       "patch": {
@@ -1480,10 +1588,18 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         },
         "tags": [
           "Academic Year"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
         ]
       },
       "delete": {
@@ -1508,10 +1624,260 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         },
         "tags": [
           "Academic Year"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/student-attendance": {
+      "post": {
+        "operationId": "StudentAttendanceController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStudentAttendanceDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudentAttendance"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "tags": [
+          "Student Attendance"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "StudentAttendanceController_findAll",
+        "parameters": [
+          {
+            "required": false,
+            "name": "studentId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "classId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "type",
+            "in": "query",
+            "schema": {
+              "enum": [
+                "present",
+                "absent",
+                "late",
+                "leave"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "view",
+            "in": "query",
+            "schema": {
+              "enum": [
+                "today",
+                "week",
+                "month"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "month",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "year",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/StudentAttendance"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "tags": [
+          "Student Attendance"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/student-attendance/{id}": {
+      "get": {
+        "operationId": "StudentAttendanceController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudentAttendance"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "tags": [
+          "Student Attendance"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "StudentAttendanceController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStudentAttendanceDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudentAttendance"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "tags": [
+          "Student Attendance"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "StudentAttendanceController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "tags": [
+          "Student Attendance"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
         ]
       }
     }
@@ -2836,6 +3202,104 @@
       "UpdateAcademicYearDto": {
         "type": "object",
         "properties": {}
+      },
+      "CreateStudentAttendanceDto": {
+        "type": "object",
+        "properties": {
+          "studentId": {
+            "type": "string"
+          },
+          "classId": {
+            "type": "string"
+          },
+          "classScheduleId": {
+            "type": "string"
+          },
+          "attendance": {
+            "type": "string",
+            "enum": [
+              "present",
+              "absent",
+              "late",
+              "leave"
+            ]
+          }
+        },
+        "required": [
+          "studentId",
+          "classId",
+          "attendance"
+        ]
+      },
+      "StudentAttendance": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "school": {
+            "$ref": "#/components/schemas/School"
+          },
+          "student": {
+            "$ref": "#/components/schemas/Student"
+          },
+          "academicYear": {
+            "$ref": "#/components/schemas/AcademicYear"
+          },
+          "class": {
+            "$ref": "#/components/schemas/Class"
+          },
+          "attendance": {
+            "enum": [
+              "present",
+              "absent",
+              "late",
+              "leave"
+            ],
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "school",
+          "student",
+          "academicYear",
+          "class",
+          "attendance",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "UpdateStudentAttendanceDto": {
+        "type": "object",
+        "properties": {
+          "studentId": {
+            "type": "string"
+          },
+          "classId": {
+            "type": "string"
+          },
+          "classScheduleId": {
+            "type": "string"
+          },
+          "attendance": {
+            "type": "string",
+            "enum": [
+              "present",
+              "absent",
+              "late",
+              "leave"
+            ]
+          }
+        }
       }
     }
   }

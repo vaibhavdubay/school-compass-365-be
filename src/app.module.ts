@@ -20,6 +20,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { NotifyModule } from '@sc-modules/notify/notify.module';
 import { OtpModule } from './modules/otp/otp.module';
+import { StudentAttendanceModule } from './modules/student-attendance/student-attendance.module';
 
 @Module({
   imports: [
@@ -94,6 +95,7 @@ import { OtpModule } from './modules/otp/otp.module';
     ParentOrGuardiansModule,
     AcademicYearModule,
     OtpModule,
+    StudentAttendanceModule,
   ],
 })
 export class AppModule {}

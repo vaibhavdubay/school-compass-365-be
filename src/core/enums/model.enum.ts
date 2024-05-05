@@ -9,6 +9,7 @@ export enum DB_Model {
   IMAGE = 'image',
   SCHOOL = 'school',
   STUDENT = 'student',
+  STUDENT_ATTENDANCE = 'student_attendance',
   TEACHER = 'teacher',
   USER = 'user',
 }
