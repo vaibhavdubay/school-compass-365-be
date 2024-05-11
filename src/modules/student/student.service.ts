@@ -45,8 +45,9 @@ export class StudentService extends BaseRepository<
     Object.assign(student, {
       ...dto,
       user,
-      school: _user.school,
-      academicYears: [_user.school.currentAcademicYear],
+      class: dto.classId,
+      school: _user.school.id,
+      academicYears: [_user.school.currentAcademicYear.id],
     });
     await this.notifyService.prepareEmail({
       template: TEMPLATE.ACCOUNT_REGISTRATION,
@@ -78,7 +79,10 @@ export class StudentService extends BaseRepository<
     if (typeof dto.parentsGuardians == 'string')
       dto['parentsGuardians'] = JSON.parse(dto.parentsGuardians);
     if (file) {
-      const user = await this.updateDocument(id, dto);
+      const user = await this.updateDocument(id, {
+        ...dto,
+        class: dto.classId as any,
+      });
       this.imageService.updateProfileImage(user, file);
       this.save(user).then();
       return user;

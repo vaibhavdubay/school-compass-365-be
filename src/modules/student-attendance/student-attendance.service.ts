@@ -12,6 +12,7 @@ import {
 import { UserProfile } from '@sc-decorators/user-profile';
 import { Role } from '@sc-enums/role';
 import { ATTENDANCE_STATUS } from '@sc-enums/attendanceStatus';
+import { QueryStudentAttendance } from './dto/query-student-attendance.dto';
 
 @Injectable()
 export class StudentAttendanceService extends BaseRepository<
@@ -23,7 +24,10 @@ export class StudentAttendanceService extends BaseRepository<
     super(StudentAttendance, dataSource.createEntityManager());
   }
 
-  findAttendance(user: UserProfile, _filter: { [k: string]: string } = {}) {
+  findAttendance(
+    user: UserProfile,
+    _filter: Partial<QueryStudentAttendance> = {},
+  ) {
     const { studentId, classId, type, view, month, year, ...mainFilters } =
       _filter;
     const filter: FindOptionsWhere<StudentAttendance> = {

@@ -45,8 +45,8 @@ export class TeacherService extends BaseRepository<
     Object.assign(teacher, {
       ...dto,
       user,
-      school: _user.school,
-      academicYears: [_user.school.currentAcademicYear],
+      school: _user.school.id,
+      academicYears: [_user.school.currentAcademicYear.id],
     });
     await this.notifyService.prepareEmail({
       template: TEMPLATE.ACCOUNT_REGISTRATION,

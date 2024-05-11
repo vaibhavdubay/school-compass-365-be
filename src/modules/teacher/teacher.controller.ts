@@ -40,7 +40,8 @@ export class TeacherController {
 
   @Get()
   findAll(@UserProfile() userProfile: UserProfile) {
-    return this.teacherService.find({ where: { school: userProfile.school } });
+    const id = userProfile.school.id;
+    return this.teacherService.find({ where: id ? { school: { id } } : {} });
   }
 
   @Get(':id')

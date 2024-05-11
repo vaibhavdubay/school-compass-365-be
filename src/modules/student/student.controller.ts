@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UploadedFile,
+  Query,
 } from '@nestjs/common';
 import { StudentService } from './student.service';
 import { CreateStudentDto } from './dto/create-student.dto';
@@ -16,6 +17,7 @@ import { Auth } from '@sc-decorators/auth';
 import { Role } from '@sc-enums/role';
 import { UserProfile } from '@sc-decorators/user-profile';
 import { FileUpload } from '@sc-decorators/file-upload';
+import { QueryStudent } from './dto/query-student.dto';
 
 @Controller('student')
 @Auth('all')
@@ -39,8 +41,16 @@ export class StudentController {
   }
 
   @Get()
-  findAll(@UserProfile() userProfile: UserProfile) {
-    return this.studentService.find({ where: { school: userProfile.school } });
+  findAll(
+    @UserProfile() userProfile: UserProfile,
+    @Query() query: QueryStudent,
+  ) {
+    const id = userProfile.school.id;
+    const filter = id ? { school: { id } } : {};
+    filter['class'] = { id: query.classId };
+    delete query.classId;
+    Object.assign(filter, query);
+    return this.studentService.find({ where: filter });
   }
 
   @Get(':id')

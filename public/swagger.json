@@ -594,7 +594,66 @@
       },
       "get": {
         "operationId": "StudentController_findAll",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "classId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "classSection",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "",
+              "type": "string"
+            }
+          },
+          {
+            "name": "firstName",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "lastName",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "email",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pen",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dateOfBirth",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "date-time",
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -1703,24 +1762,24 @@
         "operationId": "StudentAttendanceController_findAll",
         "parameters": [
           {
-            "required": false,
             "name": "studentId",
+            "required": false,
             "in": "query",
             "schema": {
               "type": "string"
             }
           },
           {
-            "required": false,
             "name": "classId",
+            "required": false,
             "in": "query",
             "schema": {
               "type": "string"
             }
           },
           {
-            "required": false,
             "name": "type",
+            "required": false,
             "in": "query",
             "schema": {
               "enum": [
@@ -1733,8 +1792,8 @@
             }
           },
           {
-            "required": false,
             "name": "view",
+            "required": false,
             "in": "query",
             "schema": {
               "enum": [
@@ -1746,40 +1805,18 @@
             }
           },
           {
-            "required": false,
             "name": "month",
+            "required": false,
             "in": "query",
             "schema": {
               "type": "string"
             }
           },
           {
-            "required": false,
             "name": "year",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
             "required": false,
-            "name": "classScheduleId",
             "in": "query",
             "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "required": false,
-            "name": "attendance",
-            "in": "query",
-            "schema": {
-              "enum": [
-                "present",
-                "absent",
-                "late",
-                "leave"
-              ],
               "type": "string"
             }
           }
@@ -2583,7 +2620,7 @@
             "type": "string",
             "format": "binary"
           },
-          "class": {
+          "classId": {
             "type": "string"
           },
           "classSection": {
@@ -2646,7 +2683,7 @@
           }
         },
         "required": [
-          "class",
+          "classId",
           "classSection",
           "firstName",
           "lastName",
@@ -2790,7 +2827,7 @@
             "type": "string",
             "format": "binary"
           },
-          "class": {
+          "classId": {
             "type": "string"
           },
           "classSection": {

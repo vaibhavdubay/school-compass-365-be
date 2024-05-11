@@ -14,6 +14,7 @@ import { Auth } from '@sc-decorators/auth';
 import { Role } from '@sc-enums/role';
 import { FileUpload } from '@sc-decorators/file-upload';
 import { ImageService } from '@sc-modules/image/image.service';
+import { UserProfile } from '@sc-decorators/user-profile';
 
 @Controller('admin')
 @Auth(Role.ADMIN, Role.SUPER_ADMIN)
@@ -25,8 +26,15 @@ export class AdminController {
   ) {}
 
   @Get()
-  findAll() {
-    return this.adminService.find();
+  findAll(@UserProfile() userProfile: UserProfile) {
+    const schoolId = userProfile.school.id;
+    return this.adminService.find({
+      where: schoolId
+        ? {
+            school: { id: schoolId },
+          }
+        : {},
+    });
   }
 
   @Get(':id')

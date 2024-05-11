@@ -14,7 +14,7 @@ import { UpdateStudentAttendanceDto } from './dto/update-student-attendance.dto'
 import { Auth } from '@sc-decorators/auth';
 import { UserProfile } from '@sc-decorators/user-profile';
 import { School } from '@sc-modules/school/entities/school.entity';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import { QueryStudentAttendance } from './dto/query-student-attendance.dto';
 
 @Controller('student-attendance')
@@ -38,13 +38,11 @@ export class StudentAttendanceController {
   }
 
   @Get()
-  @ApiQuery({
-    type: QueryStudentAttendance,
-  })
   findAll(
     @UserProfile() user: UserProfile,
-    @Query() filter: { [k: string]: string },
+    @Query() filter: QueryStudentAttendance,
   ) {
+    filter['school'] = { id: user.school.id };
     return this.studentAttendanceService.findAttendance(user, filter);
   }
 

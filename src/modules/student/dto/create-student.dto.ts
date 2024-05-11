@@ -16,7 +16,7 @@ import {
 export class CreateStudentDto {
   @IsNotEmpty()
   @IsString()
-  class: string;
+  classId: string;
 
   @IsString()
   classSection: string = '';
