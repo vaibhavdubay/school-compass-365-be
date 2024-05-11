@@ -13,3 +13,11 @@ export enum DB_Model {
   TEACHER = 'teacher',
   USER = 'user',
 }
+export enum Supporter_Model {
+  USER_NOTIFY = 'user_notify',
+  SCHOOL_ACADEMIC = 'school_academic',
+  SCHOOL_CLASS = 'school_class',
+  STUDENTS_ACADEMICS = 'students_academics',
+  STUDENT_WITH_PARENTS_GUARDIANS = 'students_with_parents_or_guardians',
+  TEACHER_ACADEMICS = 'teacher_academics',
+}

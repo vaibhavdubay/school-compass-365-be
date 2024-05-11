@@ -1,5 +1,5 @@
 import { GENDER } from '@sc-enums/gender';
-import { DB_Model } from '@sc-enums/model';
+import { DB_Model, Supporter_Model } from '@sc-enums/model';
 import { AcademicYear } from '@sc-modules/academic-year/entities/academic-year.entity';
 import { Image } from '@sc-modules/image/entities/image.entity';
 import { School } from '@sc-modules/school/entities/school.entity';
@@ -50,7 +50,7 @@ export class Teacher {
 
   @ManyToMany(() => AcademicYear, { eager: true })
   @JoinTable({
-    name: 'teacher_academics',
+    name: Supporter_Model.TEACHER_ACADEMICS,
     joinColumn: { name: 'teacher_id', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'academic_id', referencedColumnName: 'id' },
   })

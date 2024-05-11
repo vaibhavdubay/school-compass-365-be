@@ -1,4 +1,4 @@
-import { DB_Model } from '@sc-enums/model';
+import { DB_Model, Supporter_Model } from '@sc-enums/model';
 import { AcademicYear } from '@sc-modules/academic-year/entities/academic-year.entity';
 import { Class } from '@sc-modules/class/entities/class.entity';
 import { Image } from '@sc-modules/image/entities/image.entity';
@@ -29,7 +29,7 @@ export class School {
   address2: string;
   @ManyToMany(() => AcademicYear)
   @JoinTable({
-    name: 'school_academic',
+    name: Supporter_Model.SCHOOL_ACADEMIC,
     joinColumn: { name: 'school_id', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'academic_id', referencedColumnName: 'id' },
   })
@@ -54,9 +54,9 @@ export class School {
   schoolDISECode: string;
   @Column({ unique: true })
   schoolCode: string;
-  @ManyToMany(() => Class)
+  @ManyToMany(() => Class, { eager: true })
   @JoinTable({
-    name: 'school_class',
+    name: Supporter_Model.SCHOOL_CLASS,
     joinColumn: { name: 'school_id', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'class_id', referencedColumnName: 'id' },
   })

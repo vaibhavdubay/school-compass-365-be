@@ -16,6 +16,8 @@ import { FileUpload } from '@sc-decorators/file-upload';
 import { UserProfile } from '@sc-decorators/user-profile';
 import { ImageService } from '@sc-modules/image/image.service';
 import { Auth } from '@sc-decorators/auth';
+import { School } from './entities/school.entity';
+import { Role } from '@sc-enums/role';
 
 @Controller('school')
 @ApiTags('School')
@@ -32,8 +34,17 @@ export class SchoolController {
   }
 
   @Get()
-  findAll() {
-    return this.schoolService.find();
+  findAll(@UserProfile() user: UserProfile) {
+    const filter =
+      user.user.role == Role.SUPER_ADMIN ? {} : { id: user.school.id };
+    return this.schoolService.find({
+      where: filter,
+    });
+  }
+
+  @Get('completeAcademicYear')
+  completeAcademicYear(@UserProfile('school') school: School) {
+    this.schoolService.completeAcademicYear(school.id);
   }
 
   @Get(':id')

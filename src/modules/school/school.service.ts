@@ -12,6 +12,7 @@ import { Admin } from '@sc-modules/admin/entities/admin.entity';
 import { AcademicYearService } from '@sc-modules/academic-year/academic-year.service';
 import { NotifyService } from '@sc-modules/notify/notify.service';
 import { TEMPLATE } from '@sc-enums/template';
+import { completeAcademicYear } from 'src/core/queries/complete-academic-year.query';
 
 @Injectable()
 export class SchoolService extends BaseRepository<
@@ -109,5 +110,13 @@ export class SchoolService extends BaseRepository<
       },
     });
     return this.adminService.save(admin);
+  }
+
+  async completeAcademicYear(schoolId: string) {
+    const currentAcademicYear = await this.academicService.findOneBy({
+      current: true,
+    });
+    await this.save({ id: schoolId, currentAcademicYear });
+    return this.query(completeAcademicYear(schoolId, currentAcademicYear.id));
   }
 }

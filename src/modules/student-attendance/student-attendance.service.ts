@@ -24,10 +24,12 @@ export class StudentAttendanceService extends BaseRepository<
   }
 
   findAttendance(user: UserProfile, _filter: { [k: string]: string } = {}) {
-    const { studentId, classId, type, view, month, year } = _filter;
+    const { studentId, classId, type, view, month, year, ...mainFilters } =
+      _filter;
     const filter: FindOptionsWhere<StudentAttendance> = {
       school: { id: user.school.id },
       academicYear: { id: user.school.currentAcademicYear.id },
+      ...mainFilters,
     };
     if (classId) filter['class'] = { id: classId };
     if (user.user.role == Role.STUDENT || studentId)

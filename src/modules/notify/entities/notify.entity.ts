@@ -1,4 +1,4 @@
-import { DB_Model } from '@sc-enums/model';
+import { DB_Model, Supporter_Model } from '@sc-enums/model';
 import { NOTIFICATION_STATUS } from '@sc-enums/notificationStatus';
 import { User } from '@sc-modules/users/entities/user.entity';
 import {
@@ -19,7 +19,7 @@ export class Notify {
 
   @ManyToMany(() => User)
   @JoinTable({
-    name: 'user_notify',
+    name: Supporter_Model.USER_NOTIFY,
     joinColumn: { name: 'notification_id', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'user_id', referencedColumnName: 'id' },
   })

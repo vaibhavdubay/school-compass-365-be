@@ -999,6 +999,28 @@
         ]
       }
     },
+    "/api/school/completeAcademicYear": {
+      "get": {
+        "operationId": "SchoolController_completeAcademicYear",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "tags": [
+          "School"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
     "/api/school/{id}": {
       "get": {
         "operationId": "SchoolController_findOne",
@@ -1736,6 +1758,28 @@
             "name": "year",
             "in": "query",
             "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "classScheduleId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "attendance",
+            "in": "query",
+            "schema": {
+              "enum": [
+                "present",
+                "absent",
+                "late",
+                "leave"
+              ],
               "type": "string"
             }
           }
