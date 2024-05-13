@@ -15,7 +15,7 @@ export class ImageController {
   ) {
     const image = await this.imagesService.getImage(cat, name);
     res.set({
-      'Content-Type': image.mimeType,
+      'Content-Type': 'image/webp',
       'Content-Length': image.buffer.length,
     });
     res.end(image.buffer);

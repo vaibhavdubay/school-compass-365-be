@@ -35,20 +35,20 @@ export class ImageService {
       };
       const mainObj = this.imageModel.create();
       Object.assign(mainObj, createObj);
-      return this.imageModel.save(mainObj);
+      return await this.imageModel.save(mainObj);
     } else {
       profileImage.mimeType = image.mimetype;
       profileImage.buffer = buffer;
       profileImage.updatedAt = new Date();
     }
-    return this.imageModel.save(profileImage);
+    return await this.imageModel.save(profileImage);
   }
 
   async updateProfileImage(user: UserProfile, file: Express.Multer.File) {
     const fileName = `/profile/${user.user.role}_${user.user.id}.webp`;
+    user['profileImageUrl'] = fileName;
     const profileImage = await this.saveImage(user, fileName, file);
     user['profileImage'] = profileImage;
-    user['profileImageUrl'] = profileImage.filename;
     return user;
   }
 

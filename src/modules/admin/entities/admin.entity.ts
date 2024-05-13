@@ -46,7 +46,17 @@ export class Admin {
   @JoinColumn({ name: 'profileImageId' })
   profileImage: Image;
 
-  @Column({ nullable: true })
+  @Column({
+    nullable: true,
+    transformer: {
+      to(value) {
+        return value;
+      },
+      from(value) {
+        return value ? `images${value}` : null;
+      },
+    },
+  })
   profileImageUrl: string;
 
   @OneToOne(() => User, { cascade: true, eager: true })
