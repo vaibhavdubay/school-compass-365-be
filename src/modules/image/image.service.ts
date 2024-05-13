@@ -45,7 +45,7 @@ export class ImageService {
   }
 
   async updateProfileImage(user: UserProfile, file: Express.Multer.File) {
-    const fileName = `/profile/${user.user.role}-${user.user.id}.webp`;
+    const fileName = `/profile/${user.user.role}_${user.user.id}.webp`;
     const profileImage = await this.saveImage(user, fileName, file);
     user['profileImage'] = profileImage;
     user['profileImageUrl'] = profileImage.filename;
@@ -54,5 +54,13 @@ export class ImageService {
 
   private async optimizeSaveImage(buffer: Buffer) {
     return await Sharp(buffer).webp().toBuffer();
+  }
+
+  getImage(cat: string, name: string) {
+    return this.imageModel.findOne({
+      where: {
+        filename: `/${cat}/${name}`,
+      },
+    });
   }
 }

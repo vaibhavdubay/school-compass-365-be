@@ -21,7 +21,7 @@ async function bootstrap() {
   const port = configService.get('PORT');
   const staticFolders = configService.get<string>('STATIC_FOLDERS').split(',');
 
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix('api', { exclude: ['image/:category/:name'] });
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new GlobalExceptionFilter());
   staticFolders.forEach((folder) => {

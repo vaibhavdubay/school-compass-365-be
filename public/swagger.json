@@ -989,6 +989,37 @@
         ]
       }
     },
+    "/image/{category}/{name}": {
+      "get": {
+        "operationId": "ImageController_getImage",
+        "parameters": [
+          {
+            "name": "category",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Image"
+        ]
+      }
+    },
     "/api/school": {
       "post": {
         "operationId": "SchoolController_create",
