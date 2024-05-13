@@ -3,7 +3,7 @@ import {
   Get,
   Post,
   Body,
-  Patch,
+  Put,
   Param,
   Delete,
   UploadedFile,
@@ -49,7 +49,7 @@ export class TeacherController {
     return this.teacherService.findById(id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   @Auth(Role.ADMIN, Role.SUPER_ADMIN, Role.TEACHER)
   @FileUpload(UpdateTeacherDto, 'image')
   async update(

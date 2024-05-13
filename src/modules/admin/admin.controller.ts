@@ -2,7 +2,7 @@ import {
   Controller,
   Get,
   Body,
-  Patch,
+  Put,
   Param,
   Delete,
   UploadedFile,
@@ -42,7 +42,7 @@ export class AdminController {
     return this.adminService.findById(id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   @FileUpload(UpdateAdminDto, 'image')
   async update(
     @UploadedFile() file: Express.Multer.File,

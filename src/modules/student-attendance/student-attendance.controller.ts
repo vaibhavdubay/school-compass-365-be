@@ -3,7 +3,7 @@ import {
   Get,
   Post,
   Body,
-  Patch,
+  Put,
   Param,
   Delete,
   Query,
@@ -51,7 +51,7 @@ export class StudentAttendanceController {
     return this.studentAttendanceService.findById(id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(
     @Param('id') id: string,
     @Body() updateStudentAttendanceDto: UpdateStudentAttendanceDto,

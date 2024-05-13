@@ -206,7 +206,7 @@
           }
         ]
       },
-      "patch": {
+      "put": {
         "operationId": "UsersController_update",
         "parameters": [
           {
@@ -472,7 +472,7 @@
           }
         ]
       },
-      "patch": {
+      "put": {
         "operationId": "AdminController_update",
         "parameters": [
           {
@@ -719,7 +719,7 @@
           }
         ]
       },
-      "patch": {
+      "put": {
         "operationId": "StudentController_update",
         "parameters": [
           {
@@ -907,7 +907,7 @@
           }
         ]
       },
-      "patch": {
+      "put": {
         "operationId": "TeacherController_update",
         "parameters": [
           {
@@ -1117,7 +1117,7 @@
           }
         ]
       },
-      "patch": {
+      "put": {
         "operationId": "SchoolController_update",
         "parameters": [
           {
@@ -1282,7 +1282,7 @@
           "Class"
         ]
       },
-      "patch": {
+      "put": {
         "operationId": "ClassController_update",
         "parameters": [
           {
@@ -1448,7 +1448,7 @@
           }
         ]
       },
-      "patch": {
+      "put": {
         "operationId": "ParentOrGuardiansController_update",
         "parameters": [
           {
@@ -1637,7 +1637,7 @@
           }
         ]
       },
-      "patch": {
+      "put": {
         "operationId": "AcademicYearController_update",
         "parameters": [
           {
@@ -1886,7 +1886,7 @@
           }
         ]
       },
-      "patch": {
+      "put": {
         "operationId": "StudentAttendanceController_update",
         "parameters": [
           {
@@ -2380,6 +2380,12 @@
           "name": {
             "type": "string"
           },
+          "email": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
           "establishedYear": {
             "type": "number"
           },
@@ -2441,6 +2447,8 @@
         "required": [
           "id",
           "name",
+          "email",
+          "phoneNumber",
           "establishedYear",
           "address1",
           "address2",

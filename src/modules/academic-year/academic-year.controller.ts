@@ -3,7 +3,7 @@ import {
   Get,
   Post,
   Body,
-  Patch,
+  Put,
   Param,
   Delete,
 } from '@nestjs/common';
@@ -35,7 +35,7 @@ export class AcademicYearController {
     return this.academicYearService.findById(id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(
     @Param('id') id: string,
     @Body() updateAcademicYearDto: UpdateAcademicYearDto,

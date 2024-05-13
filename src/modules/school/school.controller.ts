@@ -6,7 +6,7 @@ import {
   Param,
   Delete,
   UploadedFile,
-  Patch,
+  Put,
 } from '@nestjs/common';
 import { SchoolService } from './school.service';
 import { CreateSchoolDto } from './dto/create-school.dto';
@@ -52,7 +52,7 @@ export class SchoolController {
     return this.schoolService.findById(id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   @FileUpload(UpdateSchoolDto, 'image')
   async update(
     @UploadedFile() file: Express.Multer.File,

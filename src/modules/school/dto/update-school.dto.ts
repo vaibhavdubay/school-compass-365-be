@@ -44,7 +44,6 @@ export class UpdateSchoolDto {
 
   @IsArray()
   @IsNotEmpty({ each: true })
-  @IsString({ each: true })
   classes: string[];
 
   @IsNotEmpty()

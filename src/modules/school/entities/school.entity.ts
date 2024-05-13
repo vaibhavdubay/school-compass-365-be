@@ -21,6 +21,10 @@ export class School {
   id: string;
   @Column()
   name: string;
+  @Column()
+  email: string;
+  @Column()
+  phoneNumber: string;
   @Column({ default: new Date().getFullYear() })
   establishedYear: number;
   @Column()

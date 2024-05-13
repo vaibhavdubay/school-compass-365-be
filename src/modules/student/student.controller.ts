@@ -3,7 +3,7 @@ import {
   Get,
   Post,
   Body,
-  Patch,
+  Put,
   Param,
   Delete,
   UploadedFile,
@@ -58,7 +58,7 @@ export class StudentController {
     return this.studentService.findById(id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   @FileUpload(UpdateStudentDto, 'image')
   async update(
     @Param('id') id: string,
