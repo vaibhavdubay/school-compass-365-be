@@ -3,10 +3,9 @@ import {
   IsNotEmpty,
   IsString,
   IsOptional,
-  IsInt,
-  IsArray,
   IsEmail,
   IsPhoneNumber,
+  IsNumberString,
 } from 'class-validator';
 
 export class UpdateSchoolDto {
@@ -31,7 +30,7 @@ export class UpdateSchoolDto {
   state: string;
 
   @IsNotEmpty()
-  @IsInt()
+  @IsNumberString()
   pincode: number;
 
   @IsNotEmpty()
@@ -42,8 +41,7 @@ export class UpdateSchoolDto {
   @IsString()
   schoolCode: string;
 
-  @IsArray()
-  @IsNotEmpty({ each: true })
+  @IsNotEmpty()
   classes: string[];
 
   @IsNotEmpty()
