@@ -67,7 +67,8 @@ export class Teacher {
         return value;
       },
       from(value) {
-        return value ? `images${value}` : null;
+        const host = process.env.HOST_URL || '';
+        return value ? `${host}/images${value}` : null;
       },
     },
   })
@@ -89,6 +90,6 @@ export class Teacher {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @DeleteDateColumn()
+  @DeleteDateColumn({ select: false })
   deletedAt: Date;
 }

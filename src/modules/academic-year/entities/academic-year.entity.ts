@@ -24,6 +24,6 @@ export class AcademicYear {
   createdAt: Date;
   @UpdateDateColumn()
   updatedAt: Date;
-  @DeleteDateColumn()
+  @DeleteDateColumn({ select: false })
   deletedAt: Date;
 }

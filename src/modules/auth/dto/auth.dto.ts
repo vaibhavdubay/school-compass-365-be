@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { UserProfile } from '@sc-decorators/user-profile';
+import { User } from '@sc-modules/users/entities/user.entity';
 import {
   IsNotEmpty,
   IsString,
@@ -28,7 +29,7 @@ export class SignInResponse {
 }
 
 export class AccessTokenPayload {
-  userProfile: UserProfile;
+  user: User;
 }
 
 export class AccessToken {

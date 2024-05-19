@@ -21,6 +21,8 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { UserProfile } from '@sc-decorators/user-profile';
 import { OtpService } from '@sc-modules/otp/otp.service';
+import { FindOneOptions } from 'typeorm';
+import { Admin } from '@sc-modules/admin/entities/admin.entity';
 
 @Injectable()
 export class AuthService {
@@ -47,13 +49,20 @@ export class AuthService {
   }
 
   userProfile(user: User) {
+    const options: FindOneOptions<Admin> = {
+      where: { user: { id: user.id } },
+    };
     switch (user.role) {
       case Role.ADMIN:
-        return this.adminService.findOneBy({ user: { id: user.id } });
+        return this.adminService.findOne(options);
       case Role.STUDENT:
-        return this.studentService.findOneBy({ user: { id: user.id } });
+        return this.studentService.findOne({
+          where: { user: { id: user.id } },
+        });
       case Role.TEACHER:
-        return this.teacherService.findOneBy({ user: { id: user.id } });
+        return this.teacherService.findOne({
+          where: { user: { id: user.id } },
+        });
       default:
         return this.superAdminObject();
     }
@@ -71,7 +80,7 @@ export class AuthService {
 
   generateToken(userProfile: UserProfile): SignInResponse {
     const payload: AccessTokenPayload = {
-      userProfile,
+      user: userProfile.user,
     }; // Replace with relevant user data
     const accessToken = this.jwtService.sign(payload);
     return { accessToken, userProfile };

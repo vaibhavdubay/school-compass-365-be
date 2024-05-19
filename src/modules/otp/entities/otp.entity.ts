@@ -24,6 +24,6 @@ export class OTP {
   @CreateDateColumn()
   createdAt: Date;
 
-  @DeleteDateColumn()
+  @DeleteDateColumn({ select: false })
   deletedAt: Date;
 }

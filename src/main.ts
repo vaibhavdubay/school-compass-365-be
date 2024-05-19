@@ -21,7 +21,7 @@ async function bootstrap() {
   const port = configService.get('PORT');
   const staticFolders = configService.get<string>('STATIC_FOLDERS').split(',');
 
-  app.setGlobalPrefix('api', { exclude: ['image/:category/:name'] });
+  app.setGlobalPrefix('api', { exclude: ['images/:category/:name'] });
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new GlobalExceptionFilter());
   staticFolders.forEach((folder) => {
@@ -54,7 +54,7 @@ async function bootstrap() {
   } catch (error) {
     console.error(error);
   }
-  const hostUrl = app.getUrl();
+  const hostUrl = await app.getUrl();
   configService.set('HOST_URL', hostUrl);
 }
 bootstrap();
