@@ -62,8 +62,19 @@ export class School {
   @Column()
   city: string;
   @Column()
-  state: string;
+  town: string;
   @Column()
+  state: string;
+  @Column({
+    transformer: {
+      to(value) {
+        return value;
+      },
+      from(value) {
+        return value ? `${value}` : '';
+      },
+    },
+  })
   pincode: number;
   @Column({ unique: true })
   schoolDISECode: string;

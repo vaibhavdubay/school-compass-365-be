@@ -21,6 +21,10 @@ export class UpdateSchoolDto {
   @IsString()
   address2?: string;
 
+  @IsNotEmpty()
+  @IsString()
+  town: string;
+
   @IsString()
   @IsNotEmpty()
   city: string;

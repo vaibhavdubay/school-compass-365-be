@@ -35,6 +35,10 @@ export class CreateSchoolDto {
 
   @IsNotEmpty()
   @IsString()
+  town: string;
+
+  @IsNotEmpty()
+  @IsString()
   state: string;
 
   @IsNotEmpty()
