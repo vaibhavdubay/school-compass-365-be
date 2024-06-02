@@ -1,5 +1,6 @@
 export enum DB_Model {
   ACADEMIC_YEAR = 'academic_year',
+  ADDRESS_HELPER = 'address_helper',
   ADMIN = 'admin',
   CLASS = 'class',
   NOTIFY = 'notify',
