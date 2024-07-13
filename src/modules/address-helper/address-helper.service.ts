@@ -1,59 +1,44 @@
 import { Injectable } from '@nestjs/common';
 import { readFileSync } from 'fs';
-
-export class Address {
-  officeName: string;
-  pincode: string;
-  district: string;
-  stateName: string;
-}
+import { Address, AddressDto } from './dto/address-helper.dto';
 
 @Injectable()
 export class AddressHelperService {
   addresses: Address[];
   constructor() {
-    const addresses = JSON.parse(
+    const addresses: AddressDto[] = JSON.parse(
       readFileSync(process.cwd() + '/pincode-directory.json', 'utf-8') || '[]',
     );
     this.addresses = addresses.map((d: any) => {
-      const officeType = d.OfficeType;
-      let officeNameArr: string[] = d.OfficeName.split().filter(
-        (n: string) =>
-          n.toLowerCase().replace('.', '') !=
-          officeType.toLowerCase().replace('.', ''),
+      const officeTypes = ['BO', 'SO', 'PO'];
+      const officeNameArr: string[] = d.OfficeName.split(' ').filter(
+        (n: string) => !officeTypes.includes(n.toUpperCase().replace('.', '')),
       );
       return {
-        officeName: officeNameArr.join(''),
+        town: officeNameArr.join(''),
         pincode: d.Pincode,
         district: d.District,
         stateName: d.StateName,
       };
     });
   }
-  find() {
-    return this.addresses;
-  }
-  findByPin(pin: string) {
-    return this.addresses.filter(({ pincode }) => pincode.toString() === pin);
-  }
-  getPinForAddress(addresses: Partial<Address>) {
+
+  getPinForAddress(addresses: Address) {
     let filteredAddresses: Address[] = this.addresses;
-    Object.entries(addresses)
-      .filter(([k]) => k in Address)
-      .forEach(([k, v]) => {
-        filteredAddresses = filteredAddresses.filter(
-          (add) => add[k].toLowerCase() == v.toLowerCase(),
-        );
-      });
+    Object.entries(addresses).forEach(([k, v]) => {
+      filteredAddresses = filteredAddresses.filter(
+        (add) => add[k].toLowerCase() == v.toLowerCase(),
+      );
+    });
     return filteredAddresses;
   }
-  getAllPinCodes(startsWith) {
-    let pinCodes: string[] = [];
+  getDetails(key: string, startsWith: string) {
+    const response: string[] = [];
     this.addresses
-      .filter(({ pincode }) => pincode.startsWith(startsWith))
-      .forEach(({ pincode }) => {
-        if (!pinCodes.includes(pincode)) pinCodes.push(pincode);
+      .filter((d) => d[key]?.startsWith(startsWith || ''))
+      .forEach((d) => {
+        if (!response.includes(d[key])) response.push(d[key]);
       });
-    return pinCodes;
+    return response;
   }
 }
