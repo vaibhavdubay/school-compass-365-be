@@ -37,7 +37,7 @@ export class AuthService {
   ) {}
   async signIn(signInDto: SignInDto): Promise<any> {
     const user = await this.usersService.findOneBy({
-      userName: signInDto.userName,
+      userName: signInDto.username,
     });
     if (user) {
       if (compareSync(signInDto.password, user.password)) {
@@ -45,7 +45,7 @@ export class AuthService {
       }
       throw new UnauthorizedException(`Incorrect password`);
     }
-    throw new NotFoundException(`User - ${signInDto.userName} not found`);
+    throw new NotFoundException(`User - ${signInDto.username} not found`);
   }
 
   userProfile(user: User) {
@@ -69,14 +69,12 @@ export class AuthService {
   }
 
   superAdminObject = () =>
-    new Promise((resolve) =>
-      resolve({
+    Promise.resolve({
         email: 'superadmin@schoolcompass365.co.in',
         userName: this.configService.get('SUPER_ADMIN_USER'),
         password: this.configService.get('SUPER_ADMIN_CRED'),
         role: Role.SUPER_ADMIN,
-      }),
-    );
+      });
 
   generateToken(userProfile: UserProfile): SignInResponse {
     const payload: AccessTokenPayload = {
@@ -91,7 +89,7 @@ export class AuthService {
       userName: resetPasswordDto.userName,
     });
     if (user) {
-      if (this.otpService.verifyOtp(user.id, resetPasswordDto.otp)) {
+      if (await this.otpService.verifyOtp(user.id, resetPasswordDto.otp)) {
         return this.usersService.updateDocument(user.id, {
           ...user,
           password: resetPasswordDto.password,

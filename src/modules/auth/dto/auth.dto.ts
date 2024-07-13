@@ -11,7 +11,7 @@ import {
 export class SignInDto {
   @IsString()
   @IsNotEmpty()
-  userName: string;
+  username: string;
   @Length(6, 8)
   @IsStrongPassword({
     minLength: 6,
