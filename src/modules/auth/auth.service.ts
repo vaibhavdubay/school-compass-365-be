@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -23,6 +24,8 @@ import { UserProfile } from '@sc-decorators/user-profile';
 import { OtpService } from '@sc-modules/otp/otp.service';
 import { FindOneOptions } from 'typeorm';
 import { Admin } from '@sc-modules/admin/entities/admin.entity';
+import { NotifyService } from '@sc-modules/notify/notify.service';
+import { TEMPLATE } from '@sc-enums/template';
 
 @Injectable()
 export class AuthService {
@@ -32,6 +35,7 @@ export class AuthService {
     private readonly studentService: StudentService,
     private readonly teacherService: TeacherService,
     private readonly otpService: OtpService,
+    private readonly notifyService: NotifyService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
   ) {}
@@ -70,11 +74,11 @@ export class AuthService {
 
   superAdminObject = () =>
     Promise.resolve({
-        email: 'superadmin@schoolcompass365.co.in',
-        userName: this.configService.get('SUPER_ADMIN_USER'),
-        password: this.configService.get('SUPER_ADMIN_CRED'),
-        role: Role.SUPER_ADMIN,
-      });
+      email: 'superadmin@schoolcompass365.co.in',
+      userName: this.configService.get('SUPER_ADMIN_USER'),
+      password: this.configService.get('SUPER_ADMIN_CRED'),
+      role: Role.SUPER_ADMIN,
+    });
 
   generateToken(userProfile: UserProfile): SignInResponse {
     const payload: AccessTokenPayload = {
@@ -82,7 +86,9 @@ export class AuthService {
     };
     const remember = userProfile['rememberMe'] ?? false;
     const accessToken = this.jwtService.sign(payload, {
-        expiresIn: remember? '5d' : this.configService.getOrThrow<string>('ACCESS_TOKEN_VALIDITY'),
+      expiresIn: remember
+        ? '5d'
+        : this.configService.getOrThrow<string>('ACCESS_TOKEN_VALIDITY'),
     });
     return { accessToken, userProfile };
   }
@@ -93,6 +99,17 @@ export class AuthService {
     });
     if (user) {
       if (await this.otpService.verifyOtp(user.id, resetPasswordDto.otp)) {
+        await this.notifyService.prepareEmail({
+          template: TEMPLATE.PASSWORD_RESET,
+          to: user.email,
+          subject: 'Your OTP to Reset Password for School Compass 365',
+          data: {
+            role: user.role,
+            name: user.name,
+            link: this.configService.get('FRONTEND'),
+            userName: user.userName,
+          },
+        });
         return this.usersService.updateDocument(user.id, {
           ...user,
           password: resetPasswordDto.password,
@@ -105,13 +122,32 @@ export class AuthService {
   }
 
   async sendOTP(userName: string): Promise<SendOtpDto> {
-    const user = await this.usersService.findOneBy({ userName });
+    const user = await this.usersService.findOneBy([
+      { userName: userName },
+      { email: userName },
+    ]);
     if (user) {
-      return this.otpService.createOtp(user.id).then((document) => ({
+      const dummyOtp = {otp:'', expires: 0};
+      const otp = user.role == Role.ADMIN ? dummyOtp : await this.otpService.createOtp(user.id);
+      await this.notifyService.prepareEmail({
+        template: TEMPLATE.PASSWORD_RESET_OTP,
+        to: user.email,
+        subject: 'Your OTP to Reset Password for School Compass 365',
+        data: {
+          role: user.role,
+          otp: otp.otp,
+          name: user.name,
+          userName: user.userName,
+        },
+      });
+      if(user.role == Role.ADMIN){
+        throw new BadRequestException('Admins are not allowed to reset their password.');
+      }
+      return {
         message: 'OTP sent successfully.',
         email: user.email,
-        expires: document.expires,
-      }));
+        expires: otp.expires,
+      };
     } else {
       throw new NotFoundException('User not found');
     }

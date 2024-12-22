@@ -10,6 +10,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
 import { OtpModule } from '@sc-modules/otp/otp.module';
+import { NotifyModule } from '@sc-modules/notify/notify.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { OtpModule } from '@sc-modules/otp/otp.module';
     AdminModule,
     StudentModule,
     TeacherModule,
+    NotifyModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({

@@ -69,11 +69,14 @@ import { AddressHelperModule } from './modules/address-helper/address-helper.mod
             },
             case: function (value, options) {
               if (value == this.switch_value) {
+                this.case_justified = true;
                 return options.fn(this);
               }
             },
-            default: function () {
-              return true;
+            default: function (options) {
+              if(!this.case_justified){
+                return options.fn(this);
+              }
             },
           }),
           options: {
