@@ -79,8 +79,11 @@ export class AuthService {
   generateToken(userProfile: UserProfile): SignInResponse {
     const payload: AccessTokenPayload = {
       user: userProfile.user,
-    }; // Replace with relevant user data
-    const accessToken = this.jwtService.sign(payload);
+    };
+    const remember = userProfile['rememberMe'] ?? false;
+    const accessToken = this.jwtService.sign(payload, {
+        expiresIn: remember? '5d' : this.configService.getOrThrow<string>('ACCESS_TOKEN_VALIDITY'),
+    });
     return { accessToken, userProfile };
   }
 
