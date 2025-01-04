@@ -60,6 +60,7 @@ export class SchoolController {
     @Body() updateSchoolDto: UpdateSchoolDto,
     @UserProfile() completeProfile: UserProfile,
   ) {
+    delete updateSchoolDto['currentAcademicYear'];
     if (typeof updateSchoolDto.classes == 'string')
       updateSchoolDto['classes'] = JSON.parse(updateSchoolDto.classes);
     if (file) {
