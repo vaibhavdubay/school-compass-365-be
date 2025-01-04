@@ -58,6 +58,7 @@ export class AuthService {
     };
     switch (user.role) {
       case Role.ADMIN:
+        console.log(options)
         return this.adminService.findOne(options);
       case Role.STUDENT:
         return this.studentService.findOne({

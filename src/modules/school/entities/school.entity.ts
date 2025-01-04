@@ -10,6 +10,7 @@ import {
   JoinColumn,
   JoinTable,
   ManyToMany,
+  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -54,7 +55,7 @@ export class School {
     },
   })
   logoUrl: string;
-  @ManyToMany(() => AcademicYear, (academicYear) => academicYear.id)
+  @ManyToOne(() => AcademicYear, (academicYear) => academicYear.id, { eager: true })
   @JoinColumn()
   currentAcademicYear: AcademicYear;
   @Column()
