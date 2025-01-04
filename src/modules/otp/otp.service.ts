@@ -26,7 +26,7 @@ export class OtpService extends BaseRepository<OTP> {
   }
 
   async verifyOtp(user_id: string, otp: string) {
-    if (this.existsBy({ user_id, otp })) {
+    if (await this.existsBy({ user_id, otp })) {
       const _otp = await this.findOne({
         order: { createdAt: 1 },
         where: { user_id, otp, expires: MoreThanOrEqual(new Date().getTime()) },
