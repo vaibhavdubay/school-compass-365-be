@@ -24,7 +24,10 @@ export class SignInDto {
 }
 
 export class SignInResponse {
-  accessToken: string;
+  token: {
+    accessToken: string,
+    expiresIn: number
+  };
   userProfile: UserProfile;
 }
 

@@ -87,10 +87,16 @@ export class AuthService {
     const remember = userProfile['rememberMe'] ?? false;
     const accessToken = this.jwtService.sign(payload, {
       expiresIn: remember
-        ? '5d'
+        ? '6d'
         : this.configService.getOrThrow<string>('ACCESS_TOKEN_VALIDITY'),
     });
-    return { accessToken, userProfile };
+    return {
+      token: {
+        accessToken,
+        expiresIn: this.jwtService.decode(accessToken).exp,
+      },
+      userProfile,
+    };
   }
 
   async resetPassword(resetPasswordDto: ResetPasswordDto) {
@@ -127,8 +133,11 @@ export class AuthService {
       { email: userName },
     ]);
     if (user) {
-      const dummyOtp = {otp:'', expires: 0};
-      const otp = user.role == Role.ADMIN ? dummyOtp : await this.otpService.createOtp(user.id);
+      const dummyOtp = { otp: '', expires: 0 };
+      const otp =
+        user.role == Role.ADMIN
+          ? dummyOtp
+          : await this.otpService.createOtp(user.id);
       await this.notifyService.prepareEmail({
         template: TEMPLATE.PASSWORD_RESET_OTP,
         to: user.email,
@@ -140,8 +149,10 @@ export class AuthService {
           userName: user.userName,
         },
       });
-      if(user.role == Role.ADMIN){
-        throw new BadRequestException('Admins are not allowed to reset their password.');
+      if (user.role == Role.ADMIN) {
+        throw new BadRequestException(
+          'Admins are not allowed to reset their password.',
+        );
       }
       return {
         message: 'OTP sent successfully.',
