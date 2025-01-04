@@ -2,7 +2,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   IsNotEmpty,
   IsString,
-  IsOptional,
   IsEmail,
   IsPhoneNumber,
   IsNumberString,
@@ -16,10 +15,6 @@ export class UpdateSchoolDto {
   @IsNotEmpty()
   @IsString()
   address1: string;
-
-  @IsOptional()
-  @IsString()
-  address2?: string;
 
   @IsNotEmpty()
   @IsString()

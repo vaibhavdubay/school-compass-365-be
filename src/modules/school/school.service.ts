@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { CreateSchoolDto } from './dto/create-school.dto';
 import { UpdateSchoolDto } from './dto/update-school.dto';
 import { BaseRepository } from '@sc-helpers/repository.helper';
@@ -35,7 +35,6 @@ export class SchoolService extends BaseRepository<
       schoolName,
       establishedYear,
       address1,
-      address2,
       city,
       state,
       pincode,
@@ -68,7 +67,6 @@ export class SchoolService extends BaseRepository<
       currentAcademicYear,
       academicYears: [currentAcademicYear],
       address1,
-      address2,
       city,
       state,
       pincode,
@@ -97,19 +95,25 @@ export class SchoolService extends BaseRepository<
       school,
     });
 
-    await this.notifyService.prepareEmail({
-      template: TEMPLATE.ACCOUNT_REGISTRATION,
-      to: email,
-      subject: `Welcome, ${firstName}! Confirm Your SchoolCompass365 Account & Start Exploring`,
-      data: {
-        userName,
-        password,
-        schoolName,
-        role: Role.ADMIN,
-        name: `${firstName} ${lastName}`,
-      },
-    });
-    return this.adminService.save(admin);
+    try {
+      const adminProfile = await this.adminService.save(admin);
+      await this.notifyService.prepareEmail({
+        template: TEMPLATE.ACCOUNT_REGISTRATION,
+        to: email,
+        subject: `Welcome, ${firstName}! Confirm Your SchoolCompass365 Account & Start Exploring`,
+        data: {
+          userName,
+          password,
+          schoolName,
+          role: Role.ADMIN,
+          name: `${firstName} ${lastName}`,
+        },
+      });
+      return adminProfile;
+    } catch {
+      throw new UnprocessableEntityException();
+    }
+
   }
 
   async completeAcademicYear(schoolId: string) {

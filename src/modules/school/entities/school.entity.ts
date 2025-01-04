@@ -29,8 +29,6 @@ export class School {
   establishedYear: number;
   @Column()
   address1: string;
-  @Column({ nullable: true })
-  address2: string;
   @ManyToMany(() => AcademicYear)
   @JoinTable({
     name: Supporter_Model.SCHOOL_ACADEMIC,

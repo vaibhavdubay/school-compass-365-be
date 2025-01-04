@@ -5,7 +5,6 @@ import {
   IsEnum,
   IsInt,
   IsNotEmpty,
-  IsOptional,
   IsPhoneNumber,
   IsString,
   IsStrongPassword,
@@ -24,10 +23,6 @@ export class CreateSchoolDto {
   @IsNotEmpty()
   @IsString()
   address1: string;
-
-  @IsOptional()
-  @IsString()
-  address2?: string;
 
   @IsNotEmpty()
   @IsString()
