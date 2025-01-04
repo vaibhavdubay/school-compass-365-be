@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { readFileSync } from 'fs';
-import { Address, AddressDto } from './dto/address-helper.dto';
+import { Address, AddressDto, SearchKey } from './dto/address-helper.dto';
 
 @Injectable()
 export class AddressHelperService {
@@ -11,14 +11,14 @@ export class AddressHelperService {
     );
     this.addresses = addresses.map((d: any) => {
       const officeTypes = ['BO', 'SO', 'PO'];
-      const officeNameArr: string[] = d.OfficeName.split(' ').filter(
+      const officeNameArr: string[] = d.officename.split(' ').filter(
         (n: string) => !officeTypes.includes(n.toUpperCase().replace('.', '')),
       );
       return {
         town: officeNameArr.join(''),
-        pincode: d.Pincode,
-        district: d.District,
-        stateName: d.StateName,
+        pincode: d.pincode,
+        district: d.district,
+        stateName: d.statename,
       };
     });
   }
@@ -32,13 +32,20 @@ export class AddressHelperService {
     });
     return filteredAddresses;
   }
-  getDetails(key: string, startsWith: string) {
+  getDetails(key: SearchKey, startsWith: string, queryParem: Address = {}) {
     const response: string[] = [];
+    const parems = Object.entries(queryParem)
     this.addresses
-      .filter((d) => d[key]?.startsWith(startsWith || ''))
+      .filter((d) => 
+        d[key].toLowerCase()?.startsWith(startsWith?.toLowerCase() || '') &&
+        (
+          parems.length == 0 ||
+          parems.every(([k, v]) => d[k].toLowerCase() == v.toLowerCase())
+        )
+      )
       .forEach((d) => {
         if (!response.includes(d[key])) response.push(d[key]);
       });
-    return response;
+    return response.sort();
   }
 }

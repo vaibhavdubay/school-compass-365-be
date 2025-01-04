@@ -5,8 +5,8 @@ import {
   Query,
 } from '@nestjs/common';
 import { AddressHelperService } from './address-helper.service';
-import { Address } from './dto/address-helper.dto';
-import { ApiQuery } from '@nestjs/swagger';
+import { Address, SearchKey } from './dto/address-helper.dto';
+import { ApiParam, ApiQuery } from '@nestjs/swagger';
 
 @Controller('address-helper')
 export class AddressHelperController {
@@ -19,10 +19,21 @@ export class AddressHelperController {
 
   @Get(':key')
   @ApiQuery({
-    "name": "startsWith",
-    "required": false
+    name: "startsWith",
+    required: false,
   })
-  getAllPinCodes(@Param('key') key: string, @Query('startsWith') startsWith: string) {
-    return this.addressHelperService.getDetails(key, startsWith);
+  @ApiQuery({
+    name: "searchParems",
+    required: false,
+    type: Address
+  })
+  @ApiParam({
+    name: "key",
+    enum: SearchKey,
+    required: true
+  })
+  getAllPinCodes(@Param('key') key: SearchKey, @Query() query: any) {
+    const { startsWith, ...parems } = query;
+    return this.addressHelperService.getDetails(key, startsWith, parems);
   }
 }

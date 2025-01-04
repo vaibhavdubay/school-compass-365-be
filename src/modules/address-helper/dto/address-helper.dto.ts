@@ -11,3 +11,10 @@ export class AddressDto {
   StateName: string;
   OfficeName: string;
 }
+
+export enum SearchKey {
+  PINCODE = 'pincode',
+  DISTRICT = 'district',
+  STATE_NAME = 'stateName',
+  TOWN = 'town'
+}
