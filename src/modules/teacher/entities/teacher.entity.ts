@@ -23,12 +23,6 @@ export class Teacher {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({
-    type: 'enum',
-    enum: GENDER,
-  })
-  gender: GENDER;
-
   @ManyToOne(() => School, { eager: true })
   @JoinColumn({ name: 'schoolId' })
   school: School;
@@ -83,6 +77,39 @@ export class Teacher {
 
   @Column()
   years_of_experience: number;
+
+  @Column({
+    type: 'enum',
+    enum: GENDER,
+  })
+  gender: GENDER;
+
+  @Column()
+  address: string;
+
+  @Column()
+  city: string;
+
+  @Column()
+  town: string;
+
+  @Column()
+  state: string;
+
+  @Column({
+    transformer: {
+      to(value) {
+        return value;
+      },
+      from(value) {
+        return value ? `${value}` : '';
+      },
+    },
+  })
+  pincode: number;
+
+  @Column()
+  aadhar_number: number;
 
   @CreateDateColumn()
   createdAt: Date;

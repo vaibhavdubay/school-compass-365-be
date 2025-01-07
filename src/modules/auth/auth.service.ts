@@ -108,7 +108,7 @@ export class AuthService {
         await this.notifyService.prepareEmail({
           template: TEMPLATE.PASSWORD_RESET,
           to: user.email,
-          subject: 'Your OTP to Reset Password for School Compass 365',
+          subject: 'Your Password Has Been Reset Successfully',
           data: {
             role: user.role,
             name: user.name,
