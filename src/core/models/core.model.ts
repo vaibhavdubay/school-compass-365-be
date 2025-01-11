@@ -1,7 +1,10 @@
 import { Role } from '@sc-enums/role';
 import { TEMPLATE } from '@sc-enums/template';
 
-export type MailOptions = ACCOUNT_REGISTRATION_EMAIL | PASSWORD_RESET_EMAIL | OTP_SENT_EMAIL;
+export type MailOptions =
+  | ACCOUNT_REGISTRATION_EMAIL
+  | PASSWORD_RESET_EMAIL
+  | OTP_SENT_EMAIL;
 
 interface ACCOUNT_REGISTRATION_EMAIL {
   readonly template: TEMPLATE.ACCOUNT_REGISTRATION;

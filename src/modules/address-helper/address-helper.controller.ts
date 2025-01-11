@@ -1,36 +1,31 @@
-import {
-  Controller,
-  Get,
-  Param,
-  Query,
-} from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { AddressHelperService } from './address-helper.service';
 import { Address, SearchKey } from './dto/address-helper.dto';
 import { ApiParam, ApiQuery } from '@nestjs/swagger';
 
 @Controller('address-helper')
 export class AddressHelperController {
-  constructor(private readonly addressHelperService: AddressHelperService) { }
+  constructor(private readonly addressHelperService: AddressHelperService) {}
 
   @Get()
   getByAddress(@Query() address: Address) {
-    return this.addressHelperService.getPinForAddress(address)
+    return this.addressHelperService.getPinForAddress(address);
   }
 
   @Get(':key')
   @ApiQuery({
-    name: "startsWith",
+    name: 'startsWith',
     required: false,
   })
   @ApiQuery({
-    name: "searchParems",
+    name: 'searchParems',
     required: false,
-    type: Address
+    type: Address,
   })
   @ApiParam({
-    name: "key",
+    name: 'key',
     enum: SearchKey,
-    required: true
+    required: true,
   })
   getAllPinCodes(@Param('key') key: SearchKey, @Query() query: any) {
     const { startsWith, ...parems } = query;

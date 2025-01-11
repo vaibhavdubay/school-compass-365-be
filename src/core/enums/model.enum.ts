@@ -12,6 +12,8 @@ export enum DB_Model {
   STUDENT = 'student',
   STUDENT_ATTENDANCE = 'student_attendance',
   TEACHER = 'teacher',
+  TEACHERS_EXPERIENCES = 'teachers_experiences',
+  TEACHERS_EDUCATION = 'teachers_educations',
   USER = 'user',
 }
 export enum Supporter_Model {

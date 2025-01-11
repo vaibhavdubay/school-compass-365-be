@@ -22,6 +22,8 @@ import { NotifyModule } from '@sc-modules/notify/notify.module';
 import { OtpModule } from './modules/otp/otp.module';
 import { StudentAttendanceModule } from './modules/student-attendance/student-attendance.module';
 import { AddressHelperModule } from './modules/address-helper/address-helper.module';
+import { TeachersExperienceModule } from '@sc-modules/teachers-experience/teachers-experience.module';
+import { TeachersEducationModule } from '@sc-modules/teachers-education/teachers-education.module';
 
 @Module({
   imports: [
@@ -74,7 +76,7 @@ import { AddressHelperModule } from './modules/address-helper/address-helper.mod
               }
             },
             default: function (options) {
-              if(!this.case_justified){
+              if (!this.case_justified) {
                 return options.fn(this);
               }
             },
@@ -100,6 +102,8 @@ import { AddressHelperModule } from './modules/address-helper/address-helper.mod
     AcademicYearModule,
     OtpModule,
     StudentAttendanceModule,
+    TeachersEducationModule,
+    TeachersExperienceModule,
     AddressHelperModule,
   ],
 })

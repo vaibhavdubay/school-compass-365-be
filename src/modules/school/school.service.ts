@@ -113,7 +113,6 @@ export class SchoolService extends BaseRepository<
     } catch {
       throw new UnprocessableEntityException();
     }
-
   }
 
   async completeAcademicYear(schoolId: string) {

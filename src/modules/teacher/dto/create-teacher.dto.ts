@@ -16,19 +16,19 @@ export class CreateTeacherDto {
   @IsString()
   @IsNotEmpty()
   firstName: string;
-  
+
   @IsNotEmpty()
   @IsString()
   lastName: string;
-  
+
   @IsNotEmpty()
   @IsEmail()
   email: string;
-  
+
   @IsNotEmpty()
   @IsPhoneNumber('IN')
   phoneNumber: string;
-  
+
   @IsNotEmpty()
   @IsStrongPassword({
     minLength: 8,
@@ -38,7 +38,7 @@ export class CreateTeacherDto {
   })
   @ApiProperty({ example: 'Teacher@12' })
   password: string;
-  
+
   @IsEnum(GENDER)
   @IsNotEmpty()
   gender: GENDER;
@@ -66,19 +66,19 @@ export class CreateTeacherDto {
   @IsString()
   @IsNotEmpty()
   userName: string;
-  
+
   @IsString()
   @IsNotEmpty()
   aadhar_number: string;
-  
+
   @IsArray()
   @IsNotEmpty()
   subjects: string[];
-  
+
   @IsNumber()
   @IsNotEmpty()
   years_of_experience: number;
-  
+
   @ApiProperty({ type: 'string', format: 'binary', required: false })
   image: string;
 }

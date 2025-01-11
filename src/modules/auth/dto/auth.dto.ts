@@ -25,8 +25,8 @@ export class SignInDto {
 
 export class SignInResponse {
   token: {
-    accessToken: string,
-    expiresIn: number
+    accessToken: string;
+    expiresIn: number;
   };
   userProfile: UserProfile;
 }

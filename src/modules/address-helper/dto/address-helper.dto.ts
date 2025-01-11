@@ -5,7 +5,7 @@ export class Address {
   stateName?: string;
 }
 
-export class AddressDto {  
+export class AddressDto {
   Pincode: string;
   District: string;
   StateName: string;
@@ -16,5 +16,5 @@ export enum SearchKey {
   PINCODE = 'pincode',
   DISTRICT = 'district',
   STATE_NAME = 'stateName',
-  TOWN = 'town'
+  TOWN = 'town',
 }

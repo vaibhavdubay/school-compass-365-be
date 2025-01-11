@@ -11,9 +11,12 @@ export class AddressHelperService {
     );
     this.addresses = addresses.map((d: any) => {
       const officeTypes = ['BO', 'SO', 'PO'];
-      const officeNameArr: string[] = d.officename.split(' ').filter(
-        (n: string) => !officeTypes.includes(n.toUpperCase().replace('.', '')),
-      );
+      const officeNameArr: string[] = d.officename
+        .split(' ')
+        .filter(
+          (n: string) =>
+            !officeTypes.includes(n.toUpperCase().replace('.', '')),
+        );
       return {
         town: officeNameArr.join(''),
         pincode: d.pincode,
@@ -34,14 +37,13 @@ export class AddressHelperService {
   }
   getDetails(key: SearchKey, startsWith: string, queryParem: Address = {}) {
     const response: string[] = [];
-    const parems = Object.entries(queryParem)
+    const parems = Object.entries(queryParem);
     this.addresses
-      .filter((d) => 
-        d[key].toLowerCase()?.startsWith(startsWith?.toLowerCase() || '') &&
-        (
-          parems.length == 0 ||
-          parems.every(([k, v]) => d[k].toLowerCase() == v.toLowerCase())
-        )
+      .filter(
+        (d) =>
+          d[key].toLowerCase()?.startsWith(startsWith?.toLowerCase() || '') &&
+          (parems.length == 0 ||
+            parems.every(([k, v]) => d[k].toLowerCase() == v.toLowerCase())),
       )
       .forEach((d) => {
         if (!response.includes(d[key])) response.push(d[key]);

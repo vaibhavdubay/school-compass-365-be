@@ -55,7 +55,9 @@ export class School {
     },
   })
   logoUrl: string;
-  @ManyToOne(() => AcademicYear, (academicYear) => academicYear.id, { eager: true })
+  @ManyToOne(() => AcademicYear, (academicYear) => academicYear.id, {
+    eager: true,
+  })
   @JoinColumn()
   currentAcademicYear: AcademicYear;
   @Column()
