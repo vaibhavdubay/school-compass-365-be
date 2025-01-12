@@ -1,5 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { GENDER } from '@sc-enums/gender';
+import { CreateTeachersEducationDto } from '@sc-modules/teachers-education/dto/create-teachers-education.dto';
+import { TeachersEducation } from '@sc-modules/teachers-education/entities/teachers-education.entity';
+import { CreateTeachersExperienceDto } from '@sc-modules/teachers-experience/dto/create-teachers-experience.dto';
+import { TeachersExperience } from '@sc-modules/teachers-experience/entities/teachers-experience.entity';
+import { Type } from 'class-transformer';
 import {
   IsString,
   IsNotEmpty,
@@ -78,6 +83,16 @@ export class CreateTeacherDto {
   @IsNumber()
   @IsNotEmpty()
   years_of_experience: number;
+
+  @IsArray()
+  @IsNotEmpty()
+  @Type(() => CreateTeachersEducationDto)
+  teachers_education?: TeachersEducation[];
+
+  @IsArray()
+  @IsNotEmpty()
+  @Type(() => CreateTeachersExperienceDto)
+  teachers_experience?: TeachersExperience[];
 
   @ApiProperty({ type: 'string', format: 'binary', required: false })
   image: string;

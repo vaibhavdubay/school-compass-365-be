@@ -23,4 +23,6 @@ export enum Supporter_Model {
   STUDENTS_ACADEMICS = 'students_academics',
   STUDENT_WITH_PARENTS_GUARDIANS = 'students_with_parents_or_guardians',
   TEACHER_ACADEMICS = 'teacher_academics',
+  TEACHER_EDUCATION = 'teacher_educations',
+  TEACHER_EXPERIENCE = 'teacher_experiences',
 }

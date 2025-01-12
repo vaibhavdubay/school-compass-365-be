@@ -8,7 +8,6 @@ import {
 
 export class CreateTeachersExperienceDto {
   @IsUUID()
-  @IsNotEmpty()
   teacherId: string;
 
   @IsString()

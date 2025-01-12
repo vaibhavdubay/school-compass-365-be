@@ -2,7 +2,6 @@ import { IsUUID, IsNotEmpty, IsString, IsDecimal } from 'class-validator';
 
 export class CreateTeachersEducationDto {
   @IsUUID()
-  @IsNotEmpty()
   teacherId: string;
 
   @IsString()

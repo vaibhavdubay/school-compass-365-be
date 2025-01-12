@@ -3,6 +3,8 @@ import { DB_Model, Supporter_Model } from '@sc-enums/model';
 import { AcademicYear } from '@sc-modules/academic-year/entities/academic-year.entity';
 import { Image } from '@sc-modules/image/entities/image.entity';
 import { School } from '@sc-modules/school/entities/school.entity';
+import { TeachersEducation } from '@sc-modules/teachers-education/entities/teachers-education.entity';
+import { TeachersExperience } from '@sc-modules/teachers-experience/entities/teachers-experience.entity';
 import { User } from '@sc-modules/users/entities/user.entity';
 import {
   PrimaryGeneratedColumn,
@@ -16,6 +18,7 @@ import {
   ManyToOne,
   JoinTable,
   ManyToMany,
+  OneToMany,
 } from 'typeorm';
 
 @Entity({ name: DB_Model.TEACHER })
@@ -110,6 +113,28 @@ export class Teacher {
 
   @Column()
   aadhar_number: number;
+
+  @OneToMany(() => TeachersEducation, (edu) => edu.id, { cascade: true } )
+  @JoinTable({
+    name: Supporter_Model.TEACHER_EDUCATION,
+    joinColumn: { name: 'teachers_id', referencedColumnName: 'id' },
+    inverseJoinColumn: {
+      name: 'education_id',
+      referencedColumnName: 'id',
+    },
+  })
+  teachersEducation: TeachersEducation[];
+
+  @OneToMany(() => TeachersExperience, (exp) => exp.id, { cascade: true })
+  @JoinTable({
+    name: Supporter_Model.TEACHER_EXPERIENCE,
+    joinColumn: { name: 'teachers_id', referencedColumnName: 'id' },
+    inverseJoinColumn: {
+      name: 'experience_id',
+      referencedColumnName: 'id',
+    },
+  })
+  teachersExperience: TeachersExperience[];
 
   @CreateDateColumn()
   createdAt: Date;

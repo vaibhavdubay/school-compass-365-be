@@ -11,6 +11,7 @@ import {
   IsEnum,
   IsPhoneNumber,
   IsDateString,
+  IsArray,
 } from 'class-validator';
 
 export class CreateStudentDto {
@@ -69,7 +70,10 @@ export class CreateStudentDto {
   @IsEnum(BLOOD_GROUP)
   bloodGroup: BLOOD_GROUP;
 
+  @IsArray({ each: true })
+  @IsNotEmpty()
   parentsGuardians: ParentOrGuardian[];
+
   @ApiProperty({ type: 'string', format: 'binary', required: false })
   image: string;
 }
