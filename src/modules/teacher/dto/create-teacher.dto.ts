@@ -12,7 +12,6 @@ import {
   IsPhoneNumber,
   IsStrongPassword,
   IsArray,
-  IsNumber,
   IsEnum,
   IsNumberString,
 } from 'class-validator';
@@ -80,7 +79,7 @@ export class CreateTeacherDto {
   @IsNotEmpty()
   subjects: string[];
 
-  @IsNumber()
+  @IsNumberString()
   @IsNotEmpty()
   years_of_experience: number;
 
