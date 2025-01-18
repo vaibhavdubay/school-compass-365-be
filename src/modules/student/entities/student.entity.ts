@@ -113,7 +113,7 @@ export class Student {
   })
   academicYears: AcademicYear[];
 
-  @ManyToMany(() => AcademicYear, { cascade: true, eager: true })
+  @ManyToMany(() => ParentOrGuardian, { cascade: true, eager: true })
   @JoinTable({
     name: Supporter_Model.STUDENT_WITH_PARENTS_GUARDIANS,
     joinColumn: { name: 'student_id', referencedColumnName: 'id' },
