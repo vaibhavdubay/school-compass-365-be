@@ -22,7 +22,7 @@ export class CreateSchoolDto {
 
   @IsNotEmpty()
   @IsString()
-  address1: string;
+  address: string;
 
   @IsNotEmpty()
   @IsString()

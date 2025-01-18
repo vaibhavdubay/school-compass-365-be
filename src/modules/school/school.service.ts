@@ -34,7 +34,7 @@ export class SchoolService extends BaseRepository<
     const {
       schoolName,
       establishedYear,
-      address1,
+      address,
       town,
       city,
       state,
@@ -67,7 +67,7 @@ export class SchoolService extends BaseRepository<
       establishedYear,
       currentAcademicYear,
       academicYears: [currentAcademicYear],
-      address1,
+      address,
       town,
       email,
       phoneNumber,

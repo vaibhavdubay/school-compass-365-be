@@ -29,7 +29,7 @@ export class School {
   @Column({ default: new Date().getFullYear() })
   establishedYear: number;
   @Column()
-  address1: string;
+  address: string;
   @ManyToMany(() => AcademicYear)
   @JoinTable({
     name: Supporter_Model.SCHOOL_ACADEMIC,

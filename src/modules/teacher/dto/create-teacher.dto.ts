@@ -49,7 +49,7 @@ export class CreateTeacherDto {
 
   @IsNotEmpty()
   @IsString()
-  address1: string;
+  address: string;
 
   @IsNotEmpty()
   @IsString()

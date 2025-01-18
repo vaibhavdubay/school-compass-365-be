@@ -14,7 +14,7 @@ export class UpdateSchoolDto {
 
   @IsNotEmpty()
   @IsString()
-  address1: string;
+  address: string;
 
   @IsNotEmpty()
   @IsString()
