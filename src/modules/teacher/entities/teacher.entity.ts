@@ -113,7 +113,7 @@ export class Teacher {
   @Column()
   aadhar_number: number;
 
-  @ManyToOne(() => TeachersEducation, (edu) => edu.id, { cascade: true, eager: true } )
+  @ManyToMany(() => TeachersEducation, { cascade: true, eager: true } )
   @JoinTable({
     name: Supporter_Model.TEACHER_EDUCATION,
     joinColumn: { name: 'teachers_id', referencedColumnName: 'id' },
@@ -124,7 +124,7 @@ export class Teacher {
   })
   teachersEducation: TeachersEducation[];
 
-  @ManyToOne(() => TeachersExperience, (exp) => exp.id, { cascade: true, eager: true })
+  @ManyToMany(() => TeachersExperience, { cascade: true, eager: true })
   @JoinTable({
     name: Supporter_Model.TEACHER_EXPERIENCE,
     joinColumn: { name: 'teachers_id', referencedColumnName: 'id' },
