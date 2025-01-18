@@ -11,8 +11,10 @@ import { ClassService } from './class.service';
 import { CreateClassDto } from './dto/create-class.dto';
 import { UpdateClassDto } from './dto/update-class.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { Auth } from '@sc-decorators/auth';
 
 @Controller('class')
+@Auth('all')
 @ApiTags('Class')
 export class ClassController {
   constructor(private readonly classService: ClassService) {}
