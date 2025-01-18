@@ -16,6 +16,7 @@ import { UserProfile } from '@sc-decorators/user-profile';
 import { School } from '@sc-modules/school/entities/school.entity';
 import { ApiTags } from '@nestjs/swagger';
 import { QueryStudentAttendance } from './dto/query-student-attendance.dto';
+import { Role } from '@sc-enums/role';
 
 @Controller('student-attendance')
 @ApiTags('Student Attendance')
@@ -26,6 +27,7 @@ export class StudentAttendanceController {
   ) {}
 
   @Post()
+  @Auth(Role.SUPER_ADMIN, Role.ADMIN, Role.TEACHER)
   create(
     @Body() createStudentAttendanceDto: CreateStudentAttendanceDto,
     @UserProfile('school') school: School,
@@ -52,6 +54,7 @@ export class StudentAttendanceController {
   }
 
   @Put(':id')
+  @Auth(Role.SUPER_ADMIN, Role.ADMIN, Role.TEACHER)
   update(
     @Param('id') id: string,
     @Body() updateStudentAttendanceDto: UpdateStudentAttendanceDto,
@@ -63,6 +66,7 @@ export class StudentAttendanceController {
   }
 
   @Delete(':id')
+  @Auth(Role.SUPER_ADMIN, Role.ADMIN, Role.TEACHER)
   remove(@Param('id') id: string) {
     return this.studentAttendanceService.softDelete({ id });
   }

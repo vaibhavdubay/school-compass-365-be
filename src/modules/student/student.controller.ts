@@ -59,6 +59,7 @@ export class StudentController {
   }
 
   @Put(':id')
+  @Auth(Role.SUPER_ADMIN, Role.ADMIN, Role.TEACHER)
   @FileUpload(UpdateStudentDto, 'image')
   async update(
     @Param('id') id: string,
