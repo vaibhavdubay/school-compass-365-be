@@ -14,6 +14,7 @@ import {
   IsArray,
   IsEnum,
   IsNumberString,
+  IsDateString,
 } from 'class-validator';
 
 export class CreateTeacherDto {
@@ -42,6 +43,10 @@ export class CreateTeacherDto {
   })
   @ApiProperty({ example: 'Teacher@12' })
   password: string;
+
+  @IsDateString()
+  @IsNotEmpty()
+  dateOfBirth: Date;
 
   @IsEnum(GENDER)
   @IsNotEmpty()

@@ -78,13 +78,20 @@ export class Teacher {
   subjects: string[];
 
   @Column()
-  years_of_experience: number;
+  years_of_experience: string;
 
   @Column({
     type: 'enum',
     enum: GENDER,
   })
   gender: GENDER;
+
+  
+  @Column({
+    type: 'datetime',
+    nullable: false,
+  })
+  dateOfBirth: Date;
 
   @Column()
   address: string;
@@ -111,7 +118,7 @@ export class Teacher {
   pincode: number;
 
   @Column()
-  aadhar_number: number;
+  aadhar_number: string;
 
   @ManyToMany(() => TeachersEducation, { cascade: true, eager: true } )
   @JoinTable({
