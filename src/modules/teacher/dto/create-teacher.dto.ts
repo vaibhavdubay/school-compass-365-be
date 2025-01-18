@@ -11,7 +11,6 @@ import {
   IsEmail,
   IsPhoneNumber,
   IsStrongPassword,
-  IsArray,
   IsEnum,
   IsNumberString,
   IsDateString,
@@ -80,7 +79,6 @@ export class CreateTeacherDto {
   @IsNotEmpty()
   aadhar_number: string;
 
-  @IsArray()
   @IsNotEmpty()
   subjects: string[];
 
@@ -88,12 +86,10 @@ export class CreateTeacherDto {
   @IsNotEmpty()
   years_of_experience: number;
 
-  @IsArray()
   @IsNotEmpty()
   @Type(() => CreateTeachersEducationDto)
   teachersEducation?: TeachersEducation[];
 
-  @IsArray()
   @IsNotEmpty()
   @Type(() => CreateTeachersExperienceDto)
   teachersExperience?: TeachersExperience[];
