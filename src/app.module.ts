@@ -36,7 +36,7 @@ import { TeachersEducationModule } from '@sc-modules/teachers-education/teachers
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
         type: 'mysql',
-        host: 'localhost',
+        host: config.get<string>('MS_DB_HOST', 'localhost'),
         port: 3306,
         username: config.get<string>('MS_DB_USER'),
         password: config.get<string>('MS_DB_PASS'),
