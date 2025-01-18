@@ -29,6 +29,7 @@ export class SchoolController {
   ) {}
 
   @Post()
+  @Auth(Role.SUPER_ADMIN)
   create(@Body() createSchoolDto: CreateSchoolDto) {
     return this.schoolService.createSchoolProfile(createSchoolDto);
   }
@@ -43,6 +44,7 @@ export class SchoolController {
   }
 
   @Get('completeAcademicYear')
+  @Auth(Role.SUPER_ADMIN, Role.ADMIN)
   completeAcademicYear(@UserProfile('school') school: School) {
     this.schoolService.completeAcademicYear(school.id);
   }
@@ -54,6 +56,7 @@ export class SchoolController {
 
   @Put(':id')
   @FileUpload(UpdateSchoolDto, 'image')
+  @Auth(Role.SUPER_ADMIN, Role.ADMIN)
   async update(
     @UploadedFile() file: Express.Multer.File,
     @Param('id') id: string,
@@ -77,6 +80,7 @@ export class SchoolController {
   }
 
   @Delete(':id')
+  @Auth(Role.SUPER_ADMIN)
   remove(@Param('id') id: string) {
     return this.schoolService.softRemove({ id });
   }
