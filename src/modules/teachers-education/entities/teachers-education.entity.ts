@@ -29,10 +29,10 @@ export class TeachersEducation {
   institution: string;
 
   @Column({ type: 'varchar', length: 100 })
-  degree: string;
+  level_of_education: string;
 
   @Column({ type: 'varchar', length: 100 })
-  fieldOfStudy: string;
+  field_of_study: string;
 
   @Column({ type: 'varchar', length: 100 })
   passingYear: string;
