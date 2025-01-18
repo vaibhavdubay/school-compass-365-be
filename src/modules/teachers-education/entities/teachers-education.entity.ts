@@ -1,13 +1,9 @@
 import { DB_Model } from '@sc-enums/model';
-import { School } from '@sc-modules/school/entities/school.entity';
-import { Teacher } from '@sc-modules/teacher/entities/teacher.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  JoinColumn,
-  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -16,14 +12,6 @@ import {
 export class TeachersEducation {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-
-  @ManyToOne(() => School)
-  @JoinColumn({ name: 'schoolId' })
-  school: School;
-
-  @ManyToOne(() => Teacher)
-  @JoinColumn({ name: 'teacherId' })
-  teacher: Teacher;
 
   @Column({ type: 'varchar', length: 100 })
   institution: string;

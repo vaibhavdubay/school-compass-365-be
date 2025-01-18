@@ -18,7 +18,6 @@ import {
   ManyToOne,
   JoinTable,
   ManyToMany,
-  OneToMany,
 } from 'typeorm';
 
 @Entity({ name: DB_Model.TEACHER })
@@ -45,7 +44,7 @@ export class Teacher {
   @Column({ type: String })
   phoneNumber: string;
 
-  @ManyToMany(() => AcademicYear, { eager: true })
+  @ManyToMany(() => AcademicYear, { eager: true, cascade: true })
   @JoinTable({
     name: Supporter_Model.TEACHER_ACADEMICS,
     joinColumn: { name: 'teacher_id', referencedColumnName: 'id' },
@@ -114,7 +113,7 @@ export class Teacher {
   @Column()
   aadhar_number: number;
 
-  @OneToMany(() => TeachersEducation, (edu) => edu.id, { cascade: true, eager: true } )
+  @ManyToOne(() => TeachersEducation, (edu) => edu.id, { cascade: true, eager: true } )
   @JoinTable({
     name: Supporter_Model.TEACHER_EDUCATION,
     joinColumn: { name: 'teachers_id', referencedColumnName: 'id' },
@@ -125,7 +124,7 @@ export class Teacher {
   })
   teachersEducation: TeachersEducation[];
 
-  @OneToMany(() => TeachersExperience, (exp) => exp.id, { cascade: true, eager: true })
+  @ManyToOne(() => TeachersExperience, (exp) => exp.id, { cascade: true, eager: true })
   @JoinTable({
     name: Supporter_Model.TEACHER_EXPERIENCE,
     joinColumn: { name: 'teachers_id', referencedColumnName: 'id' },

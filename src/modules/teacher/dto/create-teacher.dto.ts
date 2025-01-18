@@ -86,12 +86,12 @@ export class CreateTeacherDto {
   @IsArray()
   @IsNotEmpty()
   @Type(() => CreateTeachersEducationDto)
-  teachers_education?: TeachersEducation[];
+  teachersEducation?: TeachersEducation[];
 
   @IsArray()
   @IsNotEmpty()
   @Type(() => CreateTeachersExperienceDto)
-  teachers_experience?: TeachersExperience[];
+  teachersExperience?: TeachersExperience[];
 
   @ApiProperty({ type: 'string', format: 'binary', required: false })
   image: string;
