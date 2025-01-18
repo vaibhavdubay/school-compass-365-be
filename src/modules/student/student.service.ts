@@ -47,9 +47,9 @@ export class StudentService extends BaseRepository<
       user,
       class: dto.classId,
       school: _user.school.id,
-      academicYears: [_user.school.currentAcademicYear.id],
+      academicYears: [_user.school.currentAcademicYear],
     });
-    await this.notifyService.prepareEmail({
+    const email = this.notifyService.prepareEmail({
       template: TEMPLATE.ACCOUNT_REGISTRATION,
       to: dto.email,
       subject: `School Compass 365 Login Credentials`,
@@ -61,14 +61,13 @@ export class StudentService extends BaseRepository<
         name: `${dto.firstName} ${dto.lastName}`,
       },
     });
+    const studentProfile = await this.save(student);
     if (file) {
-      const studentProfile = await this.save(student);
       this.imageService.updateProfileImage(studentProfile, file);
       this.save(studentProfile).then();
-      return studentProfile;
-    } else {
-      return this.save(student);
     }
+    email.then();
+    return studentProfile;
   }
 
   async updateStudentProfile(

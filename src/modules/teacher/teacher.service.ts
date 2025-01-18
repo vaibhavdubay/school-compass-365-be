@@ -33,6 +33,12 @@ export class TeacherService extends BaseRepository<
     if (typeof dto.subjects == 'string') {
       dto.subjects = JSON.parse(dto.subjects || '[]');
     }
+    if (typeof dto.teachersEducation == 'string') {
+      dto['teachersEducation'] = JSON.parse(dto.teachersEducation);
+    }
+    if (typeof dto.teachersExperience == 'string') {
+      dto['teachersExperience'] = JSON.parse(dto.teachersExperience);
+    }
     const user = new User();
     Object.assign(user, {
       name: `${dto.firstName} ${dto.lastName}`,
@@ -46,7 +52,7 @@ export class TeacherService extends BaseRepository<
       ...dto,
       user,
       school: _user.school.id,
-      academicYears: [_user.school.currentAcademicYear.id],
+      academicYears: [_user.school.currentAcademicYear],
     });
     const email = this.notifyService.prepareEmail({
       template: TEMPLATE.ACCOUNT_REGISTRATION,
@@ -81,6 +87,12 @@ export class TeacherService extends BaseRepository<
     if (file) {
       if (typeof dto.subjects == 'string') {
         dto.subjects = JSON.parse(dto.subjects || '[]');
+      }
+      if (typeof dto.teachersEducation == 'string') {
+        dto['teachersEducation'] = JSON.parse(dto.teachersEducation);
+      }
+      if (typeof dto.teachersExperience == 'string') {
+        dto['teachersExperience'] = JSON.parse(dto.teachersExperience);
       }
       const user = await this.updateDocument(id, dto);
       this.imageService.updateProfileImage(user, file);

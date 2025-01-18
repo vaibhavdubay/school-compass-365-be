@@ -44,7 +44,7 @@ export class Teacher {
   @Column({ type: String })
   phoneNumber: string;
 
-  @ManyToMany(() => AcademicYear, { eager: true, cascade: true })
+  @ManyToMany(() => AcademicYear)
   @JoinTable({
     name: Supporter_Model.TEACHER_ACADEMICS,
     joinColumn: { name: 'teacher_id', referencedColumnName: 'id' },
