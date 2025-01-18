@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { CreateTeacherDto } from './dto/create-teacher.dto';
 import { UpdateTeacherDto } from './dto/update-teacher.dto';
 import { BaseRepository } from '@sc-helpers/repository.helper';
@@ -48,7 +48,7 @@ export class TeacherService extends BaseRepository<
       school: _user.school.id,
       academicYears: [_user.school.currentAcademicYear.id],
     });
-    await this.notifyService.prepareEmail({
+    const email = this.notifyService.prepareEmail({
       template: TEMPLATE.ACCOUNT_REGISTRATION,
       to: dto.email,
       subject: `School Compass 365 Login Credentials`,
@@ -60,13 +60,16 @@ export class TeacherService extends BaseRepository<
         name: `${dto.firstName} ${dto.lastName}`,
       },
     });
-    if (file) {
+    try {
       const teacherProfile = await this.save(teacher);
-      this.imageService.updateProfileImage(teacherProfile, file);
-      this.save(teacherProfile).then();
+      email.then();
+      if (file) {
+        this.imageService.updateProfileImage(teacherProfile, file);
+        this.save(teacherProfile).then();
+      }
       return teacherProfile;
-    } else {
-      return this.save(teacher);
+    } catch (err) {
+      throw new UnprocessableEntityException(err);
     }
   }
 
