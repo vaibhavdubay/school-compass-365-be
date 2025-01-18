@@ -74,10 +74,12 @@ export class AuthService {
 
   superAdminObject = () =>
     Promise.resolve({
-      email: 'superadmin@schoolcompass365.co.in',
-      userName: this.configService.get('SUPER_ADMIN_USER'),
-      password: this.configService.get('SUPER_ADMIN_CRED'),
-      role: Role.SUPER_ADMIN,
+      user: {
+        email: 'superadmin@schoolcompass365.co.in',
+        userName: this.configService.get('SUPER_ADMIN_USER'),
+        password: this.configService.get('SUPER_ADMIN_CRED'),
+        role: Role.SUPER_ADMIN,
+      }
     });
 
   generateToken(userProfile: UserProfile): SignInResponse {

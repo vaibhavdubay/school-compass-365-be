@@ -110,8 +110,8 @@ export class SchoolService extends BaseRepository<
         },
       });
       return adminProfile;
-    } catch {
-      throw new UnprocessableEntityException();
+    } catch (error) {
+      throw new UnprocessableEntityException(error);
     }
   }
 
